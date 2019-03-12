@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>index</title>
+        <link rel="stylesheet" href="../plug-in/element-ui/lib/theme-chalk/index.css">
+        <style>
+            .el-header{
+                background-color: #b3c0d1;
+                color: #333;
+                line-height: 60px;
+            }
+            .el-aside{
+                color: #333;
+            }
+        </style>
+    </head>
+    <body>
+       <div id="app">
+           <el-container style="border: 1px solid #eee">
+               <el-aside width="200px" style="background-color: rgb(238,241,246)">
+                   <el-menu :default-openeds="['1','3']">
+                       <el-submenu index="1">
+                           <template slot="title"><i class="el-icon-message"></i>导航一</template>
+                           <el-menu-item-group>
+                               <template slot="title">分组一</template>
+                               <el-menu-item index="1-1">选项一</el-menu-item>
+                               <el-menu-item index="1-2">选项二</el-menu-item>
+                           </el-menu-item-group>
+                           <el-menu-item-group title="分组二">
+                               <el-menu-item index="1-3">选项三</el-menu-item>
+                           </el-menu-item-group>
+                           <el-submenu index="1-4">
+                               <template slot="title">选项4</template>
+                               <el-menu-item index="1-4-1">选项4-1</el-menu-item>
+                           </el-submenu>
+                       </el-submenu>
+                       <el-submenu index="2">
+                           <template slot="title"><i class="el-icon-menu"></i>导航二</template>
+                           <el-menu-item-group>
+                               <template slot="title">分组一</template>
+                               <el-menu-item index="2-1">选项1</el-menu-item>
+                               <el-menu-item index="2-2">选项2</el-menu-item>
+                           </el-menu-item-group>
+                           <el-menu-item-group title="分组2">
+                               <el-menu-item index="2-3">选项3</el-menu-item>
+                           </el-menu-item-group>
+                           <el-submenu index="2-4">
+                               <template slot="title">选项4</template>
+                               <el-menu-item index="2-4-1">选项4-1</el-menu-item>
+                           </el-submenu>
+                       </el-submenu>
+                       <el-submenu index="3">
+                           <template slot="title"><i class="el-icon-setting"></i>导航三</template>
+                           <el-menu-item-group>
+                               <template slot="title">分组一</template>
+                               <el-menu-item index="3-1">选项1</el-menu-item>
+                               <el-menu-item index="3-2">选项2</el-menu-item>
+                           </el-menu-item-group>
+                           <el-menu-item-group title="分组2">
+                               <el-menu-item index="3-3">选项3</el-menu-item>
+                           </el-menu-item-group>
+                           <el-submenu index="3-4">
+                               <template slot="title">选项4</template>
+                               <el-menu-item index="3-4-1">选项4-1</el-menu-item>
+                           </el-submenu>
+                       </el-submenu>
+                   </el-menu>
+               </el-aside>
+               <el-container>
+                   <el-header style="text-align: right;font-size: 12px">
+                       <el-dropdown>
+                           <i class="el-icon-setting" style="margin-right: 15px"></i>
+                           <el-dropdown-menu slot="dropdown">
+                               <el-dropdown-item>查看</el-dropdown-item>
+                               <el-dropdown-item>新增</el-dropdown-item>
+                               <el-dropdown-item>删除</el-dropdown-item>
+                           </el-dropdown-menu>
+                       </el-dropdown>
+                       <span>XXX</span>
+                   </el-header>
+                   <el-main>
+                       <el-row>
+                           <el-col>
+                               <el-input v-model="search" placeholder="请输入内容" clearable style="width: 200px"></el-input>
+                               <el-button type="success" round @click="searchData">搜索</el-button>
+                               <el-button type="success" round @click="getData(currentPage,pageSize)">重置</el-button>
+                           </el-col>
+                       </el-row>
+                       <el-row style="margin-top: 10px">
+                           <el-button type="primary" plain style="width: 120px" @click="add">添加</el-button>
+                           <el-button type="success" plain style="width: 120px" @click="update">编辑</el-button>
+                           <el-button type="danger" plain style="width: 120px" @click="deleteAccount">删除</el-button>
+                           <el-button type="danger" plain style="width: 120px" @click="exportData">{{exports}}</el-button>
+                           <el-button type="danger" plain style="width: 120px" @click="importData">批量导入客户</el-button>
+
+                       </el-row>
+                       <el-table :data="tableData" @current-change="currentChangeRow" highlight-current-row height="450px">
+                           <el-table-column prop="id" label="id" width="140" v-if="false"></el-table-column>
+                           <el-table-column prop="username" label="用户名" width="140"></el-table-column>
+                           <el-table-column prop="gender" label="性别" width="140" :formatter="formatGender"></el-table-column>
+                           <el-table-column prop="level" label="等级" width="120"></el-table-column>
+                           <el-table-column prop="coin" label="金币"></el-table-column>
+                           <el-table-column prop="province" label="省" :formatter="getProvince"></el-table-column>
+                           <el-table-column prop="city" label="市" :formatter="getCity"></el-table-column>
+                           <el-table-column prop="country" label="县/区" :formatter="getCountry"></el-table-column>
+                       </el-table>
+                       <div class="block" style="text-align: center">
+                           <el-pagination
+                                   @size-change="handleSizeChange"
+                                   @current-change="handleCurrentChange"
+                                   :current-page.sync="currentPage"
+                                   :page-sizes="[10, 20, 30]"
+                                   :page-size="10"
+                                   layout="sizes, prev, pager, next"
+                                   :total="totalSize">
+                           </el-pagination>
+                       </div>
+                   </el-main>
+                   <el-footer style="text-align: center;">
+                       <span >CopyRight@XXXXXXXXXXXXX</span>
+                   </el-footer>
+               </el-container>
+           </el-container>
+       </div>
+    </body>
+    <script src="../plug-in/vue/vue.js"></script>
+    <script src="../plug-in/element-ui/lib/index.js"></script>
+    <script>
+        var vue =new Vue({
+            el:'#app',
+            mounted:function(){
+                $.ajax({
+                    type:'GET',
+                    url:'../data/area.json',
+                    dataType:'json',
+                    success:function (result) {
+                        vue.options = result;
+                    }
+                });
+                this.getData(this.currentPage,this.pageSize);
+            },
+            data:function () {
+                return {
+                    addUserVisible:false,
+                    tableData:[],
+                    formLabelWidth: '120px',
+                    search:'',
+                    currentPage:1,
+                    pageSize: 10,
+                    totalSize:0,
+                    currentRow:null,
+                    options:[],
+                    exports:'导出'
+                }
+            },
+            methods:{
+                loading:function(){
+                    let index = layer.load(0, {shade: false});
+                    return index;
+                },
+                getData:function(start,pageSize){
+                    let index = this.loading();
+                    $.ajax({
+                        type:'post',
+                        url:'http://172.17.12.30:8898/get',
+                        data:{
+                            start: start,
+                            pageSize: pageSize
+                        },
+                        dataType:'JSON',
+                        success:function (result) {
+                            vue.close(index);
+                            vue.tableData = result.accounts;
+                            vue.totalSize = result.count;
+                        }
+                    })
+                },
+                exportData:function(){
+                    $.ajax({
+                        type:'post',
+                        url:'http://172.17.12.30:8898/export',
+                        data:{
+                            search:vue.search
+                        },
+                        dataType:'JSON',
+                        success:function (result) {
+                            vue.getProgress(result.data);
+                        }
+                    })
+                },
+                getProgress:function(data){
+                    $.ajax({
+                        type:'post',
+                        url:'http://172.17.12.30:8898/progress',
+                        data:{
+                            id:data
+                        },
+                        dataType:'JSON',
+                        success:function (result) {
+                            vue.exports = result.data.progress;
+                            if(result.data.url == null){
+                                vue.getProgress(data);
+                            }else{
+                                window.location.href= result.data.url;
+                            }
+                        }
+                    })
+                },
+                searchData:function(){
+                    let index = this.loading();
+                    $.ajax({
+                        type:'post',
+                        url:'http://172.17.12.30:8898/select',
+                        data:{
+                            search: this.search,
+                            start: vue.currentPage,
+                            pageSize: vue.pageSize
+                        },
+                        dataType:'JSON',
+                        success:function (result) {
+                            vue.close(index);
+                            vue.tableData = result.accounts;
+                            vue.totalSize = result.count;
+                        }
+                    })
+                },
+                close:function(index){
+                    layer.close(index);
+                },
+                add:function () {
+                    layer.open({
+                        type: 2,
+                        fixed: false, //不固定
+                        maxmin: true,
+                        area: ['500px', '450px'], //宽高
+                        content: './add.html'
+                    });
+                },
+                importData:function(){
+                    layer.open({
+                        type: 2,
+                        title:'导入excel',
+                        fixed: false, //不固定
+                        maxmin: true,
+                        area: ['500px', '450px'], //宽高
+                        content: './importAccount.html'
+                    });
+                },
+                update:function(){
+                    layer.open({
+                        type: 2,
+                        fixed: false, //不固定
+                        maxmin: true,
+                        area: ['500px', '450px'], //宽高
+                        content: './update.html'
+                    });
+                },
+                deleteAccount:function(){
+                    if(this.currentRow == null)
+                        layer.msg("请选择要删除的行")
+                    layer.confirm('确定要删除吗？', {
+                        btn: ['确定','取消'] //按钮
+                    }, function(){
+                        $.ajax({
+                            type:'post',
+                            url:'http://172.17.12.30:8898/delete',
+                            data:{
+                                id:vue.currentRow.id
+                            },
+                            dataType:'JSON',
+                            success:function (result) {
+                                layer.msg("删除成功");
+                                vue.currentRow = null;
+                                vue.getData(vue.currentPage,vue.pageSize);
+                            }
+                        })
+                    }, function(){
+
+                    });
+                },
+                handleSizeChange(val) {
+                    this.pageSize = val;
+                },
+                handleCurrentChange(val) {
+                    this.currentPage = val;
+                    this.getData(this.currentPage,this.pageSize);
+                },
+                currentChangeRow:function (val) {
+                    this.currentRow = val
+                },
+                formatGender:function(row, column, cellValue, index){
+                    if(cellValue == 0)
+                        return '男';
+                    if(cellValue == 1)
+                        return '女';
+                },
+                getProvince:function (row, column, cellValue, index) {
+                    this.options.map(function (e) {
+                        if(e.value == cellValue){
+                           cellValue = e.label;
+                            return cellValue;
+                        }
+                    })
+                    return cellValue;
+                },
+                getCity:function (row, column, cellValue, index) {
+                    this.options.map(function (e) {
+                        let child = e.children;
+                        if(child){
+                            child.map(function (a) {
+                                if(a.value == cellValue){
+                                    cellValue = a.label;
+                                    return cellValue;
+                                }
+                            })
+                        }
+
+                    })
+                    return cellValue;
+                },
+                getCountry:function (row, column, cellValue, index) {
+                    this.options.map(function (e) {
+                        let child = e.children;
+                        if(child){
+                            child.map(function (a) {
+                                let country = a.children;
+                                if(country){
+                                    country.map(function (e) {
+                                        if(e.value == cellValue){
+                                            cellValue = e.label;
+                                            return cellValue;
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                    return cellValue;
+                }
+            }
+        })
+    </script>
+</html>
