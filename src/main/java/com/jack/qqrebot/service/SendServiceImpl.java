@@ -35,11 +35,11 @@ public class SendServiceImpl implements SendServiceI {
         JSONObject jsonObject1 = null;
         if(StringUtils.isEmpty(message)){
              s = HttpUtils.sendGet("http://api.apiopen.top/recommendPoetry", "");
-            jsonObject = JSON.parseObject(s);
+            jsonObject = JSONObject.parseObject(s);
             jsonObject1 = jsonObject.getJSONObject("result");
         }else {
             s = HttpUtils.sendGet("https://api.apiopen.top/likePoetry", "name="+URLEncoder.encode(message,"utf-8"));
-            jsonObject = JSON.parseObject(s);
+            jsonObject = JSONObject.parseObject(s);
             JSONArray result = jsonObject.getJSONArray("result");
             if(result .size() > 0){
                 jsonObject1 = jsonObject.getJSONArray("result").getJSONObject(0);

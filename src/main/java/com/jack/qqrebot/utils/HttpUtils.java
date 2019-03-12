@@ -157,7 +157,7 @@ public class HttpUtils {
             out.flush();
             // 定义BufferedReader输入流来读取URL的响应
 
-            File file = new File("C:\\Users\\mujj\\Desktop\\qq\\酷Q Pro\\data\\record\\"+fileName);//本地生成的文件
+            File file = new File("C:\\CQPro\\data\\record\\"+fileName);//本地生成的文件
             if (!file.exists()) {
                 try {
                     file.createNewFile();
