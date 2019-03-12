@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.jack</groupId>
-	<artifactId>qq-rebot</artifactId>
+	<artifactId>qqrebot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>qq-rebot</name>
 	<description>Demo project for Spring Boot</description>
