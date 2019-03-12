@@ -38,7 +38,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
         JSONObject object2 = object1.getJSONObject("data");
         JSONArray toutiao = object2.getJSONArray("toutiao");
         if(!StringUtils.isEmpty(toutiao) &&toutiao.size() > 0){
-            for (int i=0;i<toutiao.size();i++){
+            for (int i=0;i<(toutiao.size()>10?10:toutiao.size());i++){
                 JSONObject object3 = toutiao.getJSONObject(i);
                 message += (i+1)+".["+object3.getString("source")+"]"+object3.getString("title")+"\n\n";
             }

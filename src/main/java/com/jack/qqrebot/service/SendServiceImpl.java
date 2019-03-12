@@ -21,7 +21,7 @@ import java.util.UUID;
 @Service("sendService")
 public class SendServiceImpl implements SendServiceI {
 
-    String url ="http://127.0.0.1:5300";
+    String url ="http://127.0.0.1:5300/";
 
     @Override
     public String sendTask(int groupId, String message) {
@@ -61,7 +61,7 @@ public class SendServiceImpl implements SendServiceI {
         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
         JSONArray toutiao = jsonObject1.getJSONArray("toutiao");
         if(!StringUtils.isEmpty(toutiao) &&toutiao.size() > 0){
-            for (int i=0;i<toutiao.size();i++){
+            for (int i=0;i<(toutiao.size()>5?5:toutiao.size());i++){
                 JSONObject object = toutiao.getJSONObject(i);
                 message += (i+1)+".["+object.getString("source")+"]"+object.getString("title")+"\n\n";
             }
