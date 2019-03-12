@@ -21,7 +21,7 @@ import java.util.UUID;
 @Service("sendService")
 public class SendServiceImpl implements SendServiceI {
 
-    String url ="http://127.0.0.1:5300/";
+    String url ="http://127.0.0.1:5300/qqrebot";
 
     @Override
     public String sendTask(int groupId, String message) {

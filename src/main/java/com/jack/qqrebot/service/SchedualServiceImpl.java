@@ -44,7 +44,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
             }
         }
 
-        String groups = HttpUtils.sendPost("http://127.0.0.1:5300/get_group_list", "");
+        String groups = HttpUtils.sendPost("http://127.0.0.1:5300/qqrebot/get_group_list", "");
         String messages = "天气:\n\n"+weatherInfo+"\n\n早间新闻:\n\n"+message;
         JSONArray array = JSONObject.parseObject(groups).getJSONArray("data");
         for (int i=0;i<array.size();i++){
