@@ -24,8 +24,8 @@ public class SendServiceImpl implements SendServiceI {
     String url ="http://127.0.0.1:5300/";
 
     @Override
-    public String sendTask(int groupId, String message) {
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+message);
+    public String sendTask(int groupId, String message) throws UnsupportedEncodingException{
+        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -50,11 +50,11 @@ public class SendServiceImpl implements SendServiceI {
             }
         }
         message = "\n"+jsonObject1.getString("title")+"\n"+jsonObject1.getString("authors")+"\n"+jsonObject1.getString("content").replace("|","\n");
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+message);
+        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
-    public String sendNews(int groupId, String message) {
+    public String sendNews(int groupId, String message) throws UnsupportedEncodingException{
         message = "";
         String s = HttpUtils.sendGet("https://www.apiopen.top/journalismApi", "");
         JSONObject jsonObject = JSON.parseObject(s);
@@ -66,11 +66,11 @@ public class SendServiceImpl implements SendServiceI {
                 message += (i+1)+".["+object.getString("source")+"]"+object.getString("title")+"\n\n";
             }
         }
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+message);
+        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
-    public String sendSatin(int groupId, String message) {
+    public String sendSatin(int groupId, String message) throws UnsupportedEncodingException{
         String s = HttpUtils.sendGet("https://www.apiopen.top/satinApi?type=2", "");
         JSONObject jsonObject = JSON.parseObject(s);
         JSONArray satin = jsonObject.getJSONArray("data");
@@ -79,7 +79,7 @@ public class SendServiceImpl implements SendServiceI {
             int i = rand.nextInt(satin.size());
            message = satin.getJSONObject(i).getString("text");
         }
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+message);
+        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -118,7 +118,8 @@ public class SendServiceImpl implements SendServiceI {
         String s = HttpUtils.sendGet("https://www.apiopen.top/weatherApi", "city="+URLEncoder.encode(message,"utf-8"));
         message = "";
         JSONObject jsonObject = JSON.parseObject(s);
-        JSONArray forecast = jsonObject.getJSONArray("forecast");
+        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+        JSONArray forecast = jsonObject1.getJSONArray("forecast");
         if(!StringUtils.isEmpty(forecast) &&forecast.size() > 0){
             for (int i =0;i<forecast.size();i++){
                 JSONObject object = forecast.getJSONObject(i);
@@ -126,7 +127,8 @@ public class SendServiceImpl implements SendServiceI {
                 message += msg+"\n\n";
             }
         }
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+message);
+        message += jsonObject1.getString("ganmao");
+        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -143,7 +145,6 @@ public class SendServiceImpl implements SendServiceI {
             message += (i+1)+". "+element2.text()+"\n\n";
         }
         return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
-        //return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+message+"&auto_escape=true");
     }
 
     @Override
@@ -176,7 +177,7 @@ public class SendServiceImpl implements SendServiceI {
             }
         }
         message += "详情:"+url1;
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+message+"&auto_escape=true");
+        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8")+"&auto_escape=true");
     }
 
     @Override
@@ -226,6 +227,9 @@ public class SendServiceImpl implements SendServiceI {
         String result = HttpUtils.sendPost(token_url, "");
         String access_token = JSONObject.parseObject(result).getString("access_token");
         String voice_url="https://tsn.baidu.com/text2audio";
+        if(message.startsWith("?")){
+            message="你说什么偶没有听清啊";
+        }
         String params = "tex="+URLEncoder.encode(URLEncoder.encode(message,"utf-8"),"utf-8")+"&";
         params+="tok="+access_token+"&cuid="+UUID.randomUUID().toString()+"&ctp=1&lan=zh&per=4&aue=6";
         result = HttpUtils.getWav(voice_url, params);

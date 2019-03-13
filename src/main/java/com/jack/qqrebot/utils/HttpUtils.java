@@ -81,7 +81,7 @@ public class HttpUtils {
      * @return 所代表远程资源的响应结果
      */
     public static String sendPost(String url, String param) {
-        PrintWriter out = null;
+        OutputStreamWriter out = null;
         BufferedReader in = null;
         String result = "";
         try {
@@ -97,14 +97,14 @@ public class HttpUtils {
             conn.setDoOutput(true);
             conn.setDoInput(true);
             // 获取URLConnection对象对应的输出流
-            out = new PrintWriter(conn.getOutputStream());
+            out = new OutputStreamWriter(conn.getOutputStream(),"utf-8");
             // 发送请求参数
-            out.print(param);
+            out.write(param);
             // flush输出流的缓冲
             out.flush();
             // 定义BufferedReader输入流来读取URL的响应
             in = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
+                    new InputStreamReader(conn.getInputStream(),"utf-8"));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
@@ -133,7 +133,7 @@ public class HttpUtils {
 
 
     public static String getWav(String url,String param)  {
-        PrintWriter out = null;
+        OutputStreamWriter out = null;
         InputStream iStream = null;
         FileOutputStream outputStream = null;
         String fileName = UUID.randomUUID().toString().replace("-","")+".wav";
@@ -151,9 +151,9 @@ public class HttpUtils {
             conn.setDoInput(true);
 
             // 获取URLConnection对象对应的输出流
-            out = new PrintWriter(conn.getOutputStream());
+            out = new OutputStreamWriter(conn.getOutputStream(),"utf-8");
             // 发送请求参数
-            out.print(param);
+            out.write(param);
             // flush输出流的缓冲
             out.flush();
             // 定义BufferedReader输入流来读取URL的响应

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+
 @Service("schedualService")
 public class SchedualServiceImpl implements SchedualServiceI {
 
@@ -44,13 +46,17 @@ public class SchedualServiceImpl implements SchedualServiceI {
             }
         }
 
-        String groups = HttpUtils.sendPost("http://127.0.0.1:5300/qqrebot/get_group_list", "");
+        String groups = HttpUtils.sendPost("http://127.0.0.1:5300/get_group_list", "");
         String messages = "天气:\n\n"+weatherInfo+"\n\n早间新闻:\n\n"+message;
         JSONArray array = JSONObject.parseObject(groups).getJSONArray("data");
         for (int i=0;i<array.size();i++){
             JSONObject object3 = array.getJSONObject(i);
             Integer group_id = object3.getInteger("group_id");
-            sendService.sendTask(group_id,messages);
+            try {
+                sendService.sendTask(group_id,messages);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
     }

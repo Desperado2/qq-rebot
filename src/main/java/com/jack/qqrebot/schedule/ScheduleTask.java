@@ -10,7 +10,7 @@ public class ScheduleTask {
     @Autowired
     private SchedualServiceI schedualService;
     //早上问候（每天早上八点）
-    @Scheduled(cron = "0 0 8 * * ?")
+    @Scheduled(cron = "0 0 10 * * ?")
     public void goodMorning() {
         schedualService.goodMorning();
     }

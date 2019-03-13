@@ -3,13 +3,13 @@ package com.jack.qqrebot.service;
 import java.io.UnsupportedEncodingException;
 
 public interface SendServiceI {
-    public String sendTask(int groupId, String message);
+    public String sendTask(int groupId, String message) throws UnsupportedEncodingException;
 
     public String sendPoetry(int groupId, String message) throws UnsupportedEncodingException;
 
-    public String sendNews(int groupId, String message);
+    public String sendNews(int groupId, String message)throws UnsupportedEncodingException;
 
-    public String sendSatin(int groupId, String message);
+    public String sendSatin(int groupId, String message)throws UnsupportedEncodingException;
 
     public String sendMeiTu(int groupId, String message) throws UnsupportedEncodingException;
 
