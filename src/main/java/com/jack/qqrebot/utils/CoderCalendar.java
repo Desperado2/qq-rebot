@@ -30,7 +30,6 @@ public class CoderCalendar {
             "    {name:\"申请加薪\", good:\"老板今天心情很好\",bad:\"公司正在考虑裁员\"},\n" +
             "    {name:\"晚上加班\", good:\"晚上是程序员精神最好的时候\",bad:\"\"},\n" +
             "    {name:\"在妹子面前吹牛\", good:\"改善你矮穷挫的形象\",bad:\"会被识破\"},\n" +
-            "    {name:\"撸管\", good:\"避免缓冲区溢出\",bad:\"小撸怡情，大撸伤身，强撸灰飞烟灭\"},\n" +
             "    {name:\"浏览成人网站\", good:\"重拾对生活的信心\",bad:\"你会心神不宁\"},\n" +
             "    {name:\"命名变量\\\"%v\\\"\", good:\"\",bad:\"\"},\n" +
             "    {name:\"写超过%l行的方法\", good:\"你的代码组织的很好，长一点没关系\",bad:\"你的代码将混乱不堪，你自己都看不懂\"},\n" +
@@ -58,10 +57,10 @@ public class CoderCalendar {
     private static JSONArray drinks = JSONArray.parseArray("[\"水\",\"茶\",\"红茶\",\"绿茶\",\"咖啡\",\"奶茶\",\"可乐\",\"牛奶\",\"豆奶\",\"果汁\",\"果味汽水\",\"苏打水\",\"运动饮料\",\"酸奶\",\"酒\"]");
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-    private static String iday = sdf.format(new Date());
+
 
     private static JSONArray getBads(){
-
+        String iday = sdf.format(new Date());
         int numGood = random(iday, 98) % 3 + 2;
         int numBad = random(iday, 87) % 3 + 2;
         JSONArray eventArr = pickRandomActivity(numGood + numBad);
@@ -76,6 +75,7 @@ public class CoderCalendar {
 
 
     private static JSONArray getGoods(){
+        String iday = sdf.format(new Date());
         int numGood = random(iday, 98) % 3 + 2;
         int numBad = random(iday, 87) % 3 + 2;
         JSONArray eventArr = pickRandomActivity(numGood + numBad);
@@ -102,7 +102,7 @@ public class CoderCalendar {
     // 添加预定义事件
     private static Integer[] pickSpecials() {
         Integer specialSize[] = new Integer[]{0,0};
-
+        String iday = sdf.format(new Date());
         for (int i = 0; i < specials.size(); i++) {
             JSONObject special = specials.getJSONObject(i);
 
@@ -137,6 +137,7 @@ public class CoderCalendar {
         }
 
         for (int j = 0; j < array.size() - size; j++) {
+            String iday = sdf.format(new Date());
             int index = random(iday, j) % result.size();
             result.remove(index);
         }
@@ -150,7 +151,8 @@ public class CoderCalendar {
             result.add(array.getString(i));
         }
 
-        for (int j = 0; j < array.size() - size; j++) {   //0-13
+        for (int j = 0; j < array.size() - size; j++) {
+            String iday = sdf.format(new Date());//0-13
             int index = random(iday, j) % result.size(); // 15
             result.remove(index);
         }
@@ -159,6 +161,7 @@ public class CoderCalendar {
 
     // 解析占位符并替换成随机内容
     private static JSONObject parse(JSONObject object) {
+        String iday = sdf.format(new Date());
         if (object.getString("name").indexOf("%v") != -1) {
             object.put("name",object.getString("name").replace("%v", varNames.getString(random(iday, 12) % varNames.size())));
         }
@@ -172,6 +175,7 @@ public class CoderCalendar {
     }
 
     private static String getDirection(){
+        String iday = sdf.format(new Date());
         String direction = directions.getString(random(iday, 2) % directions.size());
         return "座位朝向：面向direction写程序，BUG 最少。".replace("direction",direction);
     }
@@ -186,6 +190,7 @@ public class CoderCalendar {
     }
 
     private static String getGoddes(){
+        String iday = sdf.format(new Date());
         double goddes = random(iday, 6) % 50 / 10.0;
         return "女神亲近指数："+goddes;
     }
