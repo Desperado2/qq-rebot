@@ -198,7 +198,7 @@ public class CoderCalendar {
     private static String getTodayString() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String iday = sdf.format(new Date());
-        String[] split = iday.split(",");
+        String[] split = iday.split("-");
         return "今天是" + split[0] + "年" + split[1] + "月" + split[2] + "日 星期" + weeks.getString(new Date().getDay());
     }
 
@@ -245,7 +245,4 @@ public class CoderCalendar {
         ChartGraphics.graphicsGeneration( today,goods,bads,direction,drink,goddes,good_H-10,bad_H-10,maxWidth);
     }
 
-    public static void main(String[] args) {
-        createImage();
-    }
 }
