@@ -208,6 +208,7 @@ public class CoderCalendar {
         String direction = getDirection();
         String drink = getDrink();
         String goddes = getGoddes();
+        String today = getTodayString();
 
         int good_H = 0;
         int bad_H = 0;
@@ -241,7 +242,7 @@ public class CoderCalendar {
             }
             bad_H += 20;
         }
-        ChartGraphics.graphicsGeneration(goods,bads,direction,drink,goddes,good_H-10,bad_H-10,maxWidth);
+        ChartGraphics.graphicsGeneration( today,goods,bads,direction,drink,goddes,good_H-10,bad_H-10,maxWidth);
     }
 
     public static void main(String[] args) {

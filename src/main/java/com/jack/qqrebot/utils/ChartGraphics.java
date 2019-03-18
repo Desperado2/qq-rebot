@@ -43,7 +43,7 @@ public class ChartGraphics {
         }
     }
 
-    public static void graphicsGeneration(JSONArray goods,JSONArray bads,String direction,String drink,String godds, int goods_H, int bads_H,int maxWidth) {
+    public static void graphicsGeneration(String today,JSONArray goods,JSONArray bads,String direction,String drink,String godds, int goods_H, int bads_H,int maxWidth) {
 
         int H_title= 30;
         int H_date = 40;     //日期高度
@@ -89,7 +89,7 @@ public class ChartGraphics {
         //设置字体
         Font dateFont = new Font("Consolas Microsoft Yahei  Arial sans-serif", Font.BOLD, 17);
         date.setFont(dateFont);
-        date.drawString("今天是2019年3月18日 星期一", imageWidth/2-120, H_title+25);
+        date.drawString(today, imageWidth/2-120, H_title+25);
 
         //***********************设置下面的提示框
 
