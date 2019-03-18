@@ -3,6 +3,7 @@ package com.jack.qqrebot.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.jack.qqrebot.utils.CoderCalendar;
 import com.jack.qqrebot.utils.HttpUtils;
 import com.jack.qqrebot.utils.XzUtils;
 import org.jsoup.Jsoup;
@@ -12,8 +13,11 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -34,7 +38,7 @@ public class SendServiceImpl implements SendServiceI {
         JSONObject jsonObject= null;
         JSONObject jsonObject1 = null;
         if(StringUtils.isEmpty(message)){
-             s = HttpUtils.sendGet("http://api.apiopen.top/recommendPoetry", "");
+             s = HttpUtils.sendGet("https://api.apiopen.top/recommendPoetry", "");
             jsonObject = JSONObject.parseObject(s);
             jsonObject1 = jsonObject.getJSONObject("result");
         }else {
@@ -44,7 +48,7 @@ public class SendServiceImpl implements SendServiceI {
             if(result .size() > 0){
                 jsonObject1 = jsonObject.getJSONArray("result").getJSONObject(0);
             }else{
-                s = HttpUtils.sendGet("http://api.apiopen.top/recommendPoetry", "");
+                s = HttpUtils.sendGet("https://api.apiopen.top/recommendPoetry", "");
                 jsonObject = JSON.parseObject(s);
                 jsonObject1 = jsonObject.getJSONObject("result");
             }
@@ -216,6 +220,27 @@ public class SendServiceImpl implements SendServiceI {
             return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
         }
         return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+    }
+
+    @Override
+    public String coderCalendar(int groupId, String message) throws UnsupportedEncodingException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String iday = sdf.format(new Date());
+        File file  = new File("C:\\CQPro\\data\\image\\"+iday+".jpg");
+        if(!file.exists()){
+            CoderCalendar.createImage();
+        }
+        message = iday+".jpg";
+        message = "[CQ:image,file="+message+"]";
+        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+    }
+
+    @Override
+    public String goodLight(int groupId, String message) throws UnsupportedEncodingException {
+        String url1 ="http://duyan.fooor.cn/word.php";
+        message = HttpUtils.sendGet(url1, "");
+        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+
     }
 
     private String sendVoice(Integer groupId,String message) throws Exception{

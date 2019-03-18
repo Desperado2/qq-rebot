@@ -3,6 +3,9 @@ package com.jack.qqrebot.service;
 import org.springframework.scheduling.annotation.Scheduled;
 
 public interface SchedualServiceI {
-    public void goodMorning();
-
+    void goodMorning();
+    void weibo();
+    void everyDayNews();
+    void goodLight();
+    void coderCalendar();
 }

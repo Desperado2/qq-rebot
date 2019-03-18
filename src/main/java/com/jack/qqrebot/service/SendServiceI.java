@@ -24,4 +24,9 @@ public interface SendServiceI {
     public String sendLuck(int groupId, String message) throws UnsupportedEncodingException;
 
     public String tuling(int groupId, String message) throws UnsupportedEncodingException;
+
+    public String coderCalendar(int groupId, String message) throws UnsupportedEncodingException;
+
+    public String goodLight(int groupId, String message) throws UnsupportedEncodingException;
+
 }

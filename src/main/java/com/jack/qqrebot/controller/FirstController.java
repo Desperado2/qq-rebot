@@ -47,6 +47,10 @@ public class FirstController {
                     sendService.sendMenu(group_id,message1);
                 }else if(!StringUtils.isEmpty(message1) && (message1.contains("运势") || (message1.contains("星座")))){
                     sendService.sendLuck(group_id,message1.replace("运势","").replace("星座","").replace(" ",""));
+                }else if(!StringUtils.isEmpty(message1) && (message1.contains("黄历"))){
+                    sendService.coderCalendar(group_id,message);
+                }else if(!StringUtils.isEmpty(message1) && (message1.contains("毒鸡汤"))){
+                    sendService.goodLight(group_id,message);
                 }else {
                     sendService.tuling(group_id,message1);
                 }

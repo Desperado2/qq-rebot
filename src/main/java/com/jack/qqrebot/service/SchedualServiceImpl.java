@@ -4,11 +4,16 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.utils.HttpUtils;
+import com.jack.qqrebot.utils.ZHConverter;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @Service("schedualService")
 public class SchedualServiceImpl implements SchedualServiceI {
@@ -33,21 +38,21 @@ public class SchedualServiceImpl implements SchedualServiceI {
         String notice = object.getString("notice");
         String weatherInfo = morning+"\n"+timeAndLocal+"\n"+weather+"\n"+wendu+"\n"+feng+"\n"+notice;
 
-        //获取新闻
-        String message = "";
-        String s = HttpUtils.sendGet("https://www.apiopen.top/journalismApi", "");
-        JSONObject object1 = JSON.parseObject(s);
-        JSONObject object2 = object1.getJSONObject("data");
-        JSONArray toutiao = object2.getJSONArray("toutiao");
-        if(!StringUtils.isEmpty(toutiao) &&toutiao.size() > 0){
-            for (int i=0;i<(toutiao.size()>10?10:toutiao.size());i++){
-                JSONObject object3 = toutiao.getJSONObject(i);
-                message += (i+1)+".["+object3.getString("source")+"]"+object3.getString("title")+"\n\n";
-            }
+        String s = HttpUtils.sendGet("https://www.dailyenglishquote.com/", "");
+        Document document = Jsoup.parse(s);
+        Element element = document.getElementById("content");
+        Element element1 = element.getElementsByClass("post").get(0);
+        String msg = element1.getElementsByTag("strong").get(0).text()+"\n";
+        msg += element1.getElementsByTag("p").get(1).text()+"\n";
+        msg += element1.getElementsByTag("li").get(0).text()+"\n";
+        msg += element1.getElementsByTag("li").get(1).text();
+        try {
+            msg = ZHConverter.transformation(msg,ZHConverter.target.TCcharacter);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-
         String groups = HttpUtils.sendPost("http://127.0.0.1:5300/get_group_list", "");
-        String messages = "天气:\n\n"+weatherInfo+"\n\n早间新闻:\n\n"+message;
+        String messages = "天气:\n\n"+weatherInfo+"\n\n"+msg;
         JSONArray array = JSONObject.parseObject(groups).getJSONArray("data");
         for (int i=0;i<array.size();i++){
             JSONObject object3 = array.getJSONObject(i);
@@ -59,5 +64,62 @@ public class SchedualServiceImpl implements SchedualServiceI {
             }
         }
 
+    }
+
+    @Override
+    public void weibo() {
+        String groups = HttpUtils.sendPost("http://127.0.0.1:5300/get_group_list", "");
+        JSONArray array = JSONObject.parseObject(groups).getJSONArray("data");
+        for (int i=0;i<array.size();i++){
+            JSONObject object3 = array.getJSONObject(i);
+            Integer group_id = object3.getInteger("group_id");
+            try {
+                sendService.sendWeibo(group_id,"");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void everyDayNews() {
+        String groups = HttpUtils.sendPost("http://127.0.0.1:5300/get_group_list", "");
+        JSONArray array = JSONObject.parseObject(groups).getJSONArray("data");
+        for (int i=0;i<array.size();i++){
+            JSONObject object3 = array.getJSONObject(i);
+            Integer group_id = object3.getInteger("group_id");
+            try {
+                sendService.sendNews(group_id,"");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void goodLight() {
+        String groups = HttpUtils.sendPost("http://127.0.0.1:5300/get_group_list", "");
+        JSONArray array = JSONObject.parseObject(groups).getJSONArray("data");
+        for (int i=0;i<array.size();i++){
+            JSONObject object3 = array.getJSONObject(i);
+            Integer groupId = object3.getInteger("group_id");
+            try {
+                String url1 ="http://duyan.fooor.cn/word.php";
+                String message = HttpUtils.sendGet(url1, "");
+                message += "\n\n各位晚安";
+                 HttpUtils.sendPost("http://127.0.0.1:5300/send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void coderCalendar() {
+        try {
+            sendService.coderCalendar(89303705,"");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }
