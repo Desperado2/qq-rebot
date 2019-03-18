@@ -11,7 +11,7 @@ public class ScheduleTask {
     private SchedualServiceI schedualService;
 
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "30 0 0 * * ?")
     public void coderCalendar() {
         schedualService.coderCalendar();
     }
