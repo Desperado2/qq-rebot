@@ -154,7 +154,7 @@ public class SendServiceImpl implements SendServiceI {
     @Override
     public String sendMenu(int groupId, String message) throws UnsupportedEncodingException {
         message = "功能列表\n\n";
-        String[] array = new String[]{"诗","新闻","笑话/段子","美图","音乐","天气","微博/热搜","老黄历","星座","周公解梦","小说","视频","知乎/热搜"};
+        String[] array = new String[]{"诗","新闻","笑话/段子","美图","音乐","天气","微博/热搜","老黄历","星座","毒鸡汤"};
         for (int i=0;i<array.length;i++){
             message += (i+1)+". "+array[i]+"\n";
         }
