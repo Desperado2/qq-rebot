@@ -124,14 +124,14 @@ public class ChartGraphics {
             String name = object.getString("name");
             if(!StringUtils.isEmpty(name)){
                 goodItem.setFont(itemFont);
-                goodItem.drawString(name,(imageWidth-97)/2, y);
+                goodItem.drawString(name,100, y);
                 y += 20;
             }
 
             String gd = object.getString("good");
             if(!StringUtils.isEmpty(gd)){
                 goodItem.setFont(itemFont1);
-                goodItem.drawString(gd,(imageWidth-97)/2, y);
+                goodItem.drawString(gd,100, y);
                 y += 15;
             }
             y+=20;
@@ -167,14 +167,14 @@ public class ChartGraphics {
             String name = object.getString("name");
             if(!StringUtils.isEmpty(name)){
                 badItem.setFont(itemFont);
-                badItem.drawString(name,(imageWidth-97)/2, y);
+                badItem.drawString(name,100, y);
                 y += 20;
             }
 
             String gd = object.getString("bad");
             if(!StringUtils.isEmpty(gd)){
                 badItem.setFont(itemFont1);
-                badItem.drawString(gd,(imageWidth-97)/2, y);
+                badItem.drawString(gd,100, y);
                 y += 15;
             }
             y+=20;

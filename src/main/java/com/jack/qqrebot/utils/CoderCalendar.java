@@ -241,7 +241,10 @@ public class CoderCalendar {
             }
             bad_H += 20;
         }
-        ChartGraphics.graphicsGeneration(goods,bads,direction,drink,goddes,good_H-20,bad_H-20,maxWidth);
+        ChartGraphics.graphicsGeneration(goods,bads,direction,drink,goddes,good_H-10,bad_H-10,maxWidth);
     }
 
+    public static void main(String[] args) {
+        createImage();
+    }
 }
