@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -13,9 +14,9 @@ import java.util.Date;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import org.springframework.util.StringUtils;
+
+import javax.imageio.ImageIO;
 
 public class ChartGraphics {
     private static  BufferedImage image;
@@ -27,12 +28,7 @@ public class ChartGraphics {
         BufferedOutputStream bos = null;
         if(image != null){
             try {
-                FileOutputStream fos = new FileOutputStream(fileLocation);
-                bos = new BufferedOutputStream(fos);
-
-                JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(bos);
-                encoder.encode(image);
-                bos.close();
+                ImageIO.write(image,"JPEG", new File(fileLocation));
             } catch (Exception e) {
                 e.printStackTrace();
             }finally{
