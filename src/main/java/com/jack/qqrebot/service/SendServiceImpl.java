@@ -2,6 +2,7 @@ package com.jack.qqrebot.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.constellation.ConstellationService;
 import com.jack.qqrebot.service.duyan.DuyanService;
@@ -52,7 +53,8 @@ public class SendServiceImpl implements SendServiceI {
     private NewsService newsService;
     @Autowired
     private DuyanService duyanService;
-
+    @Autowired
+    private ArticlesService articlesService;
     @Override
     public void dealGroupMsg(String message) throws UnsupportedEncodingException {
         JSONObject jsonObject = JSON.parseObject(message);
@@ -85,6 +87,8 @@ public class SendServiceImpl implements SendServiceI {
                 result = duyanService.getDuyanRandom();
             }else if(!StringUtils.isEmpty(message) && (message.contains("排行榜"))){
                 result = rankingService.updateRanking(message);
+            }else if(!StringUtils.isEmpty(message) && (message.contains("文章"))){
+                result = articlesService.getArticleByRandom();
             }else {
                 result = tulingService.getMsgByMsg(message);
             }
