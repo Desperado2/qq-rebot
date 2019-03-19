@@ -3,6 +3,7 @@ package com.jack.qqrebot.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.jack.qqrebot.CQApiServices.CqApi;
 import com.jack.qqrebot.utils.CoderCalendar;
 import com.jack.qqrebot.utils.HttpUtils;
 import com.jack.qqrebot.utils.XzUtils;
@@ -29,7 +30,7 @@ public class SendServiceImpl implements SendServiceI {
 
     @Override
     public String sendTask(int groupId, String message) throws UnsupportedEncodingException{
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -54,7 +55,7 @@ public class SendServiceImpl implements SendServiceI {
             }
         }
         message = "\n"+jsonObject1.getString("title")+"\n"+jsonObject1.getString("authors")+"\n"+jsonObject1.getString("content").replace("|","\n");
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -70,7 +71,7 @@ public class SendServiceImpl implements SendServiceI {
                 message += (i+1)+".["+object.getString("source")+"]"+object.getString("title")+"\n\n";
             }
         }
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -83,7 +84,7 @@ public class SendServiceImpl implements SendServiceI {
             int i = rand.nextInt(satin.size());
            message = satin.getJSONObject(i).getString("text");
         }
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -99,7 +100,7 @@ public class SendServiceImpl implements SendServiceI {
         }
         //String image = new MessageBuilder().add(new ComponentImage(message)).toString();
         message = "找到的美图如下\n[CQ:image,file="+message+"]";
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -114,7 +115,7 @@ public class SendServiceImpl implements SendServiceI {
         }else {
             message="抱歉，没有找到";
         }
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -132,7 +133,7 @@ public class SendServiceImpl implements SendServiceI {
             }
         }
         message += jsonObject1.getString("ganmao");
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -148,7 +149,7 @@ public class SendServiceImpl implements SendServiceI {
             Element element2 = element1.select("td").get(1);
             message += (i+1)+". "+element2.text()+"\n\n";
         }
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -158,14 +159,14 @@ public class SendServiceImpl implements SendServiceI {
         for (int i=0;i<array.length;i++){
             message += (i+1)+". "+array[i]+"\n";
         }
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+message+"&auto_escape=true");
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+message+"&auto_escape=true");
     }
 
     @Override
     public String sendLuck(int groupId, String message) throws UnsupportedEncodingException {
         String s =XzUtils.getXz(message);
         if(StringUtils.isEmpty(s)){
-            return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message=没有找到你要查询的星座&auto_escape=true");
+            return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message=没有找到你要查询的星座&auto_escape=true");
         }
         message =message+"今日运势:\n\n";
         String url1 ="https://www.xzw.com/fortune/"+s;
@@ -181,7 +182,7 @@ public class SendServiceImpl implements SendServiceI {
             }
         }
         message += "详情:"+url1;
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8")+"&auto_escape=true");
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8")+"&auto_escape=true");
     }
 
     @Override
@@ -217,9 +218,9 @@ public class SendServiceImpl implements SendServiceI {
                 e.printStackTrace();
             }
         }else{
-            return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+            return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
         }
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
@@ -232,14 +233,14 @@ public class SendServiceImpl implements SendServiceI {
         }
         message = iday+".jpg";
         message = "[CQ:image,file="+message+"]";
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 
     @Override
     public String goodLight(int groupId, String message) throws UnsupportedEncodingException {
         String url1 ="http://duyan.fooor.cn/word.php";
         message = HttpUtils.sendGet(url1, "");
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
 
     }
 
@@ -259,6 +260,6 @@ public class SendServiceImpl implements SendServiceI {
         params+="tok="+access_token+"&cuid="+UUID.randomUUID().toString()+"&ctp=1&lan=zh&per=4&aue=6";
         result = HttpUtils.getWav(voice_url, params);
         message = "[CQ:record,file="+result+"]";
-        return HttpUtils.sendPost(url+"send_group_msg","group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+        return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
 }
