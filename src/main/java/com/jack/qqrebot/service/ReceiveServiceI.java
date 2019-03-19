@@ -1,5 +1,8 @@
 package com.jack.qqrebot.service;
 
-public class ReceiveServiceI {
+import java.io.UnsupportedEncodingException;
 
+public interface ReceiveServiceI {
+
+    void phb(int groupId,String message) throws UnsupportedEncodingException;
 }

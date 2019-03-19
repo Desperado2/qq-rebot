@@ -262,4 +262,6 @@ public class SendServiceImpl implements SendServiceI {
         message = "[CQ:record,file="+result+"]";
         return HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
     }
+
+
 }

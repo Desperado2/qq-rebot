@@ -2,6 +2,7 @@ package com.jack.qqrebot.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jack.qqrebot.service.ReceiveServiceI;
 import com.jack.qqrebot.service.SendServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -18,6 +19,8 @@ public class FirstController {
 
     @Autowired
     private SendServiceI sendService;
+    @Autowired
+    private ReceiveServiceI receiveService;
 
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     public void get(@RequestBody String message) throws UnsupportedEncodingException {
@@ -51,6 +54,8 @@ public class FirstController {
                     sendService.coderCalendar(group_id,message);
                 }else if(!StringUtils.isEmpty(message1) && (message1.contains("毒鸡汤"))){
                     sendService.goodLight(group_id,message);
+                }else if(!StringUtils.isEmpty(message1) && (message1.contains("排行榜"))){
+                    receiveService.phb(group_id,message);
                 }else {
                     sendService.tuling(group_id,message1);
                 }
