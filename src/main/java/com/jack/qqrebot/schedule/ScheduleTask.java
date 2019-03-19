@@ -10,7 +10,6 @@ public class ScheduleTask {
     @Autowired
     private SchedualServiceI schedualService;
 
-
     @Scheduled(cron = "30 0 0 * * ?")
     public void coderCalendar() {
         schedualService.coderCalendar();
@@ -26,6 +25,12 @@ public class ScheduleTask {
     @Scheduled(cron = "0 40 11 * * ?")
     public void sendWeiBo(){
         schedualService.weibo();
+    }
+
+    //每日新闻
+    @Scheduled(cron = "0 30 13,20 * * ?")
+    public void article(){
+        schedualService.articles();
     }
 
     //每日新闻

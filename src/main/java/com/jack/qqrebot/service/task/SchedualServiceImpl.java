@@ -1,6 +1,7 @@
 package com.jack.qqrebot.service.task;
 
 
+import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.dailyenglish.DailyEnglishService;
 import com.jack.qqrebot.service.duyan.DuyanService;
@@ -31,6 +32,8 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private DuyanService duyanService;
     @Autowired
     private CodeCalendarService codeCalendarService;
+    @Autowired
+    private ArticlesService articlesService;
     @Override
     public void goodMorning() {
         //获取天气
@@ -80,5 +83,13 @@ public class SchedualServiceImpl implements SchedualServiceI {
     public void coderCalendar() {
         String coderCalendar = codeCalendarService.getTodayCoderCalendar();
         SendMsgUtils.sendGroupMsg(89303705,coderCalendar);
+    }
+
+    @Override
+    public void articles() {
+        String msg = "[CQ:at,qq=all] 如果没事，就来看看文章学习吧！";
+        SendMsgUtils.sendGroupMsg(89303705,msg);
+        String articleByRandom = articlesService.getArticleByRandom();
+        SendMsgUtils.sendGroupMsg(89303705,articleByRandom);
     }
 }

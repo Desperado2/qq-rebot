@@ -7,4 +7,5 @@ public interface SchedualServiceI {
     void everyDayNews();
     void goodLight();
     void coderCalendar();
+    void articles();
 }
