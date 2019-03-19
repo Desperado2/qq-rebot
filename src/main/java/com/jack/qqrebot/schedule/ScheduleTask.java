@@ -21,6 +21,7 @@ public class ScheduleTask {
     public void goodMorning() {
         schedualService.goodMorning();
     }
+
     //微博热搜
     @Scheduled(cron = "0 40 11 * * ?")
     public void sendWeiBo(){

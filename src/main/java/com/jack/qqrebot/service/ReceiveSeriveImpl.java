@@ -41,7 +41,7 @@ public class ReceiveSeriveImpl implements ReceiveServiceI {
         String text1 = "";
         try {
             File file = new File("C:\\CQPro\\data\\phb\\score.txt");
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
 
             while ((text=bufferedReader.readLine()) != null){
                 text1+=text+"\n";
@@ -58,7 +58,7 @@ public class ReceiveSeriveImpl implements ReceiveServiceI {
         String text1 = "";
         try {
             File file = new File("C:\\CQPro\\data\\phb\\score.txt");
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
             String text = "";
             while ((text=bufferedReader.readLine()) != null){
                 if(text.contains(name)){
@@ -77,7 +77,7 @@ public class ReceiveSeriveImpl implements ReceiveServiceI {
             }
            bufferedReader.close();
 
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"utf-8"));
             bufferedWriter.write(text1);
             bufferedWriter.flush();
             bufferedWriter.close();
