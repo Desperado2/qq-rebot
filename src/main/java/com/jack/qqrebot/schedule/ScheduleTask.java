@@ -1,6 +1,6 @@
 package com.jack.qqrebot.schedule;
 
-import com.jack.qqrebot.service.SchedualServiceI;
+import com.jack.qqrebot.service.task.SchedualServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

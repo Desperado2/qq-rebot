@@ -1,4 +1,4 @@
-package com.jack.qqrebot.service;
+package com.jack.qqrebot.service.task;
 
 
 public interface SchedualServiceI {

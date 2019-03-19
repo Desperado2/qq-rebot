@@ -1,49 +1,25 @@
-package com.jack.qqrebot.service;
+package com.jack.qqrebot.service.ranking;
 
-import com.jack.qqrebot.CQApiServices.CqApi;
-import com.jack.qqrebot.utils.HttpUtils;
+
 import org.springframework.stereotype.Service;
 
 
 import java.io.*;
-import java.net.URLEncoder;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@Service("receiveService")
-public class ReceiveSeriveImpl implements ReceiveServiceI {
+@Service("rankingService")
+public class RankingServiceImpl implements RankingService {
 
-    String url ="http://127.0.0.1:5300/";
     @Override
-    public void phb(int groupId,String message) throws UnsupportedEncodingException {
-        String[] strings = message.split("\\|");
-        String phb = "";
-        if(strings.length < 4){
-            phb = getPhb();
-        }else{
-            String name = strings[1];
-            String type = strings[2].equals("+")?"add":"sub";
-            Pattern pattern = Pattern.compile("[0-9]*");
-            Matcher isNum = pattern.matcher(strings[3]);
-            if( isNum.matches() ){
-                int score = Integer.parseInt(strings[3]);
-                phb = addScore(name, score, type);
-            }else {
-                phb = "参数格式错误\n格式：排行榜|黄博|+|20";
-            }
-        }
-        HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG.getName(),"group_id="+groupId+"&message="+URLEncoder.encode(phb,"utf-8"));
-    }
-
-    private String getPhb(){
+    public String getRanking(){
         String text = "";
         StringBuilder text1 = new StringBuilder();
         try {
             File file = new File("C:\\CQPro\\data\\phb\\score.txt");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
-
             while ((text=bufferedReader.readLine()) != null){
                 text1.append(text).append("\n");
             }
@@ -55,8 +31,27 @@ public class ReceiveSeriveImpl implements ReceiveServiceI {
         return text1.toString();
     }
 
-    private String addScore(String name,int score,String type){
+    @Override
+    public String updateRanking(String message){
 
+        String[] strings = message.split("\\|");
+        if(strings.length < 4){
+            return getRanking();
+        }else {
+            String name = strings[1];
+            String type = strings[2].equals("+") ? "add" : "sub";
+            Pattern pattern = Pattern.compile("[0-9]*");
+            Matcher isNum = pattern.matcher(strings[3]);
+            if (isNum.matches()) {
+                int score = Integer.parseInt(strings[3]);
+                return update(name,type,score);
+            } else {
+                return "参数格式错误\n格式：排行榜|黄博|+|20";
+            }
+        }
+    }
+
+    private String update(String name,String type,int score){
         StringBuilder sb = new StringBuilder();
         try {
             File file = new File("C:\\CQPro\\data\\phb\\score.txt");
@@ -73,9 +68,9 @@ public class ReceiveSeriveImpl implements ReceiveServiceI {
                         text = name+"       "+(Integer.parseInt(m.replaceAll("").trim())-score)+"分";
                     }
                 }
-               sb.append(text).append("\n");
+                sb.append(text).append("\n");
             }
-           bufferedReader.close();
+            bufferedReader.close();
             sort(sb);
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"utf-8"));
             bufferedWriter.write(sb.toString());
@@ -85,6 +80,7 @@ public class ReceiveSeriveImpl implements ReceiveServiceI {
             e.printStackTrace();
         }
         return sb.toString();
+
     }
 
     private void sort(StringBuilder text){
