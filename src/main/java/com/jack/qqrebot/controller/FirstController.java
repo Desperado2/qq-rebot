@@ -55,7 +55,7 @@ public class FirstController {
                 }else if(!StringUtils.isEmpty(message1) && (message1.contains("毒鸡汤"))){
                     sendService.goodLight(group_id,message);
                 }else if(!StringUtils.isEmpty(message1) && (message1.contains("排行榜"))){
-                    receiveService.phb(group_id,message);
+                    receiveService.phb(group_id,message1);
                 }else {
                     sendService.tuling(group_id,message1);
                 }

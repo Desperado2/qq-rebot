@@ -37,18 +37,19 @@ public class ReceiveSeriveImpl implements ReceiveServiceI {
 
     private String getPhb(){
         String text = "";
+        String text1 = "";
         try {
             File file = new File("C:\\CQPro\\data\\phb\\score.txt");
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
             while ((text=bufferedReader.readLine()) != null){
-                text+=text;
+                text1+=text+"\n";
             }
             bufferedReader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return text;
+        return text1;
     }
 
     private String addScore(String name,int score,String type){
