@@ -1,9 +1,9 @@
 package com.jack.qqrebot.CQApiServices;
 
 public enum CqApi {
-    SEND_PRIVATE_MSG,
-    SEND_GROUP_MSG,
-    SEND_DISCUSS_MSG,
+    SEND_PRIVATE_MSG("send_private_msg"),
+    SEND_GROUP_MSG("send_group_msg");
+    /*SEND_DISCUSS_MSG,
     SEND_MSG,
     DELETE_MSG,
     SEND_LIKE,
@@ -39,5 +39,19 @@ public enum CqApi {
     CLEAN_PLUGIN_LOG,
     _GET_FRIEND_LIST,
     _GET_GROUP_INFO,
-    _GET_VIP_INFO
+    _GET_VIP_INFO;*/
+
+    private  String name;
+
+    CqApi(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

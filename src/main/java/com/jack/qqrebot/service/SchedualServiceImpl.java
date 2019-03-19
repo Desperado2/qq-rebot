@@ -108,7 +108,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
                 String url1 ="http://duyan.fooor.cn/word.php";
                 String message = HttpUtils.sendGet(url1, "");
                 message += "\n各位晚安";
-                 HttpUtils.sendPost("http://127.0.0.1:5300/"+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
+                 HttpUtils.sendPost("http://127.0.0.1:5300/"+CqApi.SEND_GROUP_MSG.getName(),"group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

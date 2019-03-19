@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 @Service("receiveService")
 public class ReceiveSeriveImpl implements ReceiveServiceI {
+
     String url ="http://127.0.0.1:5300/";
     @Override
     public void phb(int groupId,String message) throws UnsupportedEncodingException {
@@ -32,7 +33,7 @@ public class ReceiveSeriveImpl implements ReceiveServiceI {
                 phb = "参数格式错误\n格式：排行榜|黄博|+|20";
             }
         }
-        HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG,"group_id="+groupId+"&message="+URLEncoder.encode(phb,"utf-8"));
+        HttpUtils.sendPost(url+CqApi.SEND_GROUP_MSG.getName(),"group_id="+groupId+"&message="+URLEncoder.encode(phb,"utf-8"));
     }
 
     private String getPhb(){
