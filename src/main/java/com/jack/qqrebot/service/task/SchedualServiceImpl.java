@@ -44,7 +44,6 @@ public class SchedualServiceImpl implements SchedualServiceI {
         for (int groupId : groupList){
             SendMsgUtils.sendGroupMsg(groupId,messages);
         }
-
     }
 
     @Override
@@ -74,7 +73,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
         List<Integer> groupList = CQUtils.getGroupList();
         for (int groupId : groupList){
             String message = duyanService.getDuyanRandom();
-            message += "\n各位晚安";
+            message += "\n\n各位晚安";
             SendMsgUtils.sendGroupMsg(groupId,message);
         }
     }
