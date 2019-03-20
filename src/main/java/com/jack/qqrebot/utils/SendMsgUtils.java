@@ -1,6 +1,6 @@
 package com.jack.qqrebot.utils;
 
-import com.jack.qqrebot.CQApiServices.CqApi;
+import com.jack.qqrebot.enumm.CqApi;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
