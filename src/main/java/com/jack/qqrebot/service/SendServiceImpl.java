@@ -61,39 +61,38 @@ public class SendServiceImpl implements SendServiceI {
         String result = "";
         message = jsonObject.getString("message");
         Integer group_id = jsonObject.getInteger("group_id");
-        if(message.contains("[CQ:at,qq=1244623542]")){
-            message = message.replace("[CQ:at,qq=1244623542]","").trim();
-            if(!StringUtils.isEmpty(message) && message.contains("诗")){
-                result = poetryService.getPoetryByKeyWord(message.replace("诗","").replace(" ",""));
-            }else if(!StringUtils.isEmpty(message) && message.contains("新闻")){
+        if (message.contains("[CQ:at,qq=1244623542]")) {
+            message = message.replace("[CQ:at,qq=1244623542]", "").trim();
+            if (!StringUtils.isEmpty(message) && message.contains("诗")) {
+                result = poetryService.getPoetryByKeyWord(message.replace("诗", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && message.contains("新闻")) {
                 result = newsService.getNewsByRandom();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("段子") || message.contains("笑话"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("段子") || message.contains("笑话"))) {
                 result = satinService.getSatinByRandom();
-            }else if(!StringUtils.isEmpty(message) && message.contains("美图")){
+            } else if (!StringUtils.isEmpty(message) && message.contains("美图")) {
                 result = meituService.getImageByRandom();
-            }else if(!StringUtils.isEmpty(message) && message.contains("音乐")){
-                result = musicService.getMusicByName(message.replace("音乐","").replace(" ",""));
-            }else if(!StringUtils.isEmpty(message) && message.contains("天气")){
-                result = weatherService.getWeatherByCity(message.replace("天气","").replace(" ",""));
-            }else if(!StringUtils.isEmpty(message) && (message.contains("微博") || (message.contains("热搜")))){
+            } else if (!StringUtils.isEmpty(message) && message.contains("音乐")) {
+                result = musicService.getMusicByName(message.replace("音乐", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && message.contains("天气")) {
+                result = weatherService.getWeatherByCity(message.replace("天气", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && (message.contains("微博") || (message.contains("热搜")))) {
                 result = weiboService.getWeiboHot();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("菜单"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("菜单"))) {
                 result = menuService.getMenus();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("运势") || (message.contains("星座")))){
-                result = constellationService.getMsgByConstellationName(message.replace("运势","").replace("星座","").replace(" ",""));
-            }else if(!StringUtils.isEmpty(message) && (message.contains("黄历"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("运势") || (message.contains("星座")))) {
+                result = constellationService.getMsgByConstellationName(message.replace("运势", "").replace("星座", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && (message.contains("黄历"))) {
                 result = codeCalendarService.getTodayCoderCalendar();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("毒鸡汤"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("毒鸡汤"))) {
                 result = duyanService.getDuyanRandom();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("排行榜"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("排行榜"))) {
                 result = rankingService.updateRanking(message);
-            }else if(!StringUtils.isEmpty(message) && (message.contains("文章"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("文章"))) {
                 result = articlesService.getArticleByRandom();
-            }else {
+            } else {
                 result = tulingService.getMsgByMsg(message);
             }
-            SendMsgUtils.sendGroupMsg(group_id,result);
+            SendMsgUtils.sendGroupMsg(group_id, result);
         }
-
     }
 }

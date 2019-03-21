@@ -1,6 +1,5 @@
 package com.jack.qqrebot.service.constellation;
 
-import com.jack.qqrebot.CQApiServices.CqApi;
 import com.jack.qqrebot.utils.HttpUtils;
 import com.jack.qqrebot.utils.XzUtils;
 import org.jsoup.Jsoup;

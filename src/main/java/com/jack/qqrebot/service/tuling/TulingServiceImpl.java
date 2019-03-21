@@ -2,7 +2,6 @@ package com.jack.qqrebot.service.tuling;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jack.qqrebot.CQApiServices.CqApi;
 import com.jack.qqrebot.utils.HttpUtils;
 import org.springframework.stereotype.Service;
 
