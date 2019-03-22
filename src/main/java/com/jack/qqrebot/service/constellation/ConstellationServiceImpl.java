@@ -49,7 +49,7 @@ public class ConstellationServiceImpl implements ConstellationService{
 
             elements = document.select("div[class=c_cont]").select("p");
 
-            elements.stream().forEach(element -> sb.append(element.select("strong").text())
+            elements.stream().forEach(element -> sb.append(element.select("strong").text()).append(":")
                                                     .append(element.select("span").text())
                                                     .append("\n"));
 
