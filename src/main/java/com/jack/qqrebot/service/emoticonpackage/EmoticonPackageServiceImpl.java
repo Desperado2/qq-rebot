@@ -55,12 +55,13 @@ public class EmoticonPackageServiceImpl implements EmoticonPackageService {
             Elements name =  body.select("section[class=recall-module]").select("a[uigs=gnameClick]");
             Elements total = body.select("section[class=recall-module]").select("a[uigs=emocntClick]");
 
-            array = Stream.iterate(0, item -> item + 1).limit(name.size()).map(i -> name.get(i).text().replace("张","") + "*" + total.get(i).text()+"\n").toArray();
+            array = Stream.iterate(0, item -> item + 1).limit(name.size()).map(i -> name.get(i).text() + "*" + total.get(i).text().replace("张","")).toArray();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         Object[] optional = Optional.ofNullable(list).orElse(new ArrayList<>()).stream().map(imgurl->"[CQ:image,file="+imgurl+"]").toArray();
-        String message = "没找到想要的，可搜索下面关键词\n"+Arrays.toString(array).replace("[","").replace("]","").replace(",","");
-        return Arrays.toString(optional)+message;
+        String message = "\n\n没找到想要的，可搜索下面关键词\n"+Arrays.toString(array).replace("[","").replace("]","").replace(",","\n");
+        String images =Arrays.toString(optional);
+        return images.substring(1,images.length()-1).replace(",","")+message;
     }
 }
