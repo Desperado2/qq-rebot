@@ -62,6 +62,6 @@ public class EmoticonPackageServiceImpl implements EmoticonPackageService {
         Object[] optional = Optional.ofNullable(list).orElse(new ArrayList<>()).stream().map(imgurl->"[CQ:image,file="+imgurl+"]").toArray();
         String message = "\n\n没找到想要的，可搜索下面关键词\n"+Arrays.toString(array).replace("[","").replace("]","").replace(",","\n");
         String images =Arrays.toString(optional);
-        return images.substring(1,images.length()-1).replace(",","")+message;
+        return images.substring(1,images.length()-1).replace("],","]")+message;
     }
 }
