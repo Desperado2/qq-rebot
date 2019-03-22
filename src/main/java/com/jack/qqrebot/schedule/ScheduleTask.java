@@ -21,6 +21,11 @@ public class ScheduleTask {
         schedualService.goodMorning();
     }
 
+    @Scheduled(cron = "0 0 9 * * ?")
+    public void historyOnToday() {
+        schedualService.historyOnToday();
+    }
+
     //微博热搜
     @Scheduled(cron = "0 40 11 * * ?")
     public void sendWeiBo(){

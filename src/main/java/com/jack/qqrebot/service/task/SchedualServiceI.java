@@ -8,4 +8,5 @@ public interface SchedualServiceI {
     void goodLight();
     void coderCalendar();
     void articles();
+    void historyOnToday();
 }

@@ -5,6 +5,7 @@ import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.dailyenglish.DailyEnglishService;
 import com.jack.qqrebot.service.duyan.DuyanService;
+import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.news.NewsService;
 import com.jack.qqrebot.service.weather.WeatherService;
 import com.jack.qqrebot.service.weibo.WeiboService;
@@ -34,6 +35,9 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private CodeCalendarService codeCalendarService;
     @Autowired
     private ArticlesService articlesService;
+    @Autowired
+    private HistoryOnTodayService historyOnTodayService;
+
     @Override
     public void goodMorning() {
         //获取天气
@@ -90,5 +94,11 @@ public class SchedualServiceImpl implements SchedualServiceI {
         SendMsgUtils.sendGroupMsg(89303705,msg);
         String articleByRandom = articlesService.getArticleByRandom();
         SendMsgUtils.sendGroupMsg(89303705,articleByRandom);
+    }
+
+    @Override
+    public void historyOnToday() {
+        String history = historyOnTodayService.getHistory();
+        SendMsgUtils.sendGroupMsg(89303705,history);
     }
 }

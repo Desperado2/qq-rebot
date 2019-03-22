@@ -6,6 +6,7 @@ import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.constellation.ConstellationService;
 import com.jack.qqrebot.service.duyan.DuyanService;
+import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.meitu.MeituService;
 import com.jack.qqrebot.service.menu.MenuService;
 import com.jack.qqrebot.service.music.MusicService;
@@ -55,6 +56,9 @@ public class SendServiceImpl implements SendServiceI {
     private DuyanService duyanService;
     @Autowired
     private ArticlesService articlesService;
+    @Autowired
+    private HistoryOnTodayService historyOnTodayService;
+
     @Override
     public void dealGroupMsg(String message) throws UnsupportedEncodingException {
         JSONObject jsonObject = JSON.parseObject(message);
@@ -89,6 +93,8 @@ public class SendServiceImpl implements SendServiceI {
                 result = rankingService.updateRanking(message);
             } else if (!StringUtils.isEmpty(message) && (message.contains("文章"))) {
                 result = articlesService.getArticleByRandom();
+            } else if (!StringUtils.isEmpty(message) && (message.contains("历史上的今天"))) {
+                result = historyOnTodayService.getHistory();
             } else {
                 result = tulingService.getMsgByMsg(message);
             }
