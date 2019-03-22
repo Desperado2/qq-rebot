@@ -10,5 +10,5 @@ import java.io.UnsupportedEncodingException;
  */
 public interface WeiboService {
 
-    String getWeiboHot() throws UnsupportedEncodingException;
+    String getWeiboHot();
 }

@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 public class ConstellationServiceImpl implements ConstellationService{
 
     @Override
-    public String getMsgByConstellationName(String constellationName) throws UnsupportedEncodingException {
+    public String getMsgByConstellationName(String constellationName) {
         String s =XzUtils.getXz(constellationName);
         StringBuilder sb = new StringBuilder();
         if(StringUtils.isEmpty(s)){
@@ -34,24 +34,25 @@ public class ConstellationServiceImpl implements ConstellationService{
             String get = HttpUtils.sendGet(url, "");
             Document document = Jsoup.parse(get);
             Elements elements = document.select("dd").select("li");
-            for (int i =0 ;i <elements.size(); i++){
-                Element element = elements.get(i);
+
+            elements.stream().forEach(element -> {
                 if(element.select("em").size() > 0){
                     String label = element.select("label").text();
                     int star = Integer.parseInt(element.select("em").attr("style").replace("px;", "").replace("width:","").trim())/12;
                     sb.append(label).append(Stream.of("★★★★★".split("")).limit(star).collect(Collectors.joining()))
                             .append(Stream.of("☆☆☆☆☆".split("")).limit(5-star).collect(Collectors.joining())).append("\n");
-                }else{
+                }else {
                     String label = element.text();
                     sb.append(label).append("\n");
                 }
-            }
+            });
+
             elements = document.select("div[class=c_cont]").select("p");
-            for (Element element : elements){
-                String label = element.select("strong").text();
-                String value = element.select("span").text();
-                sb.append(label).append(":").append(value).append("\n");
-            }
+
+            elements.stream().forEach(element -> sb.append(element.select("strong").text())
+                                                    .append(element.select("span").text())
+                                                    .append("\n"));
+
             sb.append("详情:").append(url);
         }
         return sb.toString();

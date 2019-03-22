@@ -10,5 +10,5 @@ import java.io.UnsupportedEncodingException;
  */
 public interface SatinService {
 
-    String getSatinByRandom() throws UnsupportedEncodingException;
+    String getSatinByRandom();
 }

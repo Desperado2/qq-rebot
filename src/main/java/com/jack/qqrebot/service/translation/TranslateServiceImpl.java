@@ -25,6 +25,7 @@ public class TranslateServiceImpl implements TranslateService{
         String query = "from="+lan+"&to=en&query="+word+"&transtype=translang&simple_means_flag=3&sign=635104.873425";
         String result = HttpUtils.sendPost(transUrl, query);
         JSONArray array = JSONObject.parseObject(result).getJSONObject("trans_result").getJSONArray("data");
+
         for (int i = 0; i< array.size(); i++) {
             JSONObject object = array.getJSONObject(i);
             stringBuilder.append(object.getString("dst"));

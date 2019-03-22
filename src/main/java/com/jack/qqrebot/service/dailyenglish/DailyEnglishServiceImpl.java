@@ -26,12 +26,12 @@ public class DailyEnglishServiceImpl implements DailyEnglishService {
         Document document = Jsoup.parse(s);
         Element element = document.getElementById("content");
         element = element.getElementsByClass("post").get(0);
-        sb.append(element.getElementsByTag("strong").get(0).text()).append("\n\n");
-        sb.append( element.getElementsByTag("p").get(1).text()).append("\n");
+        sb.append(element.getElementsByTag("strong").get(0).text()).append("\n");
+        sb.append( element.getElementsByTag("p").get(1).text()).append("\n\n");
         Elements lis = element.getElementsByTag("li");
-        for (Element li : lis){
-            sb.append(li.text()).append("\n");
-        }
+
+        lis.stream().forEach(li->sb.append(li.text()).append("\n"));
+
         try {
              String msg= ZHConverter.transformation(sb.toString(),ZHConverter.target.TCcharacter);
              return msg;

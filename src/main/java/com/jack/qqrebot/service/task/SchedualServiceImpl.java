@@ -44,42 +44,33 @@ public class SchedualServiceImpl implements SchedualServiceI {
         String weatherInfo = weatherService.getTodayWeather();
         String msg  = dailyEnglishService.getDailyEnglish();
         String messages = "天气:\n\n"+weatherInfo+"\n\n"+msg;
+
         List<Integer> groupList = CQUtils.getGroupList();
-        for (int groupId : groupList){
-            SendMsgUtils.sendGroupMsg(groupId,messages);
-        }
+
+        groupList.stream().forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
     }
 
     @Override
     public void weibo() {
         List<Integer> groupList = CQUtils.getGroupList();
-        for (int groupId : groupList){
-            try {
-                String weiboHot = weiboService.getWeiboHot();
-                SendMsgUtils.sendGroupMsg(groupId,weiboHot);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
+        String messages = weiboService.getWeiboHot();
+
+        groupList.stream().forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
     }
 
     @Override
     public void everyDayNews() {
         List<Integer> groupList = CQUtils.getGroupList();
-        for (int groupId : groupList){
-            String news = newsService.getNewsByRandom();
-            SendMsgUtils.sendGroupMsg(groupId,news);
-        }
+        String messages = newsService.getNewsByRandom();
+
+        groupList.stream().forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
     }
 
     @Override
     public void goodLight() {
         List<Integer> groupList = CQUtils.getGroupList();
-        for (int groupId : groupList){
-            String message = duyanService.getDuyanRandom();
-            message += "\n\n各位晚安";
-            SendMsgUtils.sendGroupMsg(groupId,message);
-        }
+        String messages =  duyanService.getDuyanRandom() +"\n\n各位晚安";
+        groupList.stream().forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
     }
 
     @Override

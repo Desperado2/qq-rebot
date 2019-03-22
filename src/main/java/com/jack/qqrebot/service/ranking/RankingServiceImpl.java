@@ -108,6 +108,7 @@ public class RankingServiceImpl implements RankingService {
             index1++;
         }
         text.delete(0,text.length());
+
         for (int i=0;i<strings.length; i++){
             text.append(strings[i]).append("\n");
         }
