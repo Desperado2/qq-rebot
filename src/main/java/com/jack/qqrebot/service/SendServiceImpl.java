@@ -6,6 +6,7 @@ import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.constellation.ConstellationService;
 import com.jack.qqrebot.service.duyan.DuyanService;
+import com.jack.qqrebot.service.emoticonpackage.EmoticonPackageService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.meitu.MeituService;
 import com.jack.qqrebot.service.menu.MenuService;
@@ -58,6 +59,8 @@ public class SendServiceImpl implements SendServiceI {
     private ArticlesService articlesService;
     @Autowired
     private HistoryOnTodayService historyOnTodayService;
+    @Autowired
+    private EmoticonPackageService emoticonPackageService;
 
     @Override
     public void dealGroupMsg(String message) throws UnsupportedEncodingException {
@@ -95,6 +98,8 @@ public class SendServiceImpl implements SendServiceI {
                 result = articlesService.getArticleByRandom();
             } else if (!StringUtils.isEmpty(message) && (message.contains("历史上的今天"))) {
                 result = historyOnTodayService.getHistory();
+            } else if (!StringUtils.isEmpty(message) && (message.contains("表情包"))) {
+                result = emoticonPackageService.getEmoticonPackageByKeyWord(message.replace("表情包*",""));
             } else {
                 result = tulingService.getMsgByMsg(message);
             }
