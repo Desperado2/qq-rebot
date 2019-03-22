@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Random;
 
 /**
  * @Auther: mujj
@@ -24,8 +25,8 @@ public class MeituServiceImpl implements MeituService {
         JSONObject jsonObject = JSON.parseObject(s);
         JSONArray musics = jsonObject.getJSONArray("data");
         String message ="";
-        int random = (int)(Math.random()*musics.size());
         if(!StringUtils.isEmpty(musics) &&musics.size() > 0){
+            int random = new Random().nextInt(musics.size());
             JSONObject music = musics.getJSONObject(random);
             message = music.getString("url");
         }

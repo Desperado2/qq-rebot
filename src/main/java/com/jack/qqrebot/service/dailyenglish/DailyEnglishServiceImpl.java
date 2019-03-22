@@ -22,21 +22,22 @@ public class DailyEnglishServiceImpl implements DailyEnglishService {
     @Override
     public String getDailyEnglish()  {
         String s = HttpUtils.sendGet("https://www.dailyenglishquote.com/", "");
+        StringBuilder sb = new StringBuilder();
         Document document = Jsoup.parse(s);
         Element element = document.getElementById("content");
-        Element element1 = element.getElementsByClass("post").get(0);
-        String msg = element1.getElementsByTag("strong").get(0).text()+"\n\n";
-        msg += element1.getElementsByTag("p").get(1).text()+"\n";
-
-        Elements lis = element1.getElementsByTag("li");
+        element = element.getElementsByClass("post").get(0);
+        sb.append(element.getElementsByTag("strong").get(0).text()).append("\n\n");
+        sb.append( element.getElementsByTag("p").get(1).text()).append("\n");
+        Elements lis = element.getElementsByTag("li");
         for (Element li : lis){
-            msg += li.text()+"\n";
+            sb.append(li.text()).append("\n");
         }
         try {
-            msg = ZHConverter.transformation(msg,ZHConverter.target.TCcharacter);
+             String msg= ZHConverter.transformation(sb.toString(),ZHConverter.target.TCcharacter);
+             return msg;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return msg;
+        return "";
     }
 }
