@@ -9,6 +9,6 @@ import java.io.UnsupportedEncodingException;
  * @Version: 1.0
  */
 public interface SatinService {
-
+    //随机获取段子
     String getSatinByRandom() throws UnsupportedEncodingException;
 }
