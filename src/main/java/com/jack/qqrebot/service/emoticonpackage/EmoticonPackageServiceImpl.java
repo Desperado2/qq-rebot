@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @Auther: mujj
@@ -42,6 +43,7 @@ public class EmoticonPackageServiceImpl implements EmoticonPackageService {
             }
         }
         List<String> list = null;
+        Object[] array= null;
         try {
             String html = HttpUtils.sendGet(url+URLEncoder.encode(strings[0],"UTF-8"), "");
             Document document = Jsoup.parse(html);
@@ -49,10 +51,16 @@ public class EmoticonPackageServiceImpl implements EmoticonPackageService {
             Elements elements = body.select("section[class=recall-module]").select("li");
             List<String> imgurls = elements.stream().map(element -> element.select("img").attr("rsrc")).collect(Collectors.toList());
             list = imgurls.size() > num ? imgurls.subList(0, num) : imgurls;
+
+            Elements name =  body.select("section[class=recall-module]").select("a[uigs=gnameClick]");
+            Elements total = body.select("section[class=recall-module]").select("a[uigs=emocntClick]");
+
+            array = Stream.iterate(0, item -> item + 1).limit(name.size()).map(i -> name.get(i).text().replace("张","") + "*" + total.get(i).text()+"\n").toArray();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         Object[] optional = Optional.ofNullable(list).orElse(new ArrayList<>()).stream().map(imgurl->"[CQ:image,file="+imgurl+"]").toArray();
-        return Arrays.toString(optional);
+        String message = "没找到想要的，可搜索下面关键词\n"+Arrays.toString(array).replace("[","").replace("]","").replace(",","");
+        return Arrays.toString(optional)+message;
     }
 }
