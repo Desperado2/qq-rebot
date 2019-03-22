@@ -24,6 +24,7 @@ public class NewsServiceImpl implements NewsService {
         JSONObject jsonObject = JSON.parseObject(s);
         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
         JSONArray toutiao = jsonObject1.getJSONArray("toutiao");
+        message.append("今日头条新闻如下:").append("\n\n");
         if(!StringUtils.isEmpty(toutiao) &&toutiao.size() > 0){
             for (int i=0;i<toutiao.size();i++){
                 JSONObject object = toutiao.getJSONObject(i);

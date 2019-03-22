@@ -19,10 +19,12 @@ public class HistoryOnTodayServiceImpl implements HistoryOnTodayService {
     @Override
     public String getHistory() {
         SimpleDateFormat sdf = new SimpleDateFormat("MMdd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         String iday = sdf.format(new Date());
         StringBuffer result= new StringBuffer();
         String s = HttpUtils.sendGet("https://baike.baidu.com/cms/home/eventsOnHistory/03.json?_=1553238091404", "");
         JSONArray array = JSONObject.parseObject(s).getJSONObject(iday.substring(0,2)).getJSONArray(iday);
+        result.append("今天是").append(sdf1.format(new Date())).append(",历史上的今天发生了一下的大事").append("\n\n");
         for (int i= 0;i < array.size() ;i++){
             JSONObject object = array.getJSONObject(i);
             String year = object.getString("year");
