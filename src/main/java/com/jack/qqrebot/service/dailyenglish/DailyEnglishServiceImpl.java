@@ -25,7 +25,7 @@ public class DailyEnglishServiceImpl implements DailyEnglishService {
         Document document = Jsoup.parse(s);
         Element element = document.getElementById("content");
         Element element1 = element.getElementsByClass("post").get(0);
-        String msg = element1.getElementsByTag("strong").get(0).text()+"\n";
+        String msg = element1.getElementsByTag("strong").get(0).text()+"\n\n";
         msg += element1.getElementsByTag("p").get(1).text()+"\n";
 
         Elements lis = element1.getElementsByTag("li");

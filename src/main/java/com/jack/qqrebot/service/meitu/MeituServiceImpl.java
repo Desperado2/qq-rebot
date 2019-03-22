@@ -27,7 +27,6 @@ public class MeituServiceImpl implements MeituService {
         if(!StringUtils.isEmpty(musics) &&musics.size() > 0){
             JSONObject music = musics.getJSONObject(0);
             message = music.getString("url");
-            System.out.println(message);
         }
         message = "找到的美图如下\n[CQ:image,file="+message+"]";
         return message;

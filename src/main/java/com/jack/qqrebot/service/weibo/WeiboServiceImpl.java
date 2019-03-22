@@ -1,11 +1,13 @@
 package com.jack.qqrebot.service.weibo;
 
 import com.jack.qqrebot.utils.HttpUtils;
+import com.jack.qqrebot.utils.LongUrlToShortUrlUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 
@@ -30,7 +32,22 @@ public class WeiboServiceImpl implements WeiboService{
         for (int i =0;i<Math.min(elements.size(),10);i++){
             Element element1 = elements.get(i);
             Element element2 = element1.select("td").get(1);
-            message.append(i+1).append(".").append(element2.text()).append("\n\n");
+            String linkUrl =element2.select("a").attr("href");
+            String title = element2.select("a").text();
+            String hot = element2.select("span").text();
+            if(hot.length() < 1){
+                title = title+"[置顶热搜↑↑↑]";
+            }else{
+                title = title+"[实时热度:"+hot+"]";
+            }
+            String url = "https://s.weibo.com"+linkUrl;
+            url = LongUrlToShortUrlUtils.longToShort(url);
+
+            message.append(i+1).append(".").append(title);
+            if(!StringUtils.isEmpty(url)){
+                message.append("\n").append(url);
+            }
+            message.append("\n\n");
         }
         return message.toString();
     }
