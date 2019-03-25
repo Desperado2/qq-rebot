@@ -39,12 +39,22 @@ public class RankingServiceImpl implements RankingService {
             return getRanking();
         }else {
             String name = strings[1];
-            String type = strings[2].equals("+") ? "add" : "sub";
+            String type = strings[2];
+            if(type.equals("+")){
+                type = "add";
+            }else if(type.equals("-")){
+                type = "sub";
+            }else{
+                return "只支持 + 和 - 操作符";
+            }
             Pattern pattern = Pattern.compile("[0-9]*");
             Matcher isNum = pattern.matcher(strings[3]);
             if (isNum.matches()) {
                 int score = Integer.parseInt(strings[3]);
-                return update(name,type,score);
+                if(score ==10 || score == 5){
+                    return update(name,type,score);
+                }
+                return "只接受 +10 和 -5 两个分值";
             } else {
                 return "参数格式错误\n格式：排行榜|黄博|+|20";
             }
