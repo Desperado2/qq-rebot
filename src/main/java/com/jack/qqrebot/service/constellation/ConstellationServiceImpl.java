@@ -38,7 +38,7 @@ public class ConstellationServiceImpl implements ConstellationService{
             elements.stream().forEach(element -> {
                 if(element.select("em").size() > 0){
                     String label = element.select("label").text();
-                    int star = Integer.parseInt(element.select("em").attr("style").replace("px;", "").replace("width:","").trim())/12;
+                    int star = Integer.parseInt(element.select("em").attr("style").replace("px;", "").replace("width:","").trim())/16;
                     sb.append(label).append(Stream.of("★★★★★".split("")).limit(star).collect(Collectors.joining()))
                             .append(Stream.of("☆☆☆☆☆".split("")).limit(5-star).collect(Collectors.joining())).append("\n");
                 }else {
@@ -49,9 +49,9 @@ public class ConstellationServiceImpl implements ConstellationService{
 
             elements = document.select("div[class=c_cont]").select("p");
 
-            elements.stream().forEach(element -> sb.append(element.select("strong").text()).append(":")
+            elements.forEach(element -> sb.append(element.select("strong").text()).append(":")
                                                     .append(element.select("span").text())
-                                                    .append("\n"));
+                                                    .append("\n\n"));
 
             sb.append("详情:").append(url);
         }

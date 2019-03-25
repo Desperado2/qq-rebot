@@ -32,7 +32,7 @@ public class EmoticonPackageServiceImpl implements EmoticonPackageService {
         String url ="https://pic.sogou.com/pic/emo/searchList.jsp?statref=home_form&keyword=";
         String[] strings = keyWord.split("\\*");
         if(strings.length <1){
-            return "格式错误，正确格式: 表情包*关键字*数量(买买买*3)";
+            return "格式错误，正确格式: 表情包*关键字*数量(表情包*买买买*3)";
         }
         int num = 5;
         if(strings.length >= 2) {
@@ -60,7 +60,10 @@ public class EmoticonPackageServiceImpl implements EmoticonPackageService {
             e.printStackTrace();
         }
         Object[] optional = Optional.ofNullable(list).orElse(new ArrayList<>()).stream().map(imgurl->"[CQ:image,file="+imgurl+"]").toArray();
-        String message = "\n\n没找到想要的，可搜索下面关键词\n"+Arrays.toString(array).replace("[","").replace("]","").replace(",","\n");
+        if(optional.length < 1){
+            return "很抱歉，没找到，请换个关键词再试试吧！";
+        }
+        String message = "\n\n没找到想要的，可搜索下面关键词\n"+Arrays.toString(array).replace("[","").replace("]","").replace(",","\n").replace(" ","");
         String images =Arrays.toString(optional);
         return images.substring(1,images.length()-1).replace("],","]")+message;
     }
