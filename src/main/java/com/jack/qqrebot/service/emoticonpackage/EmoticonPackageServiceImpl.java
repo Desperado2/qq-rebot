@@ -55,7 +55,7 @@ public class EmoticonPackageServiceImpl implements EmoticonPackageService {
             Elements name =  body.select("section[class=recall-module]").select("a[uigs=gnameClick]");
             Elements total = body.select("section[class=recall-module]").select("a[uigs=emocntClick]");
 
-            array = Stream.iterate(0, item -> item + 1).limit(name.size()).map(i -> name.get(i).text() + "*" + total.get(i).text().replace("张","")).toArray();
+            array = Stream.iterate(0, item -> item + 1).limit(name.size()).map(i -> "表情包*"+name.get(i).text() + "*" + total.get(i).text().replace("张","")).toArray();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

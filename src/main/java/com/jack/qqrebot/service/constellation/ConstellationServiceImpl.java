@@ -46,7 +46,7 @@ public class ConstellationServiceImpl implements ConstellationService{
                     sb.append(label).append("\n");
                 }
             });
-
+            sb.append("\n");
             elements = document.select("div[class=c_cont]").select("p");
 
             elements.forEach(element -> sb.append(element.select("strong").text()).append(":")
