@@ -8,6 +8,7 @@ import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.constellation.ConstellationService;
 import com.jack.qqrebot.service.duyan.DuyanService;
 import com.jack.qqrebot.service.emoticonpackage.EmoticonPackageService;
+import com.jack.qqrebot.service.gankService.GankeService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.meitu.MeituService;
 import com.jack.qqrebot.service.menu.MenuService;
@@ -64,6 +65,8 @@ public class SendServiceImpl implements SendServiceI {
     private EmoticonPackageService emoticonPackageService;
     @Autowired
     private BaiduDiskSearchService baiduDiskSearchService;
+    @Autowired
+    private GankeService gankeService;
     @Override
     public void dealGroupMsg(String message) throws UnsupportedEncodingException {
         JSONObject jsonObject = JSON.parseObject(message);
@@ -104,6 +107,16 @@ public class SendServiceImpl implements SendServiceI {
                 result = emoticonPackageService.getEmoticonPackageByKeyWord(message.replace("表情包*",""));
             }else if(!StringUtils.isEmpty(message) && (message.contains("资源"))){
                 result = baiduDiskSearchService.SearchByKeyWords(message.replace("资源","").replace(" ",""));
+            } else if(!StringUtils.isEmpty(message) && (message.equals("干货"))){
+                result = gankeService.getToadyData();
+            } else if(!StringUtils.isEmpty(message) && (message.contains("干货今日"))){
+                result = gankeService.getTodayDataByCategory(message.replace("干货今日","").replace(" ",""));
+            }  else if(!StringUtils.isEmpty(message) && (message.contains("干货"))){
+                result = gankeService.getDataByCategory(message.replace("干货","").replace(" ",""));
+            }else if(!StringUtils.isEmpty(message) && (message.contains("干货日报"))){
+                result = gankeService.report(message.replace("干货日报","").replace(" ",""));
+            }else if(!StringUtils.isEmpty(message) && (message.contains("干货日报类型"))){
+                result = gankeService.reportType();
             } else {
                 result = tulingService.getMsgByMsg(message);
             }

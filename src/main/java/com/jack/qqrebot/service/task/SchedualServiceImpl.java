@@ -5,6 +5,7 @@ import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.dailyenglish.DailyEnglishService;
 import com.jack.qqrebot.service.duyan.DuyanService;
+import com.jack.qqrebot.service.gankService.GankeService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.news.NewsService;
 import com.jack.qqrebot.service.weather.WeatherService;
@@ -37,7 +38,8 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private ArticlesService articlesService;
     @Autowired
     private HistoryOnTodayService historyOnTodayService;
-
+    @Autowired
+    private GankeService gankeService;
     @Override
     public void goodMorning() {
         //获取天气
@@ -47,7 +49,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
 
         List<Integer> groupList = CQUtils.getGroupList();
 
-        groupList.stream().forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
+        groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
     }
 
     @Override
@@ -55,22 +57,27 @@ public class SchedualServiceImpl implements SchedualServiceI {
         List<Integer> groupList = CQUtils.getGroupList();
         String messages = weiboService.getWeiboHot();
 
-        groupList.stream().forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
+        groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
     }
 
     @Override
     public void everyDayNews() {
         List<Integer> groupList = CQUtils.getGroupList();
         String messages = newsService.getNewsByRandom();
-
-        groupList.stream().forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
+        String message1 = gankeService.report("wanqu");
+        groupList.forEach(groupId->{
+            if(groupId == 89303705 || groupId == 604195931)
+                SendMsgUtils.sendGroupMsg(groupId,message1);
+            else
+                SendMsgUtils.sendGroupMsg(groupId,messages);
+        });
     }
 
     @Override
     public void goodLight() {
         List<Integer> groupList = CQUtils.getGroupList();
         String messages =  duyanService.getDuyanRandom() +"\n\n各位晚安";
-        groupList.stream().forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
+        groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
     }
 
     @Override
