@@ -23,7 +23,7 @@ public class ScheduleTask {
 
     @Scheduled(cron = "0 0 9 * * ?")
     public void historyOnToday() {
-        schedualService.historyOnToday();
+        schedualService.leetCode();
     }
 
     //微博热搜

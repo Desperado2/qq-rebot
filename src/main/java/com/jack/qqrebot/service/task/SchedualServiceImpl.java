@@ -7,6 +7,7 @@ import com.jack.qqrebot.service.dailyenglish.DailyEnglishService;
 import com.jack.qqrebot.service.duyan.DuyanService;
 import com.jack.qqrebot.service.gankService.GankeService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
+import com.jack.qqrebot.service.leetcode.LeetCodeService;
 import com.jack.qqrebot.service.news.NewsService;
 import com.jack.qqrebot.service.weather.WeatherService;
 import com.jack.qqrebot.service.weibo.WeiboService;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 
 @Service("schedualService")
@@ -40,6 +42,8 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private HistoryOnTodayService historyOnTodayService;
     @Autowired
     private GankeService gankeService;
+    @Autowired
+    private LeetCodeService leetCodeService;
     @Override
     public void goodMorning() {
         //获取天气
@@ -83,8 +87,9 @@ public class SchedualServiceImpl implements SchedualServiceI {
     @Override
     public void coderCalendar() {
         String coderCalendar = codeCalendarService.getTodayCoderCalendar();
-        SendMsgUtils.sendGroupMsg(89303705,coderCalendar);
-        SendMsgUtils.sendGroupMsg(604195931,coderCalendar);
+        Arrays.stream(new Integer[]{89303705,604195931}).forEach(groupId -> {
+            SendMsgUtils.sendGroupMsg(groupId,coderCalendar);
+        });
     }
 
     @Override
@@ -99,5 +104,16 @@ public class SchedualServiceImpl implements SchedualServiceI {
     public void historyOnToday() {
         String history = historyOnTodayService.getHistory();
         SendMsgUtils.sendGroupMsg(89303705,history);
+    }
+
+    @Override
+    public void leetCode() {
+        String msg = "[CQ:at,qq=all] 如果没事，就赶快来显示一下自己的实力吧！";
+        String articleByRandom = leetCodeService.randomProblem();
+        Arrays.stream(new Integer[]{89303705,604195931}).forEach(groupId -> {
+            SendMsgUtils.sendGroupMsg(groupId,msg);
+            SendMsgUtils.sendGroupMsg(groupId,articleByRandom);
+        });
+
     }
 }
