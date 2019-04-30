@@ -77,6 +77,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
     public void coderCalendar() {
         String coderCalendar = codeCalendarService.getTodayCoderCalendar();
         SendMsgUtils.sendGroupMsg(89303705,coderCalendar);
+        SendMsgUtils.sendGroupMsg(604195931,coderCalendar);
     }
 
     @Override
