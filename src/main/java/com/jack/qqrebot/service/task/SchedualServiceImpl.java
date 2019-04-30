@@ -70,10 +70,11 @@ public class SchedualServiceImpl implements SchedualServiceI {
         String messages = newsService.getNewsByRandom();
         String message1 = gankeService.report("wanqu");
         groupList.forEach(groupId->{
-            if(groupId == 89303705 || groupId == 604195931)
-                SendMsgUtils.sendGroupMsg(groupId,message1);
-            else
+            if(groupId == 89303705 || groupId == 604195931) {
+                SendMsgUtils.sendGroupMsg(groupId, message1);
+            }else{
                 SendMsgUtils.sendGroupMsg(groupId,messages);
+            }
         });
     }
 
