@@ -1,11 +1,10 @@
 package com.jack.qqrebot.service.gankService;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.utils.HttpUtils;
+import com.jack.qqrebot.utils.LongUrlToShortUrlUtils;
 import org.springframework.stereotype.Service;
-import sun.security.jgss.HttpCaller;
 
 import java.util.Set;
 
@@ -35,6 +34,7 @@ public class GankeServiceImpl implements GankeService {
             JSONObject arrayJSONObject = array.getJSONObject(0);
             String desc = arrayJSONObject.getString("desc");
             String urlText = arrayJSONObject.getString("url");
+            urlText = LongUrlToShortUrlUtils.longToShort(urlText);
             stringBuffer.append(key).append("\n").append(desc).append("\n").append(urlText).append("\n");
         });
         stringBuffer.append("\n").append("查看更多干货，回复 \"干货+今日+类型\",如 干货今日App");
@@ -103,7 +103,7 @@ public class GankeServiceImpl implements GankeService {
         }
         JSONArray results = object.getJSONArray("results");
         StringBuffer stringBuffer = parseJsonArray(results, "title", "id", ":");
-        stringBuffer.append("回复 干货日报+日报代号 即可查看,如 干货日报zhihu");
+        stringBuffer.append("\n回复 干货日报+日报代号 即可查看,如 干货日报zhihu");
         return stringBuffer.toString();
     }
 
@@ -128,6 +128,7 @@ public class GankeServiceImpl implements GankeService {
             JSONObject object1 = results.getJSONObject(i);
             String desc = object1.getString(key1);
             String urlText = object1.getString(key2);
+            urlText = LongUrlToShortUrlUtils.longToShort(urlText);
             stringBuffer.append(i+1).append(".").append(desc).append(separator).append(urlText).append("\n");
         }
         return stringBuffer;
