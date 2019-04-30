@@ -33,7 +33,10 @@ public class GankeServiceImpl implements GankeService {
             JSONArray array = results.getJSONArray(key);
             JSONObject arrayJSONObject = array.getJSONObject(0);
             String desc = arrayJSONObject.getString("desc");
-            String urlText = arrayJSONObject.getString("url");
+            String urlText = arrayJSONObject.getString("url").trim();
+            if(urlText.lastIndexOf("/") == urlText.length()-1){
+                urlText = urlText.substring(0,urlText.length()-1);
+            }
             urlText = LongUrlToShortUrlUtils.longToShort(urlText);
             stringBuffer.append(key).append("\n").append(desc).append("\n").append(urlText).append("\n");
         });
@@ -127,7 +130,10 @@ public class GankeServiceImpl implements GankeService {
         for (int i =0 ;i < results.size(); i++){
             JSONObject object1 = results.getJSONObject(i);
             String desc = object1.getString(key1);
-            String urlText = object1.getString(key2);
+            String urlText = object1.getString(key2).trim();
+            if(urlText.lastIndexOf("/") == urlText.length()-1){
+                urlText = urlText.substring(0,urlText.length()-1);
+            }
             urlText = LongUrlToShortUrlUtils.longToShort(urlText);
             stringBuffer.append(i+1).append(".").append(desc).append(separator).append(urlText).append("\n");
         }

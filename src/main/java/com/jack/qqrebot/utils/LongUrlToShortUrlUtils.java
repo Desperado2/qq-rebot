@@ -24,9 +24,6 @@ public class LongUrlToShortUrlUtils {
             e.printStackTrace();
         }
         String result = HttpUtils.sendGet(url,"key=TscAjTarPtVD&url="+longUrl);
-        //Document document = Jsoup.parse(result);
-        //String shortUrl = document.getElementById("copylink").attr("value");
-        //String shortUrl = JSONObject.parseObject(result).getString("ae_url");
         return result;
     }
 }
