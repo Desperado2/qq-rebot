@@ -128,7 +128,7 @@ public class GankeServiceImpl implements GankeService {
             JSONObject object1 = results.getJSONObject(i);
             String desc = object1.getString(key1);
             String urlText = object1.getString(key2);
-            stringBuffer.append(i).append(".").append(desc).append(separator).append(urlText).append("\n");
+            stringBuffer.append(i+1).append(".").append(desc).append(separator).append(urlText).append("\n");
         }
         return stringBuffer;
     }
