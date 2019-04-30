@@ -117,13 +117,13 @@ public class SendServiceImpl implements SendServiceI {
                 result = gankeService.getToadyData();
             } else if(!StringUtils.isEmpty(message) && (message.contains("干货今日"))){
                 result = gankeService.getTodayDataByCategory(message.replace("干货今日","").replace(" ",""));
-            }  else if(!StringUtils.isEmpty(message) && (message.contains("干货"))){
-                result = gankeService.getDataByCategory(message.replace("干货","").replace(" ",""));
+            } else if(!StringUtils.isEmpty(message) && (message.contains("干货日报类型"))){
+                result = gankeService.reportType();
             }else if(!StringUtils.isEmpty(message) && (message.contains("干货日报"))){
                 result = gankeService.report(message.replace("干货日报","").replace(" ",""));
-            }else if(!StringUtils.isEmpty(message) && (message.contains("干货日报类型"))){
-                result = gankeService.reportType();
-            } else if(!StringUtils.isEmpty(message) && (message.contains("v2ex"))){
+            }  else if(!StringUtils.isEmpty(message) && (message.contains("干货"))){
+                result = gankeService.getDataByCategory(message.replace("干货","").replace(" ",""));
+            }else if(!StringUtils.isEmpty(message) && (message.contains("v2ex"))){
                 result = v2exService.hotTopics();
             } else if(!StringUtils.isEmpty(message) && (message.contains("leetcode"))){
                 result = leetCodeService.randomProblem();
