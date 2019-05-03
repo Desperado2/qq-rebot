@@ -8,6 +8,7 @@ import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.constellation.ConstellationService;
 import com.jack.qqrebot.service.duyan.DuyanService;
 import com.jack.qqrebot.service.emoticonpackage.EmoticonPackageService;
+import com.jack.qqrebot.service.erciyuna.PicService;
 import com.jack.qqrebot.service.gankService.GankeService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.leetcode.LeetCodeService;
@@ -18,6 +19,7 @@ import com.jack.qqrebot.service.news.NewsService;
 import com.jack.qqrebot.service.poetry.PoetryService;
 import com.jack.qqrebot.service.ranking.RankingService;
 import com.jack.qqrebot.service.satin.SatinService;
+import com.jack.qqrebot.service.saylove.SayLoveService;
 import com.jack.qqrebot.service.tuling.TulingService;
 import com.jack.qqrebot.service.v2ex.V2exService;
 import com.jack.qqrebot.service.weather.WeatherService;
@@ -73,6 +75,10 @@ public class SendServiceImpl implements SendServiceI {
     private V2exService v2exService;
     @Autowired
     private LeetCodeService leetCodeService;
+    @Autowired
+    private SayLoveService sayLoveService;
+    @Autowired
+    private PicService picService;
     @Override
     public void dealGroupMsg(String message) throws UnsupportedEncodingException {
         JSONObject jsonObject = JSON.parseObject(message);
@@ -127,7 +133,13 @@ public class SendServiceImpl implements SendServiceI {
                 result = v2exService.hotTopics();
             } else if(!StringUtils.isEmpty(message) && (message.contains("leetcode"))){
                 result = leetCodeService.randomProblem();
-            } else {
+            } else if(!StringUtils.isEmpty(message) && (message.contains("情话"))){
+                result = sayLoveService.getLoveRandom();
+            }else if(!StringUtils.isEmpty(message) && (message.contains("二次元美图"))){
+                result = picService.getRandomPic();
+            }else if(!StringUtils.isEmpty(message) && (message.contains("menhera"))){
+                result = picService.getRandomMenhera();
+            }else {
                 result = tulingService.getMsgByMsg(message);
             }
             SendMsgUtils.sendGroupMsg(group_id, result);

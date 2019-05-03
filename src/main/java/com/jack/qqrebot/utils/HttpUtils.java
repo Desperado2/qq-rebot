@@ -43,6 +43,9 @@ public class HttpUtils {
             connection.connect();
             // 获取所有响应头字段
             Map<String, List<String>> map = connection.getHeaderFields();
+            map.entrySet().forEach(stringListEntry -> {
+                System.out.println(stringListEntry.getKey() +"-->"+stringListEntry.getValue());
+            });
             // 定义 BufferedReader输入流来读取URL的响应
 
             in = new BufferedReader(new InputStreamReader(
@@ -192,6 +195,78 @@ public class HttpUtils {
             }
             catch(IOException ex){
                 ex.printStackTrace();
+            }
+        }
+        return fileName;
+    }
+
+
+    public static String getPic(String url, String param) {
+        InputStream iStream = null;
+        FileOutputStream outputStream = null;
+        String fileName = UUID.randomUUID().toString().replace("-","")+".jpg";
+        try {
+            String urlNameString = null;
+            if(StringUtils.isEmpty(param)){
+                urlNameString = url ;
+            }else{
+                urlNameString = url + "?" + param;
+            }
+
+            URL realUrl = new URL(urlNameString);
+            // 打开和URL之间的连接
+            URLConnection connection = realUrl.openConnection();
+            // 设置通用的请求属性
+            connection.setRequestProperty("accept", "*/*");
+            connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            connection.setRequestProperty("Content-Type"," application/json;charset=utf-8");
+            // 建立实际的连接
+            connection.connect();
+            // 获取所有响应头字段
+            Map<String, List<String>> map = connection.getHeaderFields();
+//            map.entrySet().forEach(stringListEntry -> {
+//                //System.out.println(stringListEntry.getKey() +"-->"+stringListEntry.getValue());
+//            });
+            // 定义 BufferedReader输入流来读取URL的响应
+
+
+            File file = new File("C:\\CQPro\\data\\image\\"+fileName);//本地生成的文件
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                byte[] Buffer = new byte[4096 * 5];
+                outputStream = new FileOutputStream(file);
+                iStream = connection.getInputStream();//去字段用getBinaryStream()
+                int size = 0;
+                while ((size = iStream.read(Buffer)) != -1) {
+                    outputStream.write(Buffer, 0, size);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } catch (Exception e) {
+            System.out.println("发送GET请求出现异常！" + e);
+            e.printStackTrace();
+        }
+        // 使用finally块来关闭输入流
+        finally {
+            try {
+                if (iStream != null) {
+                    iStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
             }
         }
         return fileName;
