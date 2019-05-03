@@ -6,6 +6,7 @@ import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.baiduyundisk.BaiduDiskSearchService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.constellation.ConstellationService;
+import com.jack.qqrebot.service.dashang.DashangService;
 import com.jack.qqrebot.service.duyan.DuyanService;
 import com.jack.qqrebot.service.emoticonpackage.EmoticonPackageService;
 import com.jack.qqrebot.service.erciyuna.PicService;
@@ -82,6 +83,8 @@ public class SendServiceImpl implements SendServiceI {
     private PicService picService;
     @Autowired
     private SNHMembersService snhMembersService;
+    @Autowired
+    private DashangService dashangService;
     @Override
     public void dealGroupMsg(String message) throws UnsupportedEncodingException {
         JSONObject jsonObject = JSON.parseObject(message);
@@ -144,6 +147,8 @@ public class SendServiceImpl implements SendServiceI {
                 result = picService.getRandomMenhera();
             }else if(!StringUtils.isEmpty(message) && (message.toLowerCase().contains("snh"))){
                 result = snhMembersService.getRandomMember();
+            }else if(!StringUtils.isEmpty(message) && (message.toLowerCase().contains("买女装"))){
+                result = dashangService.getUlr();
             }else {
                 result = tulingService.getMsgByMsg(message);
             }
