@@ -18,8 +18,8 @@ import java.util.List;
 public class StartService implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        //List<Integer> groupList = CQUtils.getGroupList();
+        List<Integer> groupList = CQUtils.getGroupList();
         String messages = "通知\n机器人升级完成，谢谢";
-        //groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
+        groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
     }
 }
