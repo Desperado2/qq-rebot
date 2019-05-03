@@ -20,6 +20,7 @@ import com.jack.qqrebot.service.poetry.PoetryService;
 import com.jack.qqrebot.service.ranking.RankingService;
 import com.jack.qqrebot.service.satin.SatinService;
 import com.jack.qqrebot.service.saylove.SayLoveService;
+import com.jack.qqrebot.service.snh.SNHMembersService;
 import com.jack.qqrebot.service.tuling.TulingService;
 import com.jack.qqrebot.service.v2ex.V2exService;
 import com.jack.qqrebot.service.weather.WeatherService;
@@ -79,6 +80,8 @@ public class SendServiceImpl implements SendServiceI {
     private SayLoveService sayLoveService;
     @Autowired
     private PicService picService;
+    @Autowired
+    private SNHMembersService snhMembersService;
     @Override
     public void dealGroupMsg(String message) throws UnsupportedEncodingException {
         JSONObject jsonObject = JSON.parseObject(message);
@@ -139,6 +142,8 @@ public class SendServiceImpl implements SendServiceI {
                 result = sayLoveService.getLoveRandom();
             }else if(!StringUtils.isEmpty(message) && (message.contains("menhera"))){
                 result = picService.getRandomMenhera();
+            }else if(!StringUtils.isEmpty(message) && (message.toLowerCase().contains("snh"))){
+                result = snhMembersService.getRandomMember();
             }else {
                 result = tulingService.getMsgByMsg(message);
             }

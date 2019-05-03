@@ -10,4 +10,5 @@ public interface SchedualServiceI {
     void articles();
     void historyOnToday();
     void leetCode();
+    void sNHMember();
 }

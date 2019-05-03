@@ -26,6 +26,11 @@ public class ScheduleTask {
         schedualService.leetCode();
     }
 
+    @Scheduled(cron = "0 0 10 * * ?")
+    public void snhMember() {
+        schedualService.sNHMember();
+    }
+
     //微博热搜
     @Scheduled(cron = "0 40 11 * * ?")
     public void sendWeiBo(){

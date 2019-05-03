@@ -9,6 +9,7 @@ import com.jack.qqrebot.service.gankService.GankeService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.leetcode.LeetCodeService;
 import com.jack.qqrebot.service.news.NewsService;
+import com.jack.qqrebot.service.snh.SNHMembersService;
 import com.jack.qqrebot.service.weather.WeatherService;
 import com.jack.qqrebot.service.weibo.WeiboService;
 import com.jack.qqrebot.utils.CQUtils;
@@ -44,6 +45,8 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private GankeService gankeService;
     @Autowired
     private LeetCodeService leetCodeService;
+    @Autowired
+    private SNHMembersService snhMembersService;
     @Override
     public void goodMorning() {
         //获取天气
@@ -116,5 +119,12 @@ public class SchedualServiceImpl implements SchedualServiceI {
             SendMsgUtils.sendGroupMsg(groupId,articleByRandom);
         });
 
+    }
+
+    @Override
+    public void sNHMember() {
+        List<Integer> groupList = CQUtils.getGroupList();
+        String messages = snhMembersService.getRandomMember();
+        groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
     }
 }
