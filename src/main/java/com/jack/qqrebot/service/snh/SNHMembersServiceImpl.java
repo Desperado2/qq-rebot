@@ -125,15 +125,15 @@ public class SNHMembersServiceImpl implements SNHMembersService {
     private String getDetailUrl(Integer tid,Integer sid){
         String detail_url = "http://www.snh48.com/member_details.html?sid="+sid;
         if(tid > 700){
-            detail_url = "http://idft.snh48.com/member_details.html?sid="+sid;
+            detail_url = "http://idft.snh48.com/member-detail.html?id="+sid;
         }else if(tid > 500){
-            detail_url = "http://www.ckg48.com/member_details.html?sid="+sid;
+            detail_url = "http://www.ckg48.com/member/member_details.html?sid="+sid;
         }else if(tid > 400){
-            detail_url = "http://www.shy48.com/member_details.html?sid="+sid;
+            detail_url = "http://www.shy48.com/member/member_details.html?sid="+sid;
         }else if(tid > 300){
-            detail_url = "http://www.gnz48.com/member_details.html?sid="+sid;
+            detail_url = "http://www.gnz48.com/member/member_details.html?sid="+sid;
         }else if(tid > 200){
-            detail_url = "http://www.bej48.com/member_details.html?sid="+sid;
+            detail_url = "http://www.bej48.com/member/member_details.html?sid="+sid;
         }else if(tid > 100){
             detail_url = "http://www.snh48.com/member_details.html?sid="+sid;
         }
