@@ -16,7 +16,8 @@ public class DashangServiceImpl implements DashangService {
         stringBuffer.append("众筹卖女装项目").append("\n\n");
         stringBuffer.append("支付宝收款:").append("\n").append("[CQ:image,file=zfb.png]").append("\n");
         stringBuffer.append("微信收款:").append("\n").append("[CQ:image,file=wx.png]").append("\n");
-        stringBuffer.append("QQ收款:").append("\n").append("[CQ:image,file=qq.png]").append("\n");
+        stringBuffer.append("QQ收款:").append("\n").append("[CQ:image,file=qq.png]").append("\n\n");
+        stringBuffer.append("支付请备注自己qq号哦");
         return stringBuffer.toString();
     }
 }
