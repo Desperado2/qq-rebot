@@ -93,6 +93,8 @@ public class SendServiceImpl implements SendServiceI {
                 result = newsService.getNewsByRandom();
             } else if (!StringUtils.isEmpty(message) && (message.contains("段子") || message.contains("笑话"))) {
                 result = satinService.getSatinByRandom();
+            }else if(!StringUtils.isEmpty(message) && (message.contains("二次元美图"))){
+                result = picService.getRandomPic();
             } else if (!StringUtils.isEmpty(message) && message.contains("美图")) {
                 result = meituService.getImageByRandom();
             } else if (!StringUtils.isEmpty(message) && message.contains("音乐")) {
@@ -135,8 +137,6 @@ public class SendServiceImpl implements SendServiceI {
                 result = leetCodeService.randomProblem();
             } else if(!StringUtils.isEmpty(message) && (message.contains("情话"))){
                 result = sayLoveService.getLoveRandom();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("二次元美图"))){
-                result = picService.getRandomPic();
             }else if(!StringUtils.isEmpty(message) && (message.contains("menhera"))){
                 result = picService.getRandomMenhera();
             }else {
