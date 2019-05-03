@@ -47,7 +47,7 @@ public class FirstController {
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public void github() {
         List<Integer> groupList = CQUtils.getGroupList();
-        String messages = "通知\n机器人即将开始升级，升级期间无法使用，升级完成后会通知，谢谢";
+        String messages = "通知\n机器人将于10秒后开始升级，升级期间无法使用，升级完成后会通知，谢谢";
         groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
     }
 }
