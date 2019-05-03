@@ -46,7 +46,7 @@ public class SNHMembersServiceImpl implements SNHMembersService {
         String join_day = row.getString("join_day");
         Integer tid = row.getInteger("tid");
         String company = row.getString("company");
-        String detail_url = "http://www.snh48.com/member_details.html?sid="+sid;
+        String detail_url = getDetailUrl(tid,sid);
         String imgPath = getImageUrl(tid,sid);
 
         String plohe="";
