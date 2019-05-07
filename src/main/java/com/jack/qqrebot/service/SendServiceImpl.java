@@ -17,6 +17,7 @@ import com.jack.qqrebot.service.meitu.MeituService;
 import com.jack.qqrebot.service.menu.MenuService;
 import com.jack.qqrebot.service.music.MusicService;
 import com.jack.qqrebot.service.news.NewsService;
+import com.jack.qqrebot.service.notice.NoticeService;
 import com.jack.qqrebot.service.poetry.PoetryService;
 import com.jack.qqrebot.service.ranking.RankingService;
 import com.jack.qqrebot.service.satin.SatinService;
@@ -85,6 +86,8 @@ public class SendServiceImpl implements SendServiceI {
     private SNHMembersService snhMembersService;
     @Autowired
     private DashangService dashangService;
+    @Autowired
+    private NoticeService noticeService;
     @Override
     public void dealGroupMsg(String message) throws UnsupportedEncodingException {
         JSONObject jsonObject = JSON.parseObject(message);
@@ -158,5 +161,21 @@ public class SendServiceImpl implements SendServiceI {
             }
             SendMsgUtils.sendGroupMsg(group_id, result);
         }
+    }
+
+    @Override
+    public void dealNotice(String message) {
+        JSONObject jsonObject = JSON.parseObject(message);
+        String result= "";
+        String noticeType = jsonObject.getString("notice_type");
+        Integer group_id = jsonObject.getInteger("group_id");
+        if(noticeType.equals("group_increase")){
+            String user_id = jsonObject.getString("user_id");
+            result = noticeService.groupIncrease(user_id);
+        }else{
+            String user_id = jsonObject.getString("user_id");
+            result = noticeService.groupDecrease(user_id);
+        }
+        SendMsgUtils.sendGroupMsg(group_id, result);
     }
 }
