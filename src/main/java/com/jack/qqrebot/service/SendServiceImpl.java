@@ -147,12 +147,12 @@ public class SendServiceImpl implements SendServiceI {
                 result = picService.getRandomMenhera();
             }else if(!StringUtils.isEmpty(message) && (message.toLowerCase().contains("snh"))){
                 result = snhMembersService.getRandomMember();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("买女装"))){
-                result = dashangService.getUlr();
             }else if(!StringUtils.isEmpty(message) && (message.contains("买女装排行"))){
                 result = dashangService.getRank();
             }else if(!StringUtils.isEmpty(message) && (message.contains("支持买女装"))){
                 result = dashangService.updateRank(message.replace("支持买女装","").trim());
+            }else if(!StringUtils.isEmpty(message) && (message.contains("买女装"))){
+                result = dashangService.getUlr();
             }else {
                 result = tulingService.getMsgByMsg(message);
             }
