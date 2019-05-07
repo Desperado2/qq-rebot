@@ -29,6 +29,13 @@ public class SNHMembersServiceImpl implements SNHMembersService {
         Random random = new Random();
         int index = random.nextInt(total);
         JSONObject row = object.getJSONArray("rows").getJSONObject(index);
+        Integer tid = row.getInteger("tid");
+
+        while (tid > 400 && tid < 600){
+            index = random.nextInt(total);
+            row = object.getJSONArray("rows").getJSONObject(index);
+            tid = row.getInteger("tid");
+        }
         Integer sid = row.getInteger("sid");
         String name = row.getString("sname");
         String gname = row.getString("gname");
@@ -44,7 +51,7 @@ public class SNHMembersServiceImpl implements SNHMembersService {
         String speciality = row.getString("speciality");
         String hobby = row.getString("hobby");
         String join_day = row.getString("join_day");
-        Integer tid = row.getInteger("tid");
+
         String company = row.getString("company");
         String detail_url = getDetailUrl(tid,sid);
         String imgPath = getImageUrl(tid,sid);
@@ -107,7 +114,7 @@ public class SNHMembersServiceImpl implements SNHMembersService {
     private String getImageUrl(Integer tid,Integer sid){
         String imgPath = "http://www.snh48.com/images/member/zp_"+sid+".jpg";
         if(tid > 700){
-            imgPath = "http://idft.snh48.com/images/member/zp_"+sid+".jpg";
+            imgPath = "http://idft.snh48.com/image/member/zp_"+sid+".jpg";
         }else if(tid > 500){
             imgPath = "http://www.ckg48.com/images/member/zp_"+sid+".jpg";
         }else if(tid > 400){
@@ -133,7 +140,7 @@ public class SNHMembersServiceImpl implements SNHMembersService {
         }else if(tid > 300){
             detail_url = "http://www.gnz48.com/member/member_details.html?sid="+sid;
         }else if(tid > 200){
-            detail_url = "http://www.bej48.com/member/member_details.html?sid="+sid;
+            detail_url = "http://www.bej48.com/m/member/"+sid+".html";
         }else if(tid > 100){
             detail_url = "http://www.snh48.com/member_details.html?sid="+sid;
         }
