@@ -29,7 +29,10 @@ public class FirstController {
 
         JSONObject jsonObject = JSON.parseObject(message);
         String messageType = jsonObject.getString("message_type");
-        if("group".equals(messageType)){
+        String postType = jsonObject.getString("post_type");
+        if(postType.equals("notice")){
+           sendService.dealNotice(message);
+        }else if("group".equals(messageType)){
             sendService.dealGroupMsg(message);
         }
     }

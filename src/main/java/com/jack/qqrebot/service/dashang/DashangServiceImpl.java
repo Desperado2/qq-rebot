@@ -41,7 +41,7 @@ public class DashangServiceImpl implements DashangService {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
             while ((text=bufferedReader.readLine()) != null){
                 String[] split = text.split(" ");
-                String memberName = CQUtils.getMemberName(split[1], split[2]);
+                String memberName = CQUtils.getMemberName(split[0], split[1]);
                 if(StringUtils.isEmpty(memberName)){
                     memberName = split[1];
                 }
