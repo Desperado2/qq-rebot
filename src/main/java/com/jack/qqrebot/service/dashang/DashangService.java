@@ -8,4 +8,8 @@ package com.jack.qqrebot.service.dashang;
  */
 public interface DashangService {
     String getUlr();
+
+    String getRank();
+
+    String updateRank(String message);
 }
