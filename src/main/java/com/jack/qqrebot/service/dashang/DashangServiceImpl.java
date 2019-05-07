@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -115,6 +116,8 @@ public class DashangServiceImpl implements DashangService {
         int index1= 0;
         for (int i=0;i<strings.length; i++){
             int key = Integer.parseInt(strings[i].split(" ")[2].trim());
+            while (treeMap.containsKey(key))
+                key++;
             treeMap.put(key,strings[i]);
         }
 
