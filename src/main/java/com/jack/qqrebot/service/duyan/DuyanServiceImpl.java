@@ -17,7 +17,6 @@ public class DuyanServiceImpl implements DuyanService{
     @Override
     public String getDuyanRandom()  {
         String url1 ="http://duyan.fooor.cn/word.php";
-        String message = HttpUtils.sendGet(url1, "");
-        return message;
+        return HttpUtils.sendGet(url1, "");
     }
 }

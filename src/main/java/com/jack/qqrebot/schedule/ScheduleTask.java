@@ -7,8 +7,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduleTask {
+    private final SchedualServiceI schedualService;
+
     @Autowired
-    private SchedualServiceI schedualService;
+    public ScheduleTask(SchedualServiceI schedualService) {
+        this.schedualService = schedualService;
+    }
 
     @Scheduled(cron = "30 0 0 * * ?")
     public void coderCalendar() {

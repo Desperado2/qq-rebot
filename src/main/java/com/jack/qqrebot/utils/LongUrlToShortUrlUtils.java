@@ -23,7 +23,6 @@ public class LongUrlToShortUrlUtils {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String result = HttpUtils.sendGet(url,"key=TscAjTarPtVD&url="+longUrl);
-        return result;
+        return HttpUtils.sendGet(url,"key=TscAjTarPtVD&url="+longUrl);
     }
 }

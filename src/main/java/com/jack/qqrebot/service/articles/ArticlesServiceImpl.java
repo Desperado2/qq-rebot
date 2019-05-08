@@ -29,17 +29,17 @@ public class ArticlesServiceImpl implements ArticlesService{
         jsonObject = JSONObject.parseObject(result);
         JSONArray articles1 = jsonObject.getJSONObject("data").getJSONArray("articles");
 
-        articles1.stream().forEach(item -> articles.add(item));
+        articles.addAll(articles1);
 
         int random = new Random().nextInt(articles.size());
         JSONObject article = articles.getJSONObject(random);
+
         String url= "https://www.bilibili.com/read/mobile/"+article.getString("id");
         String title = article.getString("title");
         String content = article.getString("summary").substring(0,30);
 
         Object imageUrl = article.getJSONArray("image_urls").stream().findFirst().orElse(" ");
 
-        String msg ="[CQ:share,url="+url+",title="+title+",content=" +content+ ",image="+imageUrl+"] ";
-        return msg;
+        return "[CQ:share,url="+url+",title="+title+",content=" +content+ ",image="+imageUrl+"] ";
     }
 }

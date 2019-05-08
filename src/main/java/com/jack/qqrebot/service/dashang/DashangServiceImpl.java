@@ -2,6 +2,7 @@ package com.jack.qqrebot.service.dashang;
 
 import com.jack.qqrebot.utils.CQUtils;
 import org.omg.PortableInterceptor.INACTIVE;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -22,6 +23,9 @@ import java.util.regex.Pattern;
 @Service("dashangService")
 public class DashangServiceImpl implements DashangService {
 
+    @Value("${desperado.cq.location:#{null}}")
+    private String cqLocation;
+
     @Override
     public String getUlr() {
         StringBuffer stringBuffer = new StringBuffer();
@@ -35,10 +39,18 @@ public class DashangServiceImpl implements DashangService {
 
     @Override
     public String getRank() {
+        if(StringUtils.isEmpty(cqLocation)){
+            try {
+                throw new Exception("请配置机器人跟目录");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         String text = "";
         StringBuilder text1 = new StringBuilder();
         try {
-            File file = new File("C:\\CQPro\\data\\phb\\dashang.txt");
+            File file = new File(cqLocation+"data\\phb\\dashang.txt");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
             while ((text=bufferedReader.readLine()) != null){
                 String[] split = text.split(" ");
@@ -81,7 +93,7 @@ public class DashangServiceImpl implements DashangService {
         StringBuilder sb = new StringBuilder();
         boolean flag = true;
         try {
-            File file = new File("C:\\CQPro\\data\\phb\\dashang.txt");
+            File file = new File(cqLocation+"data\\phb\\dashang.txt");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8"));
             String text = "";
             while ((text=bufferedReader.readLine()) != null){

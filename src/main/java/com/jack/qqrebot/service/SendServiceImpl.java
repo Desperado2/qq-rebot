@@ -38,56 +38,62 @@ import java.io.UnsupportedEncodingException;
 
 @Service("sendService")
 public class SendServiceImpl implements SendServiceI {
+
+    private final CodeCalendarService codeCalendarService;
+    private final ConstellationService constellationService;
+    private final MeituService meituService;
+    private final MenuService menuService;
+    private final MusicService musicService;
+    private final PoetryService poetryService;
+    private final RankingService rankingService;
+    private final SatinService satinService;
+    private final TulingService tulingService;
+    private final WeatherService weatherService;
+    private final WeiboService weiboService;
+    private final NewsService newsService;
+    private final DuyanService duyanService;
+    private final ArticlesService articlesService;
+    private final HistoryOnTodayService historyOnTodayService;
+    private final EmoticonPackageService emoticonPackageService;
+    private final BaiduDiskSearchService baiduDiskSearchService;
+    private final GankeService gankeService;
+    private final V2exService v2exService;
+    private final LeetCodeService leetCodeService;
+    private final SayLoveService sayLoveService;
+    private final PicService picService;
+    private final SNHMembersService snhMembersService;
+    private final DashangService dashangService;
+    private final NoticeService noticeService;
+
     @Autowired
-    private CodeCalendarService codeCalendarService;
-    @Autowired
-    private ConstellationService constellationService;
-    @Autowired
-    private MeituService meituService;
-    @Autowired
-    private MenuService menuService;
-    @Autowired
-    private MusicService musicService;
-    @Autowired
-    private PoetryService poetryService;
-    @Autowired
-    private RankingService rankingService;
-    @Autowired
-    private SatinService satinService;
-    @Autowired
-    private TulingService tulingService;
-    @Autowired
-    private WeatherService weatherService;
-    @Autowired
-    private WeiboService weiboService;
-    @Autowired
-    private NewsService newsService;
-    @Autowired
-    private DuyanService duyanService;
-    @Autowired
-    private ArticlesService articlesService;
-    @Autowired
-    private HistoryOnTodayService historyOnTodayService;
-    @Autowired
-    private EmoticonPackageService emoticonPackageService;
-    @Autowired
-    private BaiduDiskSearchService baiduDiskSearchService;
-    @Autowired
-    private GankeService gankeService;
-    @Autowired
-    private V2exService v2exService;
-    @Autowired
-    private LeetCodeService leetCodeService;
-    @Autowired
-    private SayLoveService sayLoveService;
-    @Autowired
-    private PicService picService;
-    @Autowired
-    private SNHMembersService snhMembersService;
-    @Autowired
-    private DashangService dashangService;
-    @Autowired
-    private NoticeService noticeService;
+    public SendServiceImpl(CodeCalendarService codeCalendarService, ConstellationService constellationService, SayLoveService sayLoveService, PicService picService, MeituService meituService, MenuService menuService, MusicService musicService, PoetryService poetryService, NewsService newsService, ArticlesService articlesService, SNHMembersService snhMembersService, RankingService rankingService, HistoryOnTodayService historyOnTodayService, LeetCodeService leetCodeService, DuyanService duyanService, SatinService satinService, TulingService tulingService, NoticeService noticeService, GankeService gankeService, V2exService v2exService, WeatherService weatherService, DashangService dashangService, WeiboService weiboService, BaiduDiskSearchService baiduDiskSearchService, EmoticonPackageService emoticonPackageService) {
+        this.codeCalendarService = codeCalendarService;
+        this.constellationService = constellationService;
+        this.sayLoveService = sayLoveService;
+        this.picService = picService;
+        this.meituService = meituService;
+        this.menuService = menuService;
+        this.musicService = musicService;
+        this.poetryService = poetryService;
+        this.newsService = newsService;
+        this.articlesService = articlesService;
+        this.snhMembersService = snhMembersService;
+        this.rankingService = rankingService;
+        this.historyOnTodayService = historyOnTodayService;
+        this.leetCodeService = leetCodeService;
+        this.duyanService = duyanService;
+        this.satinService = satinService;
+        this.tulingService = tulingService;
+        this.noticeService = noticeService;
+        this.gankeService = gankeService;
+        this.v2exService = v2exService;
+        this.weatherService = weatherService;
+        this.dashangService = dashangService;
+        this.weiboService = weiboService;
+        this.baiduDiskSearchService = baiduDiskSearchService;
+        this.emoticonPackageService = emoticonPackageService;
+    }
+
     @Override
     public void dealGroupMsg(String message) throws UnsupportedEncodingException {
         JSONObject jsonObject = JSON.parseObject(message);

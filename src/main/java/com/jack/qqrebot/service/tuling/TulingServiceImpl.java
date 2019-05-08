@@ -3,7 +3,9 @@ package com.jack.qqrebot.service.tuling;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.utils.HttpUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -17,8 +19,28 @@ import java.util.UUID;
  */
 @Service("tulingService")
 public class TulingServiceImpl implements TulingService{
+
+    @Value("${desperado.tuling.apikey:#{null}}")
+    private String apiKey;
+
+    @Value("${desperado.tuling.userid:#{null}}")
+    private String userId;
+
+    @Value("${desperado.baidu.voice.cleint_id:#{null}}")
+    private String clientId;
+
+    @Value("${desperado.baidu.voice.client_secret:#{null}}")
+    private String clientSecret;
+
     @Override
     public String getMsgByMsg(String message) throws UnsupportedEncodingException {
+        if(StringUtils.isEmpty(userId) || StringUtils.isEmpty(apiKey)){
+            try {
+                throw new Exception("请配置图灵机器人的apiKey和userId");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         boolean type = message.contains("|语音");
         message = message.replace("|","").replace("语音","");
         String ulr="http://openapi.tuling123.com/openapi/api/v2";
@@ -34,8 +56,8 @@ public class TulingServiceImpl implements TulingService{
         jsonObject.put("perception",jsonObject1);
 
         JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("apiKey","43e9392c847443c187f6f813f17370d9");
-        jsonObject2.put("userId","Jack1995");
+        jsonObject2.put("apiKey",apiKey);
+        jsonObject2.put("userId",userId);
         jsonObject.put("userInfo",jsonObject2);
 
         String s = HttpUtils.sendPost(ulr, jsonObject.toJSONString());
@@ -56,10 +78,13 @@ public class TulingServiceImpl implements TulingService{
     }
 
     private String sendVoice(String message) throws Exception{
+        if(StringUtils.isEmpty(clientId) || StringUtils.isEmpty(clientSecret)){
+            throw new Exception("请配置百度语音api的clientId和clientSecret");
+        }
         String token_url ="https://aip.baidubce.com/oauth/2.0/token?" +
                 "grant_type=client_credentials&" +
-                "client_id=FECheo7ltG2FTm3y173abLTM&" +
-                "client_secret=1IIug14Gyz5EqNTQ2G1oHfQ2deBxzAcm&";
+                "client_id="+clientId+"&" +
+                "client_secret="+clientSecret+"&";
 
         String result = HttpUtils.sendPost(token_url, "");
         String access_token = JSONObject.parseObject(result).getString("access_token");

@@ -37,7 +37,7 @@ public class LeetCodeServiceImpl implements LeetCodeService {
         Integer commitedCount = stat.getInteger("total_submitted");
         Integer level = object1.getJSONObject("difficulty").getInteger("level");
         double pass = Double.valueOf(ace) / commitedCount;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append("为你找到一道题目为：【");
         sb.append(title);

@@ -32,15 +32,14 @@ public class WeatherServiceImpl implements WeatherService {
         String wendu = object.getString("low")+" -- "+object.getString("high");
         String feng = object.getString("fx")+object.getString("fl");
         String notice = object.getString("notice");
-        String weatherInfo = morning+"\n"+timeAndLocal+"\n"+weather+"\n"+wendu+"\n"+feng+"\n"+notice;
-        return weatherInfo;
+        return morning+"\n"+timeAndLocal+"\n"+weather+"\n"+wendu+"\n"+feng+"\n"+notice;
     }
 
     @Override
     public String getWeatherByCity(String cityName) throws UnsupportedEncodingException {
 
         String s = HttpUtils.sendGet("https://www.apiopen.top/weatherApi", "city="+URLEncoder.encode(cityName,"utf-8"));
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         JSONObject jsonObject = JSON.parseObject(s);
         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
         JSONArray forecast = jsonObject1.getJSONArray("forecast");

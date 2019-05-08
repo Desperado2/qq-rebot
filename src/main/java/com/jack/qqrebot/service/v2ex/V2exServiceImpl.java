@@ -18,7 +18,7 @@ public class V2exServiceImpl implements V2exService {
         String url ="https://www.v2ex.com/api/topics/hot.json";
         String result = HttpUtils.sendGet(url, "");
         JSONArray array = JSONArray.parseArray(result);
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         for (int i=0 ;i < array.size(); i++){
             JSONObject object = array.getJSONObject(i);
             String nodeName = object.getJSONObject("node").getString("title");

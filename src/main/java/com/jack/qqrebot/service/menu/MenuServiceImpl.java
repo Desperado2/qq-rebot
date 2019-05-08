@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
 public class MenuServiceImpl implements MenuService {
     @Override
     public String getMenus() {
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         stringBuffer.append("功能列表\n\n");
         String[] array = new String[]{"诗","新闻","笑话/段子","美图","音乐","天气","微博/热搜","老黄历","星座","毒鸡汤","干货",
                 "干货日报类型","资源","v2ex","leetcode","土味情话","二次元图片","menhera酱","snh","买女装"};

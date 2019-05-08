@@ -20,8 +20,7 @@ public class SendMsgUtils {
         try {
             String params = "group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8");
             String url = preUrl+CqApi.SEND_GROUP_MSG.getName();
-            String result = HttpUtils.sendPost(url, params);
-            return result;
+            return HttpUtils.sendPost(url, params);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

@@ -25,11 +25,13 @@ public class BaiduDiskSearchServiceImpl implements BaiduDiskSearchService {
         try {
             String param = "wd="+URLEncoder.encode(keyword,"UTF-8");
             String result = HttpUtils.sendGet(url, param);
+
             Document document = Jsoup.parse(result);
             Element body = document.body();
             Elements items = body.getElementsByAttributeValueContaining("class","item_");
             StringBuffer stringBuffer = new StringBuffer();
             AtomicInteger index = new AtomicInteger(1);
+
             items.forEach(item -> {
                 Elements tag = item.getElementsByTag("a");
                 String title = tag.attr("title");

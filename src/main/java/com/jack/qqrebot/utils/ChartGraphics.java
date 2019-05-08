@@ -14,41 +14,33 @@ import java.util.Date;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.imageio.ImageIO;
 
-public class ChartGraphics {
+@Component
+class ChartGraphics {
     private static  BufferedImage image;
 
 
     //生成图片文件
-    @SuppressWarnings("restriction")
-    public static  void createImage(String fileLocation) {
-        BufferedOutputStream bos = null;
+    private static  void createImage(String fileLocation) {
         if(image != null){
             try {
                 ImageIO.write(image,"JPEG", new File(fileLocation));
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally{
-                if(bos!=null){//关闭输出流
-                    try {
-                        bos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         }
     }
 
-    public static void graphicsGeneration(String today,JSONArray goods,JSONArray bads,String direction,String drink,String godds, int goods_H, int bads_H,int maxWidth) {
+    public  void graphicsGeneration(String cqLocation,String today,JSONArray goods,JSONArray bads,String direction,String drink,String godds, int goods_H, int bads_H,int maxWidth) {
 
         int H_title= 30;
         int H_date = 40;     //日期高度
-        int date_top = H_title;
-        int goods_top = H_date+H_title;
+        int goods_top = 2*H_title;
         int bad_top = goods_top + goods_H;
         int other_top = bad_top+bads_H;
 
@@ -83,7 +75,7 @@ public class ChartGraphics {
         //设置区域颜色
         date.setColor(new Color(255,255, 255));
         //填充区域并确定区域大小位置
-        date.fillRect(0, date_top, imageWidth, H_date);
+        date.fillRect(0, H_title, imageWidth, H_date);
         //设置字体颜色，先设置颜色，再填充内容
         date.setColor(Color.BLACK);
         //设置字体
@@ -137,7 +129,7 @@ public class ChartGraphics {
             y+=20;
         }
 
-        //***********************设置下面的提示框
+
 
         Graphics2D bad = image.createGraphics();
         //设置区域颜色
@@ -152,7 +144,7 @@ public class ChartGraphics {
         bad.drawString("不宜",97/2-40, bad_top+(bads_H/2+20));
 
 
-        //***********************设置下面的按钮块
+
         Graphics2D badItem = image.createGraphics();
         //设置区域颜色
         badItem.setColor(new Color(255, 221, 211));
@@ -181,7 +173,7 @@ public class ChartGraphics {
         }
 
 
-        //***********************设置下面的按钮块
+
         Graphics2D otherItem = image.createGraphics();
         //设置区域颜色
         otherItem.setColor(new Color(255, 255, 170));
@@ -198,7 +190,7 @@ public class ChartGraphics {
          SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
          String iday = sdf.format(new Date());
 
-        createImage("C:\\CQPro\\data\\image\\"+iday+".jpg");
+        createImage(cqLocation+"data\\image\\"+iday+".jpg");
     }
 
 }

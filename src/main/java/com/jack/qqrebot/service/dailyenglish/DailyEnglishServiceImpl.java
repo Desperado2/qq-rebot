@@ -30,11 +30,10 @@ public class DailyEnglishServiceImpl implements DailyEnglishService {
         sb.append( element.getElementsByTag("p").get(1).text()).append("\n\n");
         Elements lis = element.getElementsByTag("li");
 
-        lis.stream().forEach(li->sb.append(li.text()).append("\n"));
+        lis.forEach(li->sb.append(li.text()).append("\n"));
 
         try {
-             String msg= ZHConverter.transformation(sb.toString(),ZHConverter.target.TCcharacter);
-             return msg;
+            return ZHConverter.transformation(sb.toString(),ZHConverter.target.TCcharacter);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

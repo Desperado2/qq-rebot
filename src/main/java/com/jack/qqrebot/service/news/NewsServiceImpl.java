@@ -19,7 +19,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public String getNewsByRandom()  {
-        StringBuffer message = new StringBuffer();
+        StringBuilder message = new StringBuilder();
         String s = HttpUtils.sendGet("https://www.apiopen.top/journalismApi", "");
         JSONObject jsonObject = JSON.parseObject(s);
         JSONObject jsonObject1 = jsonObject.getJSONObject("data");

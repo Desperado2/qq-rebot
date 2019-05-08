@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -22,10 +23,12 @@ import java.util.stream.Stream;
 @Service("constellationService")
 public class ConstellationServiceImpl implements ConstellationService{
 
+
     @Override
     public String getMsgByConstellationName(String constellationName) {
         String s =XzUtils.getXz(constellationName);
         StringBuilder sb = new StringBuilder();
+
         if(StringUtils.isEmpty(s)){
             sb.append("没有找到你要查询的星座,查询格式:巨蟹座运势");
         }else{
@@ -35,7 +38,7 @@ public class ConstellationServiceImpl implements ConstellationService{
             Document document = Jsoup.parse(get);
             Elements elements = document.select("dd").select("li");
 
-            elements.stream().forEach(element -> {
+            elements.forEach(element -> {
                 if(element.select("em").size() > 0){
                     String label = element.select("label").text();
                     int star = Integer.parseInt(element.select("em").attr("style").replace("px;", "").replace("width:","").trim())/16;

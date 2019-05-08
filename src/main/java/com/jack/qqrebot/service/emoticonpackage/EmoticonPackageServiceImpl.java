@@ -27,6 +27,7 @@ import java.util.stream.Stream;
  */
 @Service("emoticonPackageService")
 public class EmoticonPackageServiceImpl implements EmoticonPackageService {
+
     @Override
     public String getEmoticonPackageByKeyWord(String keyWord) {
         String url ="https://pic.sogou.com/pic/emo/searchList.jsp?statref=home_form&keyword=";

@@ -2,8 +2,6 @@ package com.jack.qqrebot;
 
 import com.jack.qqrebot.utils.CQUtils;
 import com.jack.qqrebot.utils.SendMsgUtils;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;

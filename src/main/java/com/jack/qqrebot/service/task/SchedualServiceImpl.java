@@ -25,28 +25,33 @@ import java.util.List;
 @Service("schedualService")
 public class SchedualServiceImpl implements SchedualServiceI {
 
+    private final WeatherService weatherService;
+    private final DailyEnglishService dailyEnglishService;
+    private final WeiboService weiboService;
+    private final NewsService newsService;
+    private final DuyanService duyanService;
+    private final CodeCalendarService codeCalendarService;
+    private final ArticlesService articlesService;
+    private final HistoryOnTodayService historyOnTodayService;
+    private final GankeService gankeService;
+    private final LeetCodeService leetCodeService;
+    private final SNHMembersService snhMembersService;
+
     @Autowired
-    private WeatherService weatherService;
-    @Autowired
-    private DailyEnglishService dailyEnglishService;
-    @Autowired
-    private WeiboService weiboService;
-    @Autowired
-    private NewsService newsService;
-    @Autowired
-    private DuyanService duyanService;
-    @Autowired
-    private CodeCalendarService codeCalendarService;
-    @Autowired
-    private ArticlesService articlesService;
-    @Autowired
-    private HistoryOnTodayService historyOnTodayService;
-    @Autowired
-    private GankeService gankeService;
-    @Autowired
-    private LeetCodeService leetCodeService;
-    @Autowired
-    private SNHMembersService snhMembersService;
+    public SchedualServiceImpl(ArticlesService articlesService, WeatherService weatherService, DailyEnglishService dailyEnglishService, WeiboService weiboService, NewsService newsService, DuyanService duyanService, CodeCalendarService codeCalendarService, HistoryOnTodayService historyOnTodayService, GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService) {
+        this.articlesService = articlesService;
+        this.weatherService = weatherService;
+        this.dailyEnglishService = dailyEnglishService;
+        this.weiboService = weiboService;
+        this.newsService = newsService;
+        this.duyanService = duyanService;
+        this.codeCalendarService = codeCalendarService;
+        this.historyOnTodayService = historyOnTodayService;
+        this.gankeService = gankeService;
+        this.leetCodeService = leetCodeService;
+        this.snhMembersService = snhMembersService;
+    }
+
     @Override
     public void goodMorning() {
         //获取天气
