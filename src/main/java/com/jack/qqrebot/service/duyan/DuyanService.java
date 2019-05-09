@@ -10,4 +10,6 @@ import java.io.UnsupportedEncodingException;
  */
 public interface DuyanService {
     String getDuyanRandom();
+
+    String getJitangRandom();
 }

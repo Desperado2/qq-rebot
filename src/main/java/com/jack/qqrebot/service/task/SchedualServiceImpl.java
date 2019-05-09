@@ -89,7 +89,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
     @Override
     public void goodLight() {
         List<Integer> groupList = CQUtils.getGroupList();
-        String messages =  duyanService.getDuyanRandom() +"\n\n各位晚安";
+        String messages =  duyanService.getJitangRandom() +"\n\n各位晚安";
         groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
     }
 

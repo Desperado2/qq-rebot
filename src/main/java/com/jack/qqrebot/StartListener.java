@@ -23,7 +23,7 @@ public class StartListener implements ApplicationListener<ContextRefreshedEvent>
         if(flag){
             if (contextRefreshedEvent.getApplicationContext().getParent() == null) {
                 List<Integer> groupList = CQUtils.getGroupList();
-                String messages = "通知\n机器人升级完成，谢谢";
+                String messages = "通知\n机器人升级完成,快输入 菜单 查看新增了什么神秘功能吧，谢谢";
                 groupList.forEach(groupId -> SendMsgUtils.sendGroupMsg(groupId, messages));
             }
             flag = false;

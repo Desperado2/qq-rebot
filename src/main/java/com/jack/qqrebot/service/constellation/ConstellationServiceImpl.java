@@ -26,6 +26,9 @@ public class ConstellationServiceImpl implements ConstellationService{
 
     @Override
     public String getMsgByConstellationName(String constellationName) {
+        if(StringUtils.isEmpty(constellationName)){
+            return "没有找到你要查询的星座,查询格式[运势 星座名称]";
+        }
         String s =XzUtils.getXz(constellationName);
         StringBuilder sb = new StringBuilder();
 

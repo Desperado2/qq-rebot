@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.baiduyundisk.BaiduDiskSearchService;
+import com.jack.qqrebot.service.book.BookService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.constellation.ConstellationService;
 import com.jack.qqrebot.service.dashang.DashangService;
@@ -25,6 +26,7 @@ import com.jack.qqrebot.service.saylove.SayLoveService;
 import com.jack.qqrebot.service.snh.SNHMembersService;
 import com.jack.qqrebot.service.tuling.TulingService;
 import com.jack.qqrebot.service.v2ex.V2exService;
+import com.jack.qqrebot.service.vedio.VideoService;
 import com.jack.qqrebot.service.weather.WeatherService;
 import com.jack.qqrebot.service.weibo.WeiboService;
 import com.jack.qqrebot.utils.SendMsgUtils;
@@ -64,9 +66,17 @@ public class SendServiceImpl implements SendServiceI {
     private final SNHMembersService snhMembersService;
     private final DashangService dashangService;
     private final NoticeService noticeService;
+    private final VideoService videoService;
+    private final BookService bookService;
 
     @Autowired
-    public SendServiceImpl(CodeCalendarService codeCalendarService, ConstellationService constellationService, SayLoveService sayLoveService, PicService picService, MeituService meituService, MenuService menuService, MusicService musicService, PoetryService poetryService, NewsService newsService, ArticlesService articlesService, SNHMembersService snhMembersService, RankingService rankingService, HistoryOnTodayService historyOnTodayService, LeetCodeService leetCodeService, DuyanService duyanService, SatinService satinService, TulingService tulingService, NoticeService noticeService, GankeService gankeService, V2exService v2exService, WeatherService weatherService, DashangService dashangService, WeiboService weiboService, BaiduDiskSearchService baiduDiskSearchService, EmoticonPackageService emoticonPackageService) {
+    public SendServiceImpl(CodeCalendarService codeCalendarService, ConstellationService constellationService, SayLoveService sayLoveService,
+                           PicService picService, MeituService meituService, MenuService menuService, MusicService musicService, PoetryService poetryService,
+                           NewsService newsService, ArticlesService articlesService, SNHMembersService snhMembersService, RankingService rankingService,
+                           HistoryOnTodayService historyOnTodayService, LeetCodeService leetCodeService, DuyanService duyanService, SatinService satinService,
+                           TulingService tulingService, NoticeService noticeService, GankeService gankeService, V2exService v2exService, WeatherService weatherService,
+                           DashangService dashangService, WeiboService weiboService, BaiduDiskSearchService baiduDiskSearchService, EmoticonPackageService emoticonPackageService,
+                           VideoService videoService,BookService bookService ) {
         this.codeCalendarService = codeCalendarService;
         this.constellationService = constellationService;
         this.sayLoveService = sayLoveService;
@@ -92,6 +102,8 @@ public class SendServiceImpl implements SendServiceI {
         this.weiboService = weiboService;
         this.baiduDiskSearchService = baiduDiskSearchService;
         this.emoticonPackageService = emoticonPackageService;
+        this.videoService = videoService;
+        this.bookService = bookService;
     }
 
     @Override
@@ -112,7 +124,11 @@ public class SendServiceImpl implements SendServiceI {
                 result = picService.getRandomPic();
             } else if (!StringUtils.isEmpty(message) && message.contains("美图")) {
                 result = meituService.getImageByRandom();
-            } else if (!StringUtils.isEmpty(message) && message.contains("音乐")) {
+            } else if (!StringUtils.isEmpty(message) && message.contains("影视")) {
+                result = videoService.getVideoByKeyword(message.replace("影视", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && message.contains("电子书")) {
+                result = bookService.getBookByKeyword(message.replace("电子书", "").replace(" ", ""));
+            }else if (!StringUtils.isEmpty(message) && message.contains("音乐")) {
                 result = musicService.getMusicByName(message.replace("音乐", "").replace(" ", ""));
             } else if (!StringUtils.isEmpty(message) && message.contains("天气")) {
                 result = weatherService.getWeatherByCity(message.replace("天气", "").replace(" ", ""));
@@ -126,6 +142,8 @@ public class SendServiceImpl implements SendServiceI {
                 result = codeCalendarService.getTodayCoderCalendar();
             } else if (!StringUtils.isEmpty(message) && (message.contains("毒鸡汤"))) {
                 result = duyanService.getDuyanRandom();
+            } else if (!StringUtils.isEmpty(message) && (message.contains("心灵鸡汤"))) {
+                result = duyanService.getJitangRandom();
             } else if (!StringUtils.isEmpty(message) && (message.contains("排行榜"))) {
                 result = rankingService.updateRanking(message);
             } else if (!StringUtils.isEmpty(message) && (message.contains("文章"))) {
@@ -178,7 +196,7 @@ public class SendServiceImpl implements SendServiceI {
         if(noticeType.equals("group_increase")){
             String user_id = jsonObject.getString("user_id");
             result = noticeService.groupIncrease(user_id);
-        }else{
+        }else if(noticeType.equals("group_decrease")){
             String user_id = jsonObject.getString("user_id");
             result = noticeService.groupDecrease(user_id);
         }

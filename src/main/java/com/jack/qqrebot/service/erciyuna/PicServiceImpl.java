@@ -1,7 +1,9 @@
 package com.jack.qqrebot.service.erciyuna;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.utils.HttpUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * @Auther: mujj
@@ -13,8 +15,14 @@ import org.springframework.stereotype.Service;
 public class PicServiceImpl implements PicService {
     @Override
     public String getRandomPic() {
-        String url="https://api.ixiaowai.cn/api/api.php";
-        String result = HttpUtils.getPic(url, "");
+        String url="https://www.loli.ci/api.php";
+        String result = HttpUtils.sendGet(url, "return=json&size=large");
+        if(!StringUtils.isEmpty(result)){
+            JSONObject object = JSONObject.parseObject(result);
+            if(object.getInteger("code") == 200){
+                result = object.getString("imgurl");
+            }
+        }
         return "[CQ:image,file="+result+"]";
     }
 
