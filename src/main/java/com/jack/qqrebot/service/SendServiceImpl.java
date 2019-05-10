@@ -125,8 +125,8 @@ public class SendServiceImpl implements SendServiceI {
             return;
         }
 
-        if(count == ConnType.IS_JINYAN || count.getType() == 3 || count.getType() == 4){
-            result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人"+count.getType()+"次，禁言5分钟";
+        if(count == ConnType.IS_JINYAN){
+            result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人多次，禁言5分钟";
             SendMsgUtils.sendGroupMsg(group_id, result);
             CQUtils.ban(group_id,user_id,5*60);
             return;
@@ -137,6 +137,7 @@ public class SendServiceImpl implements SendServiceI {
             SendMsgUtils.sendGroupMsg(group_id, result);
             return;
         }
+
         if (message.contains("[CQ:at,qq=1244623542]")) {
             message = message.replace("[CQ:at,qq=1244623542]", "").trim();
             if (!StringUtils.isEmpty(message) && message.contains("诗")) {
