@@ -10,6 +10,7 @@ import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.leetcode.LeetCodeService;
 import com.jack.qqrebot.service.news.NewsService;
 import com.jack.qqrebot.service.snh.SNHMembersService;
+import com.jack.qqrebot.service.visitcontoller.VisitService;
 import com.jack.qqrebot.service.weather.WeatherService;
 import com.jack.qqrebot.service.weibo.WeiboService;
 import com.jack.qqrebot.utils.CQUtils;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service("schedualService")
 public class SchedualServiceImpl implements SchedualServiceI {
@@ -36,9 +39,12 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private final GankeService gankeService;
     private final LeetCodeService leetCodeService;
     private final SNHMembersService snhMembersService;
+    private final VisitService visitService;
 
     @Autowired
-    public SchedualServiceImpl(ArticlesService articlesService, WeatherService weatherService, DailyEnglishService dailyEnglishService, WeiboService weiboService, NewsService newsService, DuyanService duyanService, CodeCalendarService codeCalendarService, HistoryOnTodayService historyOnTodayService, GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService) {
+    public SchedualServiceImpl(ArticlesService articlesService, WeatherService weatherService, DailyEnglishService dailyEnglishService, WeiboService weiboService,
+                               NewsService newsService, DuyanService duyanService, CodeCalendarService codeCalendarService, HistoryOnTodayService historyOnTodayService,
+                               GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService,VisitService visitService) {
         this.articlesService = articlesService;
         this.weatherService = weatherService;
         this.dailyEnglishService = dailyEnglishService;
@@ -50,7 +56,10 @@ public class SchedualServiceImpl implements SchedualServiceI {
         this.gankeService = gankeService;
         this.leetCodeService = leetCodeService;
         this.snhMembersService = snhMembersService;
+        this.visitService = visitService;
     }
+
+
 
     @Override
     public void goodMorning() {
@@ -131,5 +140,27 @@ public class SchedualServiceImpl implements SchedualServiceI {
         List<Integer> groupList = CQUtils.getGroupList();
         String messages = snhMembersService.getRandomMember();
         groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
+    }
+
+    @Override
+    public void checkVisit() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                visitService.check();
+            }
+        });
+    }
+
+    @Override
+    public void checkHMD() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                visitService.checkHMD();
+            }
+        });
     }
 }

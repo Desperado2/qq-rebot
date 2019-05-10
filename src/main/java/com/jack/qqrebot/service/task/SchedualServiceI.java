@@ -11,4 +11,6 @@ public interface SchedualServiceI {
     void historyOnToday();
     void leetCode();
     void sNHMember();
+    void checkVisit();
+    void checkHMD();
 }

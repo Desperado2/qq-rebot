@@ -2,6 +2,7 @@ package com.jack.qqrebot.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jack.qqrebot.enumm.ConnType;
 import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.baiduyundisk.BaiduDiskSearchService;
 import com.jack.qqrebot.service.book.BookService;
@@ -27,15 +28,17 @@ import com.jack.qqrebot.service.snh.SNHMembersService;
 import com.jack.qqrebot.service.tuling.TulingService;
 import com.jack.qqrebot.service.v2ex.V2exService;
 import com.jack.qqrebot.service.vedio.VideoService;
+import com.jack.qqrebot.service.visitcontoller.VisitService;
 import com.jack.qqrebot.service.weather.WeatherService;
 import com.jack.qqrebot.service.weibo.WeiboService;
+import com.jack.qqrebot.utils.CQUtils;
 import com.jack.qqrebot.utils.SendMsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
-
+import java.util.Date;
 
 
 @Service("sendService")
@@ -68,6 +71,7 @@ public class SendServiceImpl implements SendServiceI {
     private final NoticeService noticeService;
     private final VideoService videoService;
     private final BookService bookService;
+    private final VisitService visitService;
 
     @Autowired
     public SendServiceImpl(CodeCalendarService codeCalendarService, ConstellationService constellationService, SayLoveService sayLoveService,
@@ -76,7 +80,7 @@ public class SendServiceImpl implements SendServiceI {
                            HistoryOnTodayService historyOnTodayService, LeetCodeService leetCodeService, DuyanService duyanService, SatinService satinService,
                            TulingService tulingService, NoticeService noticeService, GankeService gankeService, V2exService v2exService, WeatherService weatherService,
                            DashangService dashangService, WeiboService weiboService, BaiduDiskSearchService baiduDiskSearchService, EmoticonPackageService emoticonPackageService,
-                           VideoService videoService,BookService bookService ) {
+                           VideoService videoService,BookService bookService,VisitService visitService ) {
         this.codeCalendarService = codeCalendarService;
         this.constellationService = constellationService;
         this.sayLoveService = sayLoveService;
@@ -104,6 +108,7 @@ public class SendServiceImpl implements SendServiceI {
         this.emoticonPackageService = emoticonPackageService;
         this.videoService = videoService;
         this.bookService = bookService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -112,6 +117,26 @@ public class SendServiceImpl implements SendServiceI {
         String result = "";
         message = jsonObject.getString("message");
         Integer group_id = jsonObject.getInteger("group_id");
+        Integer user_id = jsonObject.getInteger("user_id");
+        ConnType count = visitService.addVisitRecord(String.valueOf(user_id), new Date().getTime());
+        if(count == ConnType.IS_WARN){
+            result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人，请注意";
+            SendMsgUtils.sendGroupMsg(group_id, result);
+            return;
+        }
+
+        if(count == ConnType.IS_JINYAN || count.getType() == 3 || count.getType() == 4){
+            result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人"+count.getType()+"次，禁言5分钟";
+            SendMsgUtils.sendGroupMsg(group_id, result);
+            CQUtils.ban(group_id,user_id,5*60);
+            return;
+        }
+
+        if(count == ConnType.IS_HMD){
+            result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人5次，机器人不在提供服务，请3小时后在试";
+            SendMsgUtils.sendGroupMsg(group_id, result);
+            return;
+        }
         if (message.contains("[CQ:at,qq=1244623542]")) {
             message = message.replace("[CQ:at,qq=1244623542]", "").trim();
             if (!StringUtils.isEmpty(message) && message.contains("诗")) {

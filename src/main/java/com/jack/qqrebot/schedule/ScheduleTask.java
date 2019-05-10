@@ -53,6 +53,16 @@ public class ScheduleTask {
         schedualService.everyDayNews();
     }
 
+    @Scheduled(cron = "0 * * * * ?")
+    public void checkVisit(){
+        schedualService.checkVisit();
+    }
+
+    @Scheduled(cron = "0 0 1/3 * * ?")
+    public void checkHMD(){
+        schedualService.checkHMD();
+    }
+
     @Scheduled(cron = "0 30 22 * * ?")
     public void light(){
         schedualService.goodLight();
