@@ -13,4 +13,6 @@ public interface SchedualServiceI {
     void sNHMember();
     void checkVisit();
     void checkHMD();
+
+    void getProxyIp();
 }

@@ -9,6 +9,7 @@ import com.jack.qqrebot.service.gankService.GankeService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.leetcode.LeetCodeService;
 import com.jack.qqrebot.service.news.NewsService;
+import com.jack.qqrebot.service.proxy.ProxyService;
 import com.jack.qqrebot.service.snh.SNHMembersService;
 import com.jack.qqrebot.service.visitcontoller.VisitService;
 import com.jack.qqrebot.service.weather.WeatherService;
@@ -40,11 +41,13 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private final LeetCodeService leetCodeService;
     private final SNHMembersService snhMembersService;
     private final VisitService visitService;
+    private final ProxyService proxyService;
 
     @Autowired
     public SchedualServiceImpl(ArticlesService articlesService, WeatherService weatherService, DailyEnglishService dailyEnglishService, WeiboService weiboService,
                                NewsService newsService, DuyanService duyanService, CodeCalendarService codeCalendarService, HistoryOnTodayService historyOnTodayService,
-                               GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService,VisitService visitService) {
+                               GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService,VisitService visitService,
+                                ProxyService proxyService) {
         this.articlesService = articlesService;
         this.weatherService = weatherService;
         this.dailyEnglishService = dailyEnglishService;
@@ -57,6 +60,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
         this.leetCodeService = leetCodeService;
         this.snhMembersService = snhMembersService;
         this.visitService = visitService;
+        this.proxyService = proxyService;
     }
 
 
@@ -162,5 +166,10 @@ public class SchedualServiceImpl implements SchedualServiceI {
                 visitService.checkHMD();
             }
         });
+    }
+
+    @Override
+    public void getProxyIp() {
+        proxyService.getProxyIp();
     }
 }

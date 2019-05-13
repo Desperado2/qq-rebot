@@ -3,8 +3,7 @@ package com.jack.qqrebot.utils;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,7 +31,14 @@ public class HttpUtils {
 
             URL realUrl = new URL(urlNameString);
             // 打开和URL之间的连接
-            URLConnection connection = realUrl.openConnection();
+            Proxy proxy = getProxy();
+            HttpURLConnection connection = null;
+            if(StringUtils.isEmpty(proxy)){
+                connection=  (HttpURLConnection) realUrl.openConnection();
+            }else{
+                 connection= (HttpURLConnection) realUrl.openConnection(proxy);
+            }
+
             // 设置通用的请求属性
             connection.setRequestProperty("accept", "*/*");
             connection.setRequestProperty("connection", "Keep-Alive");
@@ -40,7 +46,10 @@ public class HttpUtils {
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             connection.setRequestProperty("Content-Type"," application/json;charset=utf-8");
             // 建立实际的连接
-            connection.connect();
+
+
+                connection.connect();
+
             // 获取所有响应头字段
             //Map<String, List<String>> map = connection.getHeaderFields();
 //            map.entrySet().forEach(stringListEntry -> {
@@ -87,7 +96,14 @@ public class HttpUtils {
         try {
             URL realUrl = new URL(url);
             // 打开和URL之间的连接
-            URLConnection conn = realUrl.openConnection();
+            Proxy proxy = getProxy();
+            HttpURLConnection conn = null;
+            if(StringUtils.isEmpty(proxy)){
+                conn=  (HttpURLConnection) realUrl.openConnection();
+            }else{
+                conn= (HttpURLConnection) realUrl.openConnection(proxy);
+            }
+
             // 设置通用的请求属性
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
@@ -139,7 +155,13 @@ public class HttpUtils {
         try {
             URL realUrl = new URL(url);
             // 打开和URL之间的连接
-            URLConnection conn = realUrl.openConnection();
+            Proxy proxy = getProxy();
+            HttpURLConnection conn = null;
+            if(StringUtils.isEmpty(proxy)){
+                conn=  (HttpURLConnection) realUrl.openConnection();
+            }else{
+                conn = (HttpURLConnection) realUrl.openConnection(proxy);
+            }
             // 设置通用的请求属性
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
@@ -215,7 +237,13 @@ public class HttpUtils {
 
             URL realUrl = new URL(urlNameString);
             // 打开和URL之间的连接
-            URLConnection connection = realUrl.openConnection();
+            Proxy proxy = getProxy();
+            HttpURLConnection connection = null;
+            if(StringUtils.isEmpty(proxy)){
+                connection=  (HttpURLConnection) realUrl.openConnection();
+            }else{
+                connection= (HttpURLConnection) realUrl.openConnection(proxy);
+            }
             // 设置通用的请求属性
             connection.setRequestProperty("accept", "*/*");
             connection.setRequestProperty("connection", "Keep-Alive");
@@ -270,5 +298,18 @@ public class HttpUtils {
             }
         }
         return fileName;
+    }
+
+    private static Proxy getProxy(){
+        // 创建代理服务器
+        String oneProxyIp = ProxyUtils.getOneProxyIp();
+        if(StringUtils.isEmpty(oneProxyIp)){
+            return null;
+        }
+        String[] split = oneProxyIp.split(":");
+        String ip = split[0];
+        int prot = Integer.parseInt(split[1]);
+        InetSocketAddress addr = new InetSocketAddress(ip,prot);
+        return new Proxy(Proxy.Type.HTTP, addr);
     }
 }

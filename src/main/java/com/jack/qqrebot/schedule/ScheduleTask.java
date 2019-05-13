@@ -68,5 +68,8 @@ public class ScheduleTask {
         schedualService.goodLight();
     }
 
-
+    @Scheduled(cron = "0 10 2 * * ?")
+    public void getProxyIp(){
+        schedualService.checkVisit();
+    }
 }
