@@ -116,29 +116,30 @@ public class SendServiceImpl implements SendServiceI {
         JSONObject jsonObject = JSON.parseObject(message);
         String result = "";
         message = jsonObject.getString("message");
-        Integer group_id = jsonObject.getInteger("group_id");
-        Integer user_id = jsonObject.getInteger("user_id");
-        ConnType count = visitService.addVisitRecord(String.valueOf(user_id), new Date().getTime());
-        if(count == ConnType.IS_WARN){
-            result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人，请注意";
-            SendMsgUtils.sendGroupMsg(group_id, result);
-            return;
-        }
-
-        if(count == ConnType.IS_JINYAN){
-            result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人多次，禁言5分钟";
-            SendMsgUtils.sendGroupMsg(group_id, result);
-            CQUtils.ban(group_id,user_id,5*60);
-            return;
-        }
-
-        if(count == ConnType.IS_HMD){
-            result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人5次，机器人不在提供服务，请3小时后在试";
-            SendMsgUtils.sendGroupMsg(group_id, result);
-            return;
-        }
 
         if (message.contains("[CQ:at,qq=1244623542]")) {
+            Integer group_id = jsonObject.getInteger("group_id");
+            Integer user_id = jsonObject.getInteger("user_id");
+            ConnType count = visitService.addVisitRecord(String.valueOf(user_id), new Date().getTime());
+            if(count == ConnType.IS_WARN){
+                result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人，请注意";
+                SendMsgUtils.sendGroupMsg(group_id, result);
+                return;
+            }
+
+            if(count == ConnType.IS_JINYAN){
+                result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人多次，禁言5分钟";
+                SendMsgUtils.sendGroupMsg(group_id, result);
+                CQUtils.ban(group_id,user_id,5*60);
+                return;
+            }
+
+            if(count == ConnType.IS_HMD){
+                result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人5次，机器人不在提供服务，请3小时后在试";
+                SendMsgUtils.sendGroupMsg(group_id, result);
+                return;
+            }
+
             message = message.replace("[CQ:at,qq=1244623542]", "").trim();
             if (!StringUtils.isEmpty(message) && message.contains("诗")) {
                 result = poetryService.getPoetryByKeyWord(message.replace("诗", "").replace(" ", ""));

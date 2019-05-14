@@ -2,6 +2,7 @@ package com.jack.qqrebot;
 
 import com.jack.qqrebot.utils.CQUtils;
 import com.jack.qqrebot.utils.SendMsgUtils;
+import com.jack.qqrebot.utils.UpdateUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -23,11 +24,10 @@ public class StartListener implements ApplicationListener<ContextRefreshedEvent>
         if(flag){
             if (contextRefreshedEvent.getApplicationContext().getParent() == null) {
                 List<Integer> groupList = CQUtils.getGroupList();
-                String messages = "通知\n机器人升级完成,快输入 菜单 查看新增了什么神秘功能吧，谢谢";
+                String messages = "通知\n机器人升级完成,\n"+UpdateUtils.getUpdate();
                 groupList.forEach(groupId -> SendMsgUtils.sendGroupMsg(groupId, messages));
             }
             flag = false;
         }
-
     }
 }
