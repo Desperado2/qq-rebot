@@ -34,7 +34,7 @@ public class DuyanServiceImpl implements DuyanService{
         String format = LocalDateTime.now().format(dtf);
         int totalPage = 365;
         int page = Integer.parseInt(format) % totalPage;
-        String result = HttpUtils.sendGet("http://www.59xihuan.cn/inidex_"+page+".html", "");
+        String result = HttpUtils.sendGet("http://www.59xihuan.cn/index_"+page+".html", "");
         Document document = Jsoup.parse(result);
         Elements elements = document.select("div[class=post]");
         Random random = new Random();
