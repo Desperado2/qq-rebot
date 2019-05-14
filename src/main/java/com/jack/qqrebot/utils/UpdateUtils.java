@@ -18,7 +18,7 @@ public class UpdateUtils {
         InputStreamReader inputReader = null;
         try {
             File file = ResourceUtils.getFile("classpath:updateinfo.txt");
-            inputReader = new InputStreamReader(new FileInputStream(file));
+            inputReader = new InputStreamReader(new FileInputStream(file),"utf-8");
             bf = new BufferedReader(inputReader);
             // 按行读取字符串
             String str;
