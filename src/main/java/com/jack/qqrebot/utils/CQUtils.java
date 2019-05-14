@@ -53,4 +53,9 @@ public class CQUtils {
         object = object.getJSONObject("data");
         return object.getString("group_name");
     }
+
+    public static void sendMsg(Integer userId,String msg){
+        String params ="message_type=private"+"&user_id="+userId+"&message="+msg;
+        HttpUtils.sendPost("http://127.0.0.1:5300/"+CqApi.SEND_MSG.getName(), params);
+    }
 }
