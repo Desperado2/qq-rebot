@@ -32,15 +32,25 @@ public class CQUtils {
         String params ="group_id="+gruopId+"&user_id="+qq+"&no_cache=true";
         String groups = HttpUtils.sendPost("http://127.0.0.1:5300/"+CqApi.GET_GROUP_MEMBER_INFO.getName(), params);
         JSONObject object = JSONObject.parseObject(groups);
+        object = object.getJSONObject("data");
         String nickname = object.getString("card");
         if(StringUtils.isEmpty(nickname)){
             nickname = object.getString("nickname");
         }
+        //String groupMsg = getGroupMsg(gruopId);
         return nickname;
     }
 
     public static void ban(Integer gruopId,Integer qq,int second){
         String params ="group_id="+gruopId+"&user_id="+qq+"&duration="+second;
         HttpUtils.sendPost("http://127.0.0.1:5300/"+CqApi.SET_GROUP_BAN.getName(), params);
+    }
+
+    public static String getGroupMsg(String gruopId){
+        String params ="group_id="+gruopId;
+        String result = HttpUtils.sendPost("http://127.0.0.1:5300/" + CqApi._GET_GROUP_INFO.getName(), params);
+        JSONObject object = JSONObject.parseObject(result);
+        object = object.getJSONObject("data");
+        return object.getString("group_name");
     }
 }
