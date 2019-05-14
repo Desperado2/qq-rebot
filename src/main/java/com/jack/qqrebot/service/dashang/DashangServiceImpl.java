@@ -1,6 +1,7 @@
 package com.jack.qqrebot.service.dashang;
 
 import com.jack.qqrebot.utils.CQUtils;
+import com.jack.qqrebot.utils.SendMsgUtils;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -82,7 +83,9 @@ public class DashangServiceImpl implements DashangService {
             Matcher isNum = pattern.matcher(money);
             if (isNum.matches()) {
                 int score = Integer.parseInt(strings[2]);
-                return update(name,type,score);
+                String update = update(name, type, score);
+                SendMsgUtils.sendGroupMsg(Integer.parseInt(name),"[CQ:at,qq="+type+"] "+update);
+                return update;
             } else {
                 return "参数格式错误\n格式：支持买女装 群号|qq号|20";
             }
@@ -118,7 +121,7 @@ public class DashangServiceImpl implements DashangService {
             e.printStackTrace();
         }
         String memberName = CQUtils.getMemberName(name,type);
-        return "感谢 ["+memberName+"]("+type+") 支持了 "+score+" 元";
+        return "感谢 ["+memberName+"]("+type+") 大佬支持了 "+score+" 元";
 
     }
 
