@@ -18,7 +18,7 @@ import java.util.Random;
 public class SNHMembersServiceImpl implements SNHMembersService {
     @Override
     public String getRandomMember() {
-        String url ="http://h5.snh48.com/resource/jsonp/members.php?gid=00&callback=get_members_success";
+        String url ="http://h5.snh48.com/resource/jsonp/allmembers.php?gid=00&callback=get_members_success";
         String result = HttpUtils.sendGet(url, "");
         int startIndex = result.indexOf("(");
         int endIndex = result.lastIndexOf(")");

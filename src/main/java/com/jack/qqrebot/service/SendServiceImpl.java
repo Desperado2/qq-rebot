@@ -157,8 +157,10 @@ public class SendServiceImpl implements SendServiceI {
                 result = bookService.getBookByKeyword(message.replace("电子书", "").replace(" ", ""));
             }else if (!StringUtils.isEmpty(message) && message.contains("音乐")) {
                 result = musicService.getMusicByName(message.replace("音乐", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && message.contains("多日天气")) {
+                result = weatherService.getWeatherByCity(message.replace("多日天气", "").replace(" ", ""));
             } else if (!StringUtils.isEmpty(message) && message.contains("天气")) {
-                result = weatherService.getWeatherByCity(message.replace("天气", "").replace(" ", ""));
+                result = weatherService.getCurrWeatherByCity(message.replace("天气", "").replace(" ", ""));
             } else if (!StringUtils.isEmpty(message) && (message.contains("微博") || (message.contains("热搜")))) {
                 result = weiboService.getWeiboHot();
             } else if (!StringUtils.isEmpty(message) && (message.contains("菜单"))) {

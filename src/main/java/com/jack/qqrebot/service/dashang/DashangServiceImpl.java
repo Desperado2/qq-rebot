@@ -27,6 +27,9 @@ public class DashangServiceImpl implements DashangService {
     @Value("${desperado.cq.location:#{null}}")
     private String cqLocation;
 
+    @Value("${desperado.admin.qq:#{null}}")
+    private String adminQq;
+
     @Override
     public String getUlr() {
         StringBuffer stringBuffer = new StringBuffer();

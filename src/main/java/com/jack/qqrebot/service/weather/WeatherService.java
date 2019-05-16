@@ -11,5 +11,8 @@ import java.io.UnsupportedEncodingException;
 public interface WeatherService {
 
     String getTodayWeather();
+
     String getWeatherByCity(String cityName) throws UnsupportedEncodingException;
+
+    String getCurrWeatherByCity(String cityName) throws UnsupportedEncodingException;
 }
