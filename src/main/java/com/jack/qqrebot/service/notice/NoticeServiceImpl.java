@@ -1,6 +1,9 @@
 package com.jack.qqrebot.service.notice;
 
+import com.jack.qqrebot.enumm.CqApi;
+import com.jack.qqrebot.utils.CQUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * @Auther: mujj
@@ -22,11 +25,16 @@ public class NoticeServiceImpl implements NoticeService {
                 "4.有什么问题询问请详细描述，能截图尽量截图" + "\n" +
                 "5.询问资料的，请注明 机构名称+资源精确全名，能截图的尽量截图" + "\n" +
                 "6.群里机器人是 【机器人小布】,可@它发生 菜单 查看功能" + "\n" +
-                "7.最后祝身体健康，工作愉快";
+                "7.资料请看置顶群公告，加入百度云群，资料都在里面哦（如果失效可联系群主）" + "\n" +
+                "9.最后祝身体健康，工作愉快";
     }
 
     @Override
     public String groupDecrease(String userId) {
+        String strangerInfo = CQUtils.getStrangerInfo(userId);
+        if(!StringUtils.isEmpty(strangerInfo)){
+            return "用户 ["+strangerInfo+"]("+userId+") 离开了本群";
+        }
         return "用户 ["+userId+"] 离开了本群";
     }
 }

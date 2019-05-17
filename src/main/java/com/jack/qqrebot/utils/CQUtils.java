@@ -58,4 +58,13 @@ public class CQUtils {
         String params ="message_type=private"+"&user_id="+userId+"&message="+msg;
         HttpUtils.sendPost("http://127.0.0.1:5300/"+CqApi.SEND_MSG.getName(), params);
     }
+
+
+    public static String getStrangerInfo(String userId){
+        String params ="user_id="+userId+"&no_cache=false";
+        String result = HttpUtils.sendPost("http://127.0.0.1:5300/" + CqApi.GET_STRANGER_INFO.getName(), params);
+        JSONObject object = JSONObject.parseObject(result);
+        object = object.getJSONObject("data");
+        return object.getString("nickname");
+    }
 }

@@ -63,16 +63,16 @@ public class WeatherServiceImpl implements WeatherService {
         }
         JSONObject jsonObject = JSON.parseObject(s);
         message.append(jsonObject.getString("city")).append("实时天气情况如下：\n\n");
-        message.append("天    气: ").append(jsonObject.getString("wea")).append("\n");
+        message.append("天\t  气: ").append(jsonObject.getString("wea")).append("\n");
         message.append("当前温度: ").append(jsonObject.getString("tem")).append("\n");
-        message.append("风    向: ").append(jsonObject.getString("win")).append("\n");
-        message.append("风    速: ").append(jsonObject.getString("win_speed")).append("   ").append(jsonObject.getString("win_meter")).append("\n");
-        message.append("湿    度：").append(jsonObject.getString("humidity")).append("\n");
+        message.append("风\t  向: ").append(jsonObject.getString("win")).append("\n");
+        message.append("风\t  速: ").append(jsonObject.getString("win_speed")).append("   ").append(jsonObject.getString("win_meter")).append("\n");
+        message.append("湿\t  度：").append(jsonObject.getString("humidity")).append("\n");
         message.append("能 见 度: ").append(jsonObject.getString("visibility")).append("\n");
-        message.append("气    压: ").append(jsonObject.getString("pressure")).append("hPa").append("\n");
+        message.append("气\t  压: ").append(jsonObject.getString("pressure")).append("hPa").append("\n");
         message.append("空气质量: ").append(jsonObject.getString("air_level")).append("(").append(jsonObject.getString("air")).append(")\n");
         message.append("PM  2.5: ").append(jsonObject.getString("air_pm25")).append("\n");
-        message.append("提    示：").append(jsonObject.getString("air_tips")).append("\n\n");
+        message.append("提\t  示：").append(jsonObject.getString("air_tips")).append("\n\n");
         JSONObject alarm = jsonObject.getJSONObject("alarm");
         String alarmType = alarm.getString("alarm_type");
         String alarmLevel = alarm.getString("alarm_level");

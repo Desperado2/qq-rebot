@@ -116,10 +116,9 @@ public class SchedualServiceImpl implements SchedualServiceI {
 
     @Override
     public void articles() {
-        String msg = "[CQ:at,qq=all] 如果没事，就来看看文章学习吧！";
-        SendMsgUtils.sendGroupMsg(89303705,msg);
+        String msg = "如果没事，就来看看文章学习吧！";
         String articleByRandom = articlesService.getArticleByRandom();
-        SendMsgUtils.sendGroupMsg(89303705,articleByRandom);
+        SendMsgUtils.sendGroupMsg(89303705,msg+"\n\n"+articleByRandom);
     }
 
     @Override
@@ -130,11 +129,10 @@ public class SchedualServiceImpl implements SchedualServiceI {
 
     @Override
     public void leetCode() {
-        String msg = "[CQ:at,qq=all] 如果没事，就赶快来显示一下自己的实力吧！";
+        String msg = "如果没事，就赶快来显示一下自己的实力吧！";
         String articleByRandom = leetCodeService.randomProblem();
         Arrays.stream(new Integer[]{89303705,604195931}).forEach(groupId -> {
-            SendMsgUtils.sendGroupMsg(groupId,msg);
-            SendMsgUtils.sendGroupMsg(groupId,articleByRandom);
+            SendMsgUtils.sendGroupMsg(groupId,msg+"\n\n"+articleByRandom);
         });
 
     }
