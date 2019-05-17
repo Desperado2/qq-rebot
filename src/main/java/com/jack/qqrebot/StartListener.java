@@ -18,14 +18,12 @@ import java.util.List;
 @Component
 public class StartListener implements ApplicationListener<ContextRefreshedEvent> {
 
-    private static boolean flag = true;
+    private static boolean flag = false;
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         if(flag){
             if (contextRefreshedEvent.getApplicationContext().getParent() == null) {
-                List<Integer> groupList = CQUtils.getGroupList();
-                String messages = "通知\n机器人升级完成,\n"+UpdateUtils.getUpdate();
-                groupList.forEach(groupId -> SendMsgUtils.sendGroupMsg(groupId, messages));
+
             }
             flag = false;
         }
