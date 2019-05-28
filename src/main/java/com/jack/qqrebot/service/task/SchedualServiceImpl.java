@@ -1,6 +1,7 @@
 package com.jack.qqrebot.service.task;
 
 
+import com.jack.qqrebot.service.SendServiceI;
 import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.dailyenglish.DailyEnglishService;
@@ -42,12 +43,13 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private final SNHMembersService snhMembersService;
     private final VisitService visitService;
     private final ProxyService proxyService;
+    private final SendServiceI sendService;
 
     @Autowired
     public SchedualServiceImpl(ArticlesService articlesService, WeatherService weatherService, DailyEnglishService dailyEnglishService, WeiboService weiboService,
                                NewsService newsService, DuyanService duyanService, CodeCalendarService codeCalendarService, HistoryOnTodayService historyOnTodayService,
-                               GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService,VisitService visitService,
-                                ProxyService proxyService) {
+                               GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService, VisitService visitService,
+                               ProxyService proxyService, SendServiceI sendService) {
         this.articlesService = articlesService;
         this.weatherService = weatherService;
         this.dailyEnglishService = dailyEnglishService;
@@ -61,6 +63,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
         this.snhMembersService = snhMembersService;
         this.visitService = visitService;
         this.proxyService = proxyService;
+        this.sendService = sendService;
     }
 
 
@@ -169,5 +172,10 @@ public class SchedualServiceImpl implements SchedualServiceI {
     @Override
     public void getProxyIp() {
         proxyService.getProxyIp();
+    }
+
+    @Override
+    public void clearCount() {
+        sendService.clearCount();
     }
 }

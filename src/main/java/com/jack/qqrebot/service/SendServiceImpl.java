@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.enumm.ConnType;
 import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.baiduyundisk.BaiduDiskSearchService;
+import com.jack.qqrebot.service.blacklist.BlackListService;
 import com.jack.qqrebot.service.book.BookService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
 import com.jack.qqrebot.service.constellation.ConstellationService;
@@ -34,15 +35,21 @@ import com.jack.qqrebot.service.weibo.WeiboService;
 import com.jack.qqrebot.utils.CQUtils;
 import com.jack.qqrebot.utils.SendMsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service("sendService")
 public class SendServiceImpl implements SendServiceI {
+
+    @Value("${desperado.admin.qq:#{null}}")
+    private Integer adminqq;
 
     private final CodeCalendarService codeCalendarService;
     private final ConstellationService constellationService;
@@ -72,6 +79,9 @@ public class SendServiceImpl implements SendServiceI {
     private final VideoService videoService;
     private final BookService bookService;
     private final VisitService visitService;
+    private final BlackListService blackListService;
+
+    private Map<String,Integer> map = new HashMap<>();
 
     @Autowired
     public SendServiceImpl(CodeCalendarService codeCalendarService, ConstellationService constellationService, SayLoveService sayLoveService,
@@ -80,7 +90,7 @@ public class SendServiceImpl implements SendServiceI {
                            HistoryOnTodayService historyOnTodayService, LeetCodeService leetCodeService, DuyanService duyanService, SatinService satinService,
                            TulingService tulingService, NoticeService noticeService, GankeService gankeService, V2exService v2exService, WeatherService weatherService,
                            DashangService dashangService, WeiboService weiboService, BaiduDiskSearchService baiduDiskSearchService, EmoticonPackageService emoticonPackageService,
-                           VideoService videoService,BookService bookService,VisitService visitService ) {
+                           VideoService videoService,BookService bookService,VisitService visitService,BlackListService blackListService) {
         this.codeCalendarService = codeCalendarService;
         this.constellationService = constellationService;
         this.sayLoveService = sayLoveService;
@@ -109,6 +119,7 @@ public class SendServiceImpl implements SendServiceI {
         this.videoService = videoService;
         this.bookService = bookService;
         this.visitService = visitService;
+        this.blackListService = blackListService;
     }
 
     @Override
@@ -120,6 +131,9 @@ public class SendServiceImpl implements SendServiceI {
         if (message.contains("[CQ:at,qq=1244623542]")) {
             Integer group_id = jsonObject.getInteger("group_id");
             Integer user_id = jsonObject.getInteger("user_id");
+            if(addMap(user_id+"")){
+                return;
+            }
             ConnType count = visitService.addVisitRecord(String.valueOf(user_id), new Date().getTime());
             if(count == ConnType.IS_WARN){
                 result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人，请注意";
@@ -206,9 +220,26 @@ public class SendServiceImpl implements SendServiceI {
             }else if(!StringUtils.isEmpty(message) && (message.contains("买女装排行"))){
                 result = dashangService.getRank();
             }else if(!StringUtils.isEmpty(message) && (message.contains("支持买女装"))){
-                result = dashangService.updateRank(message.replace("支持买女装","").trim());
+                if(user_id.equals(adminqq)){
+                    result = dashangService.updateRank(message.replace("支持买女装","").trim());
+                }else{
+                    result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
+                }
             }else if(!StringUtils.isEmpty(message) && (message.contains("买女装"))){
                 result = dashangService.getUlr();
+            }else if(!StringUtils.isEmpty(message) && (message.contains("添加黑名单"))){
+                if(user_id.equals(adminqq)){
+                    result = blackListService.addBackList(message.replace("添加黑名单","").trim());
+                }else{
+                    result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
+                }
+
+            }else if(!StringUtils.isEmpty(message) && (message.contains("解除黑名单"))){
+                if(user_id.equals(adminqq)){
+                    result = blackListService.addBackList(message.replace("添加黑名单","").trim());
+                }else{
+                    result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
+                }
             }else {
                 result = tulingService.getMsgByMsg(message);
             }
@@ -230,5 +261,20 @@ public class SendServiceImpl implements SendServiceI {
             result = noticeService.groupDecrease(user_id);
         }
         SendMsgUtils.sendGroupMsg(group_id, result);
+    }
+
+    @Override
+    public void clearCount() {
+        map.clear();
+    }
+
+    private boolean addMap(String userId){
+        if(map.containsKey(userId)){
+            Integer count = map.get(userId)+1;
+            map.put(userId,count);
+            return count > 20;
+        }
+        map.put(userId,1);
+        return false;
     }
 }

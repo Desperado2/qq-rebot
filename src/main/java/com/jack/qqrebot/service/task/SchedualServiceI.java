@@ -15,4 +15,6 @@ public interface SchedualServiceI {
     void checkHMD();
 
     void getProxyIp();
+
+    void clearCount();
 }

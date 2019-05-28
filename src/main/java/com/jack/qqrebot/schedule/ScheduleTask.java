@@ -14,6 +14,11 @@ public class ScheduleTask {
         this.schedualService = schedualService;
     }
 
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void clearVistiCount() {
+        schedualService.clearCount();
+    }
+
     @Scheduled(cron = "30 0 0 * * ?")
     public void coderCalendar() {
         schedualService.coderCalendar();
