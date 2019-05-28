@@ -7,4 +7,6 @@ public interface SendServiceI {
     void dealGroupMsg(String message) throws UnsupportedEncodingException;
 
     void dealNotice(String noticeType);
+
+    void clearCount();
 }
