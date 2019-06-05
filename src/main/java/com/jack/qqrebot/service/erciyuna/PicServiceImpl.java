@@ -15,15 +15,53 @@ import org.springframework.util.StringUtils;
 public class PicServiceImpl implements PicService {
     @Override
     public String getRandomPic() {
-        String url="https://www.loli.ci/api.php";
-        String result = HttpUtils.sendGet(url, "return=json&size=large");
+        String result = getImageUrl();
+        return "[CQ:image,file="+result+"]";
+    }
+
+    private String getImageUrl(){
+
+        String url= "https://acg.toubiec.cn/random";
+        String result = HttpUtils.sendGet(url, "return=json");
         if(!StringUtils.isEmpty(result)){
             JSONObject object = JSONObject.parseObject(result);
-            if(object.getInteger("code") == 200){
-                result = object.getString("imgurl");
-            }
+            result = object.getString("acgurl");
+            return result;
         }
-        return "[CQ:image,file="+result+"]";
+
+        url= "http://www.dmoe.cc/random.php";
+        result = HttpUtils.sendGet(url, "return=json");
+        if(!StringUtils.isEmpty(result)){
+            JSONObject object = JSONObject.parseObject(result);
+            result = object.getString("imgurl");
+            return result;
+        }
+
+        url= "https://api.apizz.cn/ecyt/api.php";
+        result = HttpUtils.sendGet(url, "return=json");
+        if(!StringUtils.isEmpty(result)){
+            JSONObject object = JSONObject.parseObject(result);
+            result = object.getString("imgurl");
+            return result;
+        }
+
+        url= "https://yesos.cn/api/acgurl.php";
+        result = HttpUtils.sendGet(url, "return=json");
+        if(!StringUtils.isEmpty(result)){
+            JSONObject object = JSONObject.parseObject(result);
+            result = object.getString("imgurl");
+            return result;
+        }
+
+        url="http://acg.bakayun.cn/randbg.php";
+        result = HttpUtils.sendGet(url, "Type=json");
+        if(!StringUtils.isEmpty(result)){
+            JSONObject object = JSONObject.parseObject(result);
+            result = object.getString("ImgUrl");
+            return result;
+        }
+
+        return "60-1Z1241G152212.jpg";
     }
 
     @Override
