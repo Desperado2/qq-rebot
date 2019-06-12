@@ -130,7 +130,9 @@ public class DashangServiceImpl implements DashangService {
 
     private void sort(StringBuilder text){
         String[] strings = text.toString().split("\n");
-        TreeMap<Integer,String> treeMap = new TreeMap<>((o1, o2) -> -o1.compareTo(o2));
+        TreeMap<Integer,String> treeMap = new TreeMap<>((o1, o2) -> {
+            return -o1.compareTo(o2);
+        });
         int index1= 0;
         for (int i=0;i<strings.length; i++){
             int key = Integer.parseInt(strings[i].split(" ")[2].trim());

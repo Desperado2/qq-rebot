@@ -8,4 +8,6 @@ package com.jack.qqrebot.service.vedio;
  */
 public interface VideoService {
     String getVideoByKeyword(String keyword);
+
+    String getVideoRealUrl(String shortUrl);
 }

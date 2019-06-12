@@ -27,9 +27,11 @@ public class MeituServiceImpl implements MeituService {
         String message ="";
 
         if(!StringUtils.isEmpty(musics) &&musics.size() > 0){
-            int random = new Random().nextInt(musics.size());
-            JSONObject music = musics.getJSONObject(random);
-            message = music.getString("url");
+            while (!message.contains("sinaimg.cn")){
+                int random = new Random().nextInt(musics.size());
+                JSONObject music = musics.getJSONObject(random);
+                message = music.getString("url");
+            }
         }
         message = "找到的美图如下\n[CQ:image,file="+message+"]";
         return message;

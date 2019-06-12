@@ -1,5 +1,6 @@
 package com.jack.qqrebot.service.vedio;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.utils.HttpUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -45,5 +46,46 @@ public class VideoServiceImpl implements VideoService {
             index.getAndIncrement();
         });
         return stringBuffer.toString();
+    }
+
+    @Override
+    public String getVideoRealUrl(String shortUrl) {
+        if(StringUtils.isEmpty(shortUrl)){
+            return "命令错误，正确格式给 [短视频 短链接],本接口支持：快手,抖音,微视,皮皮虾,最右,火山,WIDE,IM短影,映客IN,小红书,小咖秀，陌陌,微博,秒拍,梨视频,美拍,今日头条,西瓜视频,宽频,音悦台,YY神曲,唱吧,全民K歌等视频解析";
+        }
+        String msg = null;
+        String url="https://api.w0ai1uo.org/shipin.php";
+        String param ="url="+shortUrl;
+        String result = HttpUtils.sendGet(url, param);
+        JSONObject object = JSONObject.parseObject(result);
+        Integer code = object.getInteger("code");
+        if(code == 101){
+            msg = object.getJSONObject("data").getString("videourl");
+        }else{
+            msg = object.getString("msg");
+            msg += "\n本接口支持：快手,抖音,微视,皮皮虾,最右,火山,WIDE,IM短影,映客IN,小红书,小咖秀，陌陌,微博,秒拍,梨视频,美拍,今日头条,西瓜视频,宽频,音悦台,YY神曲,唱吧,全民K歌等视频解析";
+        }
+
+        if(StringUtils.isEmpty(msg)){
+            msg ="解析失败\n本接口支持：快手,抖音,微视,皮皮虾,最右,火山,WIDE,IM短影,映客IN,小红书,小咖秀，陌陌,微博,秒拍,梨视频,美拍,今日头条,西瓜视频,宽频,音悦台,YY神曲,唱吧,全民K歌等视频解析";
+        }else if(msg.contains("http")){
+            JSONObject data = object.getJSONObject("data");
+            msg = customMsg(data);
+        }
+        return msg;
+    }
+
+    private String customMsg(JSONObject object){
+        String url = object.getString("videourl");
+        String title = object.getString("title");
+        String image = object.getString("img");
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("[CQ:share,url=");
+        sb.append(url).append(",").append("title=").append("解析结果如下").append(",")
+                .append("content=").append(title).append(",").append("image=").append(image)
+                .append("]");
+
+        return sb.toString();
     }
 }

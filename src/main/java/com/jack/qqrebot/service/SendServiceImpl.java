@@ -213,6 +213,8 @@ public class SendServiceImpl implements SendServiceI {
                 result = leetCodeService.randomProblem();
             } else if(!StringUtils.isEmpty(message) && (message.contains("情话"))){
                 result = sayLoveService.getLoveRandom();
+            }else if(!StringUtils.isEmpty(message) && (message.contains("短视频"))){
+                result = videoService.getVideoRealUrl(message.replace("短视频","").replace(" ",""));
             }else if(!StringUtils.isEmpty(message) && (message.contains("menhera"))){
                 result = picService.getRandomMenhera();
             }else if(!StringUtils.isEmpty(message) && (message.toLowerCase().contains("snh"))){
