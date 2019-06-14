@@ -75,14 +75,14 @@ public class SchedualServiceImpl implements SchedualServiceI {
         String msg  = dailyEnglishService.getDailyEnglish();
         String messages = "天气:\n\n"+weatherInfo+"\n\n"+msg;
 
-        List<Integer> groupList = CQUtils.getGroupList();
+        List<String> groupList = CQUtils.getGroupList();
 
         groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
     }
 
     @Override
     public void weibo() {
-        List<Integer> groupList = CQUtils.getGroupList();
+        List<String> groupList = CQUtils.getGroupList();
         String messages = weiboService.getWeiboHot();
 
         groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
@@ -90,11 +90,11 @@ public class SchedualServiceImpl implements SchedualServiceI {
 
     @Override
     public void everyDayNews() {
-        List<Integer> groupList = CQUtils.getGroupList();
+        List<String> groupList = CQUtils.getGroupList();
         String messages = newsService.getNewsByRandom();
         String message1 = gankeService.report("wanqu");
         groupList.forEach(groupId->{
-            if(groupId == 89303705 || groupId == 604195931) {
+            if(groupId.equals("89303705") || groupId.equals("604195931")) {
                 SendMsgUtils.sendGroupMsg(groupId, message1);
             }else{
                 SendMsgUtils.sendGroupMsg(groupId,messages);
@@ -104,7 +104,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
 
     @Override
     public void goodLight() {
-        List<Integer> groupList = CQUtils.getGroupList();
+        List<String> groupList = CQUtils.getGroupList();
         String messages =  duyanService.getJitangRandom() +"\n\n各位晚安";
         groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
     }
@@ -112,7 +112,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
     @Override
     public void coderCalendar() {
         String coderCalendar = codeCalendarService.getTodayCoderCalendar();
-        Arrays.stream(new Integer[]{89303705,604195931}).forEach(groupId -> {
+        Arrays.stream(new String[]{"89303705","604195931"}).forEach(groupId -> {
             SendMsgUtils.sendGroupMsg(groupId,coderCalendar);
         });
     }
@@ -121,20 +121,20 @@ public class SchedualServiceImpl implements SchedualServiceI {
     public void articles() {
         String msg = "如果没事，就来看看文章学习吧！";
         String articleByRandom = articlesService.getArticleByRandom();
-        SendMsgUtils.sendGroupMsg(89303705,msg+"\n\n"+articleByRandom);
+        SendMsgUtils.sendGroupMsg("89303705",msg+"\n\n"+articleByRandom);
     }
 
     @Override
     public void historyOnToday() {
         String history = historyOnTodayService.getHistory();
-        SendMsgUtils.sendGroupMsg(89303705,history);
+        SendMsgUtils.sendGroupMsg("89303705",history);
     }
 
     @Override
     public void leetCode() {
         String msg = "如果没事，就赶快来显示一下自己的实力吧！";
         String articleByRandom = leetCodeService.randomProblem();
-        Arrays.stream(new Integer[]{89303705,604195931}).forEach(groupId -> {
+        Arrays.stream(new String[]{"89303705","604195931"}).forEach(groupId -> {
             SendMsgUtils.sendGroupMsg(groupId,msg+"\n\n"+articleByRandom);
         });
 
@@ -142,7 +142,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
 
     @Override
     public void sNHMember() {
-        List<Integer> groupList = CQUtils.getGroupList();
+        List<String> groupList = CQUtils.getGroupList();
         String messages = snhMembersService.getRandomMember();
         groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
     }

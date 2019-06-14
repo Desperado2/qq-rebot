@@ -16,13 +16,13 @@ import java.util.List;
  */
 public class CQUtils {
 
-    public static List<Integer> getGroupList(){
-        List<Integer> groupList = new ArrayList<>();
+    public static List<String> getGroupList(){
+        List<String> groupList = new ArrayList<>();
         String groups = HttpUtils.sendPost("http://127.0.0.1:5300/"+CqApi.GET_GROUP_LIST.getName(), "");
         JSONArray array = JSONObject.parseObject(groups).getJSONArray("data");
         for (int i=0;i<array.size();i++){
             JSONObject object3 = array.getJSONObject(i);
-            Integer group_id = object3.getInteger("group_id");
+            String group_id = object3.getString("group_id");
             groupList.add(group_id);
         }
         return groupList;
@@ -41,7 +41,7 @@ public class CQUtils {
         return nickname;
     }
 
-    public static void ban(Integer gruopId,Integer qq,int second){
+    public static void ban(String gruopId,String qq,int second){
         String params ="group_id="+gruopId+"&user_id="+qq+"&duration="+second;
         HttpUtils.sendPost("http://127.0.0.1:5300/"+CqApi.SET_GROUP_BAN.getName(), params);
     }

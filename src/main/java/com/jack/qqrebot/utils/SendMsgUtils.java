@@ -15,7 +15,7 @@ public class SendMsgUtils {
 
     private static final  String preUrl="http://127.0.0.1:5300/";
 
-    public static String sendGroupMsg(int userId, String message){
+    public static String sendGroupMsg(String userId, String message){
 
         try {
             String params = "group_id="+userId+"&message="+URLEncoder.encode(message,"utf-8");

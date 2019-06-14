@@ -93,7 +93,7 @@ public class ProgramerServiceImpl implements ProgramerService {
         if (!StringUtils.isEmpty(userqq)) {
             String[] split = userqq.split(",");
             Arrays.stream(split).filter(s -> !StringUtils.isEmpty(s)).collect(Collectors.toList()).forEach(s -> {
-                SendMsgUtils.sendGroupMsg(Integer.parseInt(resourceVo.getGroupId()), "[CQ:at,qq=" + resourceVo.getUserqq() + "] 你的需求" + tid + "已找到\n" + resourceVo.getValue());
+                SendMsgUtils.sendGroupMsg(groupId, "[CQ:at,qq=" + resourceVo.getUserqq() + "] 你的需求" + tid + "已找到\n" + resourceVo.getValue());
             });
         }
         return "更新成功";

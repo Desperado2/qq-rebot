@@ -87,7 +87,7 @@ public class DashangServiceImpl implements DashangService {
             if (isNum.matches()) {
                 int score = Integer.parseInt(strings[2]);
                 String update = update(name, type, score);
-                SendMsgUtils.sendGroupMsg(Integer.parseInt(name),"[CQ:at,qq="+type+"] "+update);
+                SendMsgUtils.sendGroupMsg(name,"[CQ:at,qq="+type+"] "+update);
                 return update;
             } else {
                 return "参数格式错误\n格式：支持买女装 群号|qq号|20";

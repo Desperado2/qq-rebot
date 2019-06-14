@@ -135,8 +135,8 @@ public class SendServiceImpl implements SendServiceI {
         message = jsonObject.getString("message");
 
         if (message.contains("[CQ:at,qq=1244623542]")) {
-            Integer group_id = jsonObject.getInteger("group_id");
-            Integer user_id = jsonObject.getInteger("user_id");
+            String group_id = jsonObject.getString("group_id");
+            String user_id = jsonObject.getString("user_id");
             if(addMap(user_id+"")){
                 return;
             }
@@ -266,7 +266,7 @@ public class SendServiceImpl implements SendServiceI {
         JSONObject jsonObject = JSON.parseObject(message);
         String result= "";
         String noticeType = jsonObject.getString("notice_type");
-        Integer group_id = jsonObject.getInteger("group_id");
+        String group_id = jsonObject.getString("group_id");
         if(noticeType.equals("group_increase")){
             String user_id = jsonObject.getString("user_id");
             result = noticeService.groupIncrease(user_id);

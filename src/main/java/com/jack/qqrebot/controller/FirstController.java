@@ -44,13 +44,13 @@ public class FirstController {
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public void update() {
         String messages = "通知\n机器人将于10秒后开始升级，升级期间无法使用，升级完成后会通知，谢谢";
-       SendMsgUtils.sendGroupMsg(604195931, messages);
+       SendMsgUtils.sendGroupMsg("604195931", messages);
     }
 
     @RequestMapping(value = "/updateSuccess", method = RequestMethod.GET)
     public void updateSuccess() {
         String messages = "通知\n机器人升级完成,\n"+UpdateUtils.getUpdate();
-        SendMsgUtils.sendGroupMsg(604195931, messages);
+        SendMsgUtils.sendGroupMsg("604195931", messages);
     }
 
 }
