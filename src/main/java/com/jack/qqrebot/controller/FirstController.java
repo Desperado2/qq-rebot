@@ -37,7 +37,7 @@ public class FirstController {
         }else if("group".equals(messageType)) {
             sendService.dealGroupMsg(message);
         }else if("private".equals(message)){
-
+            sendService.dealPrivateMsg(message);
         }
     }
 
