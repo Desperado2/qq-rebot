@@ -248,7 +248,7 @@ public class SendServiceImpl implements SendServiceI {
                 }else{
                     result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
                 }
-            } if (!StringUtils.isEmpty(message) && message.startsWith("吾爱")) {
+            } else if (!StringUtils.isEmpty(message) && message.startsWith("吾爱")) {
                 if(group_id.toString().equals(wuaiGroupId)) {
                     result = programerService.dealRequest(group_id+"",user_id+"",message);
                 }else {
