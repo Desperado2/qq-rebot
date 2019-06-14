@@ -50,9 +50,9 @@ import java.util.Map;
 public class SendServiceImpl implements SendServiceI {
 
     @Value("${desperado.admin.qq:#{null}}")
-    private Integer adminqq;
+    private String adminqq;
 
-    @Value("${desperado.wuai.group.id:#{null}")
+    @Value("${desperado.wuai.group.id:#{null}}")
     private String wuaiGroupId;
 
     private final CodeCalendarService codeCalendarService;
@@ -249,7 +249,7 @@ public class SendServiceImpl implements SendServiceI {
                     result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
                 }
             } if (!StringUtils.isEmpty(message) && message.startsWith("吾爱")) {
-                if(group_id.equals(wuaiGroupId)) {
+                if(group_id.toString().equals(wuaiGroupId)) {
                     result = programerService.dealRequest(group_id+"",user_id+"",message);
                 }else {
                     result ="无权操作";
@@ -286,7 +286,7 @@ public class SendServiceImpl implements SendServiceI {
     public void dealPrivateMsg(String message) throws UnsupportedEncodingException {
         JSONObject jsonObject = JSON.parseObject(message);
         String result = "";
-        Integer userId = jsonObject.getInteger("user_id");
+        String userId = jsonObject.getString("user_id");
         message = jsonObject.getString("message");
         if(adminqq.equals(userId)){
             if (!StringUtils.isEmpty(message) && message.startsWith("吾爱")) {

@@ -41,24 +41,34 @@ public class ProgramerServiceImpl implements ProgramerService {
     private String getNewRequest(){
         List<ResourceVo> newRequest = programmerDao.findByNewRequest(0);
         StringBuilder sb = new StringBuilder();
+        sb.append("需要获取的id列表").append("\n").append("\n");
         newRequest.forEach(s->sb.append(s.getTid()).append("\n"));
         return sb.toString();
     }
     private String getRequest(String groupId, String qq, Integer tid) {
-        ResourceVo resourceVo = programmerDao.findByTid(tid);
-        if (resourceVo == null) {
-            ResourceVo resourceVo1 = new ResourceVo();
-            resourceVo1.setGroupId(groupId);
-            resourceVo1.setTid(tid);
-            resourceVo1.setUserqq(qq);
-            resourceVo1.setNewRequest(0);
-            programmerDao.save(resourceVo1);
-            return "[CQ:at,qq=" + qq + "] 你的需求" + tid + "已记录";
+        ResourceVo resourceVo = null;
+        synchronized (this){
+            resourceVo = programmerDao.findByTid(tid);
+            if (resourceVo == null) {
+                ResourceVo resourceVo1 = new ResourceVo();
+                resourceVo1.setGroupId(groupId);
+                resourceVo1.setTid(tid);
+                resourceVo1.setUserqq(qq);
+                resourceVo1.setNewRequest(0);
+                programmerDao.save(resourceVo1);
+                return "[CQ:at,qq=" + qq + "] 你的需求" + tid + "已记录";
+            }
         }
         String value = resourceVo.getValue();
+        String userqq = resourceVo.getUserqq();
         if (StringUtils.isEmpty(value)) {
-            resourceVo.setUserqq(resourceVo.getUserqq() + "," + qq);
-            programmerDao.save(resourceVo);
+            if(StringUtils.isEmpty(userqq)){
+                resourceVo.setUserqq(qq);
+                programmerDao.save(resourceVo);
+            }else if(!userqq.contains(qq)){
+                resourceVo.setUserqq(userqq + "," + qq);
+                programmerDao.save(resourceVo);
+            }
             return "[CQ:at,qq=" + qq + "] 你的需求" + tid + "已记录";
         }
         return "[CQ:at,qq=" + qq + "] 你的需求" + tid + "已找到\n" + value;
