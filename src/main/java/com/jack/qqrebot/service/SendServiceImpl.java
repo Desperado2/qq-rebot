@@ -22,6 +22,7 @@ import com.jack.qqrebot.service.music.MusicService;
 import com.jack.qqrebot.service.news.NewsService;
 import com.jack.qqrebot.service.notice.NoticeService;
 import com.jack.qqrebot.service.poetry.PoetryService;
+import com.jack.qqrebot.service.programer.ProgramerService;
 import com.jack.qqrebot.service.ranking.RankingService;
 import com.jack.qqrebot.service.satin.SatinService;
 import com.jack.qqrebot.service.saylove.SayLoveService;
@@ -50,6 +51,9 @@ public class SendServiceImpl implements SendServiceI {
 
     @Value("${desperado.admin.qq:#{null}}")
     private Integer adminqq;
+
+    @Value("${desperado.wuai.group.id:#{null}")
+    private Integer wuaiGroupId;
 
     private final CodeCalendarService codeCalendarService;
     private final ConstellationService constellationService;
@@ -80,6 +84,7 @@ public class SendServiceImpl implements SendServiceI {
     private final BookService bookService;
     private final VisitService visitService;
     private final BlackListService blackListService;
+    private final ProgramerService programerService;
 
     private Map<String,Integer> map = new HashMap<>();
 
@@ -90,7 +95,7 @@ public class SendServiceImpl implements SendServiceI {
                            HistoryOnTodayService historyOnTodayService, LeetCodeService leetCodeService, DuyanService duyanService, SatinService satinService,
                            TulingService tulingService, NoticeService noticeService, GankeService gankeService, V2exService v2exService, WeatherService weatherService,
                            DashangService dashangService, WeiboService weiboService, BaiduDiskSearchService baiduDiskSearchService, EmoticonPackageService emoticonPackageService,
-                           VideoService videoService,BookService bookService,VisitService visitService,BlackListService blackListService) {
+                           VideoService videoService,BookService bookService,VisitService visitService,BlackListService blackListService,ProgramerService programerService) {
         this.codeCalendarService = codeCalendarService;
         this.constellationService = constellationService;
         this.sayLoveService = sayLoveService;
@@ -120,6 +125,7 @@ public class SendServiceImpl implements SendServiceI {
         this.bookService = bookService;
         this.visitService = visitService;
         this.blackListService = blackListService;
+        this.programerService = programerService;
     }
 
     @Override
@@ -242,7 +248,13 @@ public class SendServiceImpl implements SendServiceI {
                 }else{
                     result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
                 }
-            }else {
+            } if (!StringUtils.isEmpty(message) && message.startsWith("吾爱")) {
+                if(group_id.equals(wuaiGroupId)) {
+                    result = programerService.dealRequest(group_id+"",user_id+"",message);
+                }else {
+                    result ="无权操作";
+                }
+            } else {
                 result = tulingService.getMsgByMsg(message);
             }
             SendMsgUtils.sendGroupMsg(group_id, result);
@@ -268,6 +280,22 @@ public class SendServiceImpl implements SendServiceI {
     @Override
     public void clearCount() {
         map.clear();
+    }
+
+    @Override
+    public void dealPrivateMsg(String message) throws UnsupportedEncodingException {
+        JSONObject jsonObject = JSON.parseObject(message);
+        String result = "";
+        Integer userId = jsonObject.getInteger("user_id");
+        message = jsonObject.getString("message");
+        if(adminqq.equals(userId)){
+            if (!StringUtils.isEmpty(message) && message.startsWith("吾爱")) {
+                result = programerService.dealRequest(wuaiGroupId+"",adminqq+"",message);
+            }
+        }else {
+            result = tulingService.getMsgByMsg(message);
+        }
+        SendMsgUtils.sendPrivateMsg(userId,result);
     }
 
     private boolean addMap(String userId){

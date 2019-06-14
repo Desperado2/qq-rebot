@@ -15,11 +15,23 @@ public class SendMsgUtils {
 
     private static final  String preUrl="http://127.0.0.1:5300/";
 
-    public static String sendGroupMsg(int groupId, String message){
+    public static String sendGroupMsg(int userId, String message){
+
+        try {
+            String params = "user_id="+userId+"&message="+URLEncoder.encode(message,"utf-8");
+            String url = preUrl+CqApi.SEND_GROUP_MSG.getName();
+            return HttpUtils.sendPost(url, params);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String sendPrivateMsg(int groupId, String message){
 
         try {
             String params = "group_id="+groupId+"&message="+URLEncoder.encode(message,"utf-8");
-            String url = preUrl+CqApi.SEND_GROUP_MSG.getName();
+            String url = preUrl+CqApi.SEND_PRIVATE_MSG.getName();
             return HttpUtils.sendPost(url, params);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

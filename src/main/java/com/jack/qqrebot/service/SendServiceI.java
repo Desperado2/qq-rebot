@@ -9,4 +9,6 @@ public interface SendServiceI {
     void dealNotice(String noticeType);
 
     void clearCount();
+
+    void dealPrivateMsg(String msg) throws UnsupportedEncodingException;
 }
