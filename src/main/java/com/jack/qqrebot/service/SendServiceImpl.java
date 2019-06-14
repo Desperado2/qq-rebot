@@ -53,7 +53,7 @@ public class SendServiceImpl implements SendServiceI {
     private Integer adminqq;
 
     @Value("${desperado.wuai.group.id:#{null}")
-    private Integer wuaiGroupId;
+    private String wuaiGroupId;
 
     private final CodeCalendarService codeCalendarService;
     private final ConstellationService constellationService;
