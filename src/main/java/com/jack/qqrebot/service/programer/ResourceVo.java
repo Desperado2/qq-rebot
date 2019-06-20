@@ -1,6 +1,7 @@
 package com.jack.qqrebot.service.programer;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @Auther: mujj
@@ -32,6 +33,19 @@ public class ResourceVo {
 
     @Column(name = "new_request")
     private Integer newRequest;
+
+    @Column(name = "group_file_exist")
+    private Integer groupFileExist=0;
+
+    @Column(name="get_count")
+    private Integer findCount=1;
+
+    @Column(name = "create_time")
+    private Date createDate = new Date();
+
+    @Column(name = "update_time")
+    private Date updateDate;
+
 
     public Integer getId() {
         return id;
@@ -79,5 +93,37 @@ public class ResourceVo {
 
     public void setNewRequest(Integer newRequest) {
         this.newRequest = newRequest;
+    }
+
+    public Integer getGroupFileExist() {
+        return groupFileExist;
+    }
+
+    public void setGroupFileExist(Integer groupFileExist) {
+        this.groupFileExist = groupFileExist;
+    }
+
+    public Integer getFindCount() {
+        return findCount;
+    }
+
+    public void setFindCount(Integer findCount) {
+        this.findCount = findCount;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

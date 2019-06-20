@@ -86,7 +86,7 @@ public class SendServiceImpl implements SendServiceI {
     private final BlackListService blackListService;
     private final ProgramerService programerService;
 
-    private Map<String,Integer> map = new HashMap<>();
+    private Map<String, Integer> map = new HashMap<>();
 
     @Autowired
     public SendServiceImpl(CodeCalendarService codeCalendarService, ConstellationService constellationService, SayLoveService sayLoveService,
@@ -95,7 +95,7 @@ public class SendServiceImpl implements SendServiceI {
                            HistoryOnTodayService historyOnTodayService, LeetCodeService leetCodeService, DuyanService duyanService, SatinService satinService,
                            TulingService tulingService, NoticeService noticeService, GankeService gankeService, V2exService v2exService, WeatherService weatherService,
                            DashangService dashangService, WeiboService weiboService, BaiduDiskSearchService baiduDiskSearchService, EmoticonPackageService emoticonPackageService,
-                           VideoService videoService,BookService bookService,VisitService visitService,BlackListService blackListService,ProgramerService programerService) {
+                           VideoService videoService, BookService bookService, VisitService visitService, BlackListService blackListService, ProgramerService programerService) {
         this.codeCalendarService = codeCalendarService;
         this.constellationService = constellationService;
         this.sayLoveService = sayLoveService;
@@ -137,25 +137,25 @@ public class SendServiceImpl implements SendServiceI {
         if (message.contains("[CQ:at,qq=1244623542]")) {
             String group_id = jsonObject.getString("group_id");
             String user_id = jsonObject.getString("user_id");
-            if(addMap(user_id+"")){
+            if (addMap(user_id + "")) {
                 return;
             }
             ConnType count = visitService.addVisitRecord(String.valueOf(user_id), new Date().getTime());
-            if(count == ConnType.IS_WARN){
-                result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人，请注意";
+            if (count == ConnType.IS_WARN) {
+                result = "[CQ:at,qq=" + user_id + "] 警告，您在一分钟之内超过5次使用机器人，请注意";
                 SendMsgUtils.sendGroupMsg(group_id, result);
                 return;
             }
 
-            if(count == ConnType.IS_JINYAN){
-                result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人多次，禁言5分钟";
+            if (count == ConnType.IS_JINYAN) {
+                result = "[CQ:at,qq=" + user_id + "] 警告，您在一分钟之内超过5次使用机器人多次，禁言5分钟";
                 SendMsgUtils.sendGroupMsg(group_id, result);
-                CQUtils.ban(group_id,user_id,5*60);
+                CQUtils.ban(group_id, user_id, 5 * 60);
                 return;
             }
 
-            if(count == ConnType.IS_HMD){
-                result = "[CQ:at,qq="+user_id+"] 警告，您在一分钟之内超过5次使用机器人5次，机器人不在提供服务，请3小时后在试";
+            if (count == ConnType.IS_HMD) {
+                result = "[CQ:at,qq=" + user_id + "] 警告，您在一分钟之内超过5次使用机器人5次，机器人不在提供服务，请3小时后在试";
                 SendMsgUtils.sendGroupMsg(group_id, result);
                 return;
             }
@@ -167,7 +167,7 @@ public class SendServiceImpl implements SendServiceI {
                 result = newsService.getNewsByRandom();
             } else if (!StringUtils.isEmpty(message) && (message.contains("段子") || message.contains("笑话"))) {
                 result = satinService.getSatinByRandom();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("二次元美图"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("二次元美图"))) {
                 result = picService.getRandomPic();
             } else if (!StringUtils.isEmpty(message) && message.contains("美图")) {
                 result = meituService.getImageByRandom();
@@ -175,7 +175,7 @@ public class SendServiceImpl implements SendServiceI {
                 result = videoService.getVideoByKeyword(message.replace("影视", "").replace(" ", ""));
             } else if (!StringUtils.isEmpty(message) && message.contains("电子书")) {
                 result = bookService.getBookByKeyword(message.replace("电子书", "").replace(" ", ""));
-            }else if (!StringUtils.isEmpty(message) && message.contains("音乐")) {
+            } else if (!StringUtils.isEmpty(message) && message.contains("音乐")) {
                 result = musicService.getMusicByName(message.replace("音乐", "").replace(" ", ""));
             } else if (!StringUtils.isEmpty(message) && message.contains("多日天气")) {
                 result = weatherService.getWeatherByCity(message.replace("多日天气", "").replace(" ", ""));
@@ -200,59 +200,59 @@ public class SendServiceImpl implements SendServiceI {
             } else if (!StringUtils.isEmpty(message) && (message.contains("历史上的今天"))) {
                 result = historyOnTodayService.getHistory();
             } else if (!StringUtils.isEmpty(message) && (message.contains("表情包"))) {
-                result = emoticonPackageService.getEmoticonPackageByKeyWord(message.replace("表情包*",""));
-            }else if(!StringUtils.isEmpty(message) && (message.contains("资源"))){
-                result = baiduDiskSearchService.SearchByKeyWords(message.replace("资源","").replace(" ",""));
-            } else if(!StringUtils.isEmpty(message) && (message.equals("干货"))){
+                result = emoticonPackageService.getEmoticonPackageByKeyWord(message.replace("表情包*", ""));
+            } else if (!StringUtils.isEmpty(message) && (message.contains("资源"))) {
+                result = baiduDiskSearchService.SearchByKeyWords(message.replace("资源", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && (message.equals("干货"))) {
                 result = gankeService.getToadyData();
-            } else if(!StringUtils.isEmpty(message) && (message.contains("干货今日"))){
-                result = gankeService.getTodayDataByCategory(message.replace("干货今日","").replace(" ",""));
-            } else if(!StringUtils.isEmpty(message) && (message.contains("干货日报类型"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("干货今日"))) {
+                result = gankeService.getTodayDataByCategory(message.replace("干货今日", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && (message.contains("干货日报类型"))) {
                 result = gankeService.reportType();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("干货日报"))){
-                result = gankeService.report(message.replace("干货日报","").replace(" ",""));
-            }  else if(!StringUtils.isEmpty(message) && (message.contains("干货"))){
-                result = gankeService.getDataByCategory(message.replace("干货","").replace(" ",""));
-            }else if(!StringUtils.isEmpty(message) && (message.contains("v2ex"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("干货日报"))) {
+                result = gankeService.report(message.replace("干货日报", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && (message.contains("干货"))) {
+                result = gankeService.getDataByCategory(message.replace("干货", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && (message.contains("v2ex"))) {
                 result = v2exService.hotTopics();
-            } else if(!StringUtils.isEmpty(message) && (message.contains("leetcode"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("leetcode"))) {
                 result = leetCodeService.randomProblem();
-            } else if(!StringUtils.isEmpty(message) && (message.contains("情话"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("情话"))) {
                 result = sayLoveService.getLoveRandom();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("短视频"))){
-                result = videoService.getVideoRealUrl(message.replace("短视频","").replace(" ",""));
-            }else if(!StringUtils.isEmpty(message) && (message.contains("menhera"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("短视频"))) {
+                result = videoService.getVideoRealUrl(message.replace("短视频", "").replace(" ", ""));
+            } else if (!StringUtils.isEmpty(message) && (message.contains("menhera"))) {
                 result = picService.getRandomMenhera();
-            }else if(!StringUtils.isEmpty(message) && (message.toLowerCase().contains("snh"))){
+            } else if (!StringUtils.isEmpty(message) && (message.toLowerCase().contains("snh"))) {
                 result = snhMembersService.getRandomMember();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("买女装排行"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("买女装排行"))) {
                 result = dashangService.getRank();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("支持买女装"))){
-                if(user_id.equals(adminqq)){
-                    result = dashangService.updateRank(message.replace("支持买女装","").trim());
-                }else{
+            } else if (!StringUtils.isEmpty(message) && (message.contains("支持买女装"))) {
+                if (user_id.equals(adminqq)) {
+                    result = dashangService.updateRank(message.replace("支持买女装", "").trim());
+                } else {
                     result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
                 }
-            }else if(!StringUtils.isEmpty(message) && (message.contains("买女装"))){
+            } else if (!StringUtils.isEmpty(message) && (message.contains("买女装"))) {
                 result = dashangService.getUlr();
-            }else if(!StringUtils.isEmpty(message) && (message.contains("添加黑名单"))){
-                if(user_id.equals(adminqq)){
-                    result = blackListService.addBackList(message.replace("添加黑名单","").trim());
-                }else{
+            } else if (!StringUtils.isEmpty(message) && (message.contains("添加黑名单"))) {
+                if (user_id.equals(adminqq)) {
+                    result = blackListService.addBackList(message.replace("添加黑名单", "").trim());
+                } else {
                     result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
                 }
 
-            }else if(!StringUtils.isEmpty(message) && (message.contains("解除黑名单"))){
-                if(user_id.equals(adminqq)){
-                    result = blackListService.addBackList(message.replace("添加黑名单","").trim());
-                }else{
+            } else if (!StringUtils.isEmpty(message) && (message.contains("解除黑名单"))) {
+                if (user_id.equals(adminqq)) {
+                    result = blackListService.addBackList(message.replace("添加黑名单", "").trim());
+                } else {
                     result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
                 }
             } else if (!StringUtils.isEmpty(message) && message.startsWith("吾爱")) {
-                if(group_id.toString().equals(wuaiGroupId)) {
-                    result = programerService.dealRequest(group_id+"",user_id+"",message);
-                }else {
-                    result ="无权操作";
+                if (group_id.equals(wuaiGroupId)) {
+                    result = programerService.dealRequest(group_id + "", user_id + "", message);
+                } else {
+                    result = "无权操作";
                 }
             } else {
                 result = tulingService.getMsgByMsg(message);
@@ -264,15 +264,24 @@ public class SendServiceImpl implements SendServiceI {
     @Override
     public void dealNotice(String message) {
         JSONObject jsonObject = JSON.parseObject(message);
-        String result= "";
+        String result = "";
         String noticeType = jsonObject.getString("notice_type");
         String group_id = jsonObject.getString("group_id");
-        if(noticeType.equals("group_increase")){
+        if (noticeType.equals("group_increase")) {
             String user_id = jsonObject.getString("user_id");
             result = noticeService.groupIncrease(user_id);
-        }else if(noticeType.equals("group_decrease")){
+        } else if (noticeType.equals("group_decrease")) {
             String user_id = jsonObject.getString("user_id");
             result = noticeService.groupDecrease(user_id);
+        } else if (noticeType.equals("group_upload")) {
+            if (group_id.equals(wuaiGroupId)) {
+                JSONObject file = jsonObject.getJSONObject("file");
+                if (!StringUtils.isEmpty(file)) {
+                    String filename = file.getString("name").replace(".txt", "").trim();
+                    Integer tid = Integer.parseInt(filename);
+                    programerService.updateStatus(tid);
+                }
+            }
         }
         SendMsgUtils.sendGroupMsg(group_id, result);
     }
@@ -288,23 +297,23 @@ public class SendServiceImpl implements SendServiceI {
         String result = "";
         String userId = jsonObject.getString("user_id");
         message = jsonObject.getString("message");
-        if(adminqq.equals(userId)){
+        if (adminqq.equals(userId)) {
             if (!StringUtils.isEmpty(message) && message.startsWith("吾爱")) {
-                result = programerService.dealRequest(wuaiGroupId+"",adminqq+"",message);
+                result = programerService.dealRequest(wuaiGroupId + "", adminqq + "", message);
             }
-        }else {
+        } else {
             result = tulingService.getMsgByMsg(message);
         }
-        SendMsgUtils.sendPrivateMsg(userId,result);
+        SendMsgUtils.sendPrivateMsg(userId, result);
     }
 
-    private boolean addMap(String userId){
-        if(map.containsKey(userId)){
-            Integer count = map.get(userId)+1;
-            map.put(userId,count);
+    private boolean addMap(String userId) {
+        if (map.containsKey(userId)) {
+            Integer count = map.get(userId) + 1;
+            map.put(userId, count);
             return count > 20;
         }
-        map.put(userId,1);
+        map.put(userId, 1);
         return false;
     }
 }

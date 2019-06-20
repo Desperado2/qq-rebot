@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,17 @@ public class ProgramerServiceImpl implements ProgramerService {
         return "[CQ:at,qq=" + qq + "] 命令格式错误\r\n格式为 吾爱**tid";
     }
 
+    @Override
+    public void updateStatus(Integer tid) {
+        synchronized (this){
+            ResourceVo  resourceVo = programmerDao.findByTid(tid);
+            if (resourceVo != null) {
+                resourceVo.setGroupFileExist(1);
+                programmerDao.save(resourceVo);
+            }
+        }
+    }
+
     private String getNewRequest(){
         List<ResourceVo> newRequest = programmerDao.findByNewRequest(0);
         StringBuilder sb = new StringBuilder();
@@ -55,13 +67,16 @@ public class ProgramerServiceImpl implements ProgramerService {
                 resourceVo1.setTid(tid);
                 resourceVo1.setUserqq(qq);
                 resourceVo1.setNewRequest(0);
+                resourceVo1.setFindCount(1);
                 programmerDao.save(resourceVo1);
                 return "[CQ:at,qq=" + qq + "] 你的需求" + tid + "已记录";
             }
         }
         String value = resourceVo.getValue();
         String userqq = resourceVo.getUserqq();
+        Integer findCount = resourceVo.getFindCount();
         if (StringUtils.isEmpty(value)) {
+            resourceVo.setFindCount(findCount+1);
             if(StringUtils.isEmpty(userqq)){
                 resourceVo.setUserqq(qq);
                 programmerDao.save(resourceVo);
@@ -71,6 +86,8 @@ public class ProgramerServiceImpl implements ProgramerService {
             }
             return "[CQ:at,qq=" + qq + "] 你的需求" + tid + "已记录";
         }
+        resourceVo.setFindCount(findCount+1);
+        programmerDao.save(resourceVo);
         return "[CQ:at,qq=" + qq + "] 你的需求" + tid + "已找到\n" + value;
     }
 
@@ -83,11 +100,13 @@ public class ProgramerServiceImpl implements ProgramerService {
             resourceVo1.setValue(value);
             resourceVo1.setGroupId(groupId);
             resourceVo1.setNewRequest(1);
+            resourceVo1.setUpdateDate(new Date());
             programmerDao.save(resourceVo1);
             return "添加成功";
         }
         resourceVo.setValue(value);
         resourceVo.setNewRequest(1);
+        resourceVo.setUpdateDate(new Date());
         programmerDao.save(resourceVo);
         String userqq = resourceVo.getUserqq();
         if (!StringUtils.isEmpty(userqq)) {
