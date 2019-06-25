@@ -97,7 +97,7 @@ public class ProgramerServiceImpl implements ProgramerService {
         }
         resourceVo.setFindCount(findCount+1);
         programmerDao.save(resourceVo);
-        return "[CQ:at,qq=" + qq + "] 你的需求" + tid + "["+title+"]已找到\n" + value;
+        return "[CQ:at,qq=" + qq + "] 你的需求" + tid + " ["+title+"] 已找到\n" + value;
     }
 
     private String addRequest(String groupId, Integer tid, String value) {
@@ -126,7 +126,7 @@ public class ProgramerServiceImpl implements ProgramerService {
             String[] split = userqq.split(",");
             String finalTitle = title;
             Arrays.stream(split).filter(s -> !StringUtils.isEmpty(s)).collect(Collectors.toList()).forEach(s -> {
-                SendMsgUtils.sendGroupMsg(groupId, "[CQ:at,qq=" + resourceVo.getUserqq() + "] 你的需求" + tid + "["+ finalTitle +"]已找到\n" + resourceVo.getValue());
+                SendMsgUtils.sendGroupMsg(groupId, "[CQ:at,qq=" + resourceVo.getUserqq() + "] 你的需求" + tid + " ["+ finalTitle +"] 已找到\n" + resourceVo.getValue()+"\n\n[麻烦保存到群文件,谢谢]");
             });
         }
         return "更新成功";
