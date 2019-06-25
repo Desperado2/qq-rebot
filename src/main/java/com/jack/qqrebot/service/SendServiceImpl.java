@@ -249,7 +249,7 @@ public class SendServiceImpl implements SendServiceI {
                     result = "[CQ:at,qq=" + user_id + "] 你无权执行该操作";
                 }
             } else if (!StringUtils.isEmpty(message) && message.startsWith("吾爱")) {
-                if (group_id.equals(wuaiGroupId)) {
+                if (wuaiGroupId.contains(group_id)) {
                     result = programerService.dealRequest(group_id + "", user_id + "", message);
                 } else {
                     result = "无权操作";

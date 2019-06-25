@@ -22,6 +22,9 @@ public class ResourceVo {
     @Column(name="tid")
     private Integer tid;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "link")
     private String value;
 
@@ -61,6 +64,14 @@ public class ResourceVo {
 
     public void setTid(Integer tid) {
         this.tid = tid;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getValue() {
