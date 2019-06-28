@@ -57,6 +57,9 @@ public class SendServiceImpl implements SendServiceI {
     @Value("${desperado.wuai.group.id:#{null}}")
     private String wuaiGroupId;
 
+    @Value("${desperado.rebot.qq:#{null}}")
+    private String rebotQQ;
+
     private final CodeCalendarService codeCalendarService;
     private final ConstellationService constellationService;
     private final MeituService meituService;
@@ -139,7 +142,7 @@ public class SendServiceImpl implements SendServiceI {
         String result = "";
         message = jsonObject.getString("message");
 
-        if (message.contains("[CQ:at,qq=2484313715]")) {
+        if (message.contains("[CQ:at,qq="+rebotQQ+"]")) {
             String group_id = jsonObject.getString("group_id");
             String user_id = jsonObject.getString("user_id");
             if (addMap(user_id + "")) {
