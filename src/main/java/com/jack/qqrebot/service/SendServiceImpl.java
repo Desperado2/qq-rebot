@@ -16,6 +16,8 @@ import com.jack.qqrebot.service.erciyuna.PicService;
 import com.jack.qqrebot.service.gankService.GankeService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.leetcode.LeetCodeService;
+import com.jack.qqrebot.service.mealreminder.MealReminderService;
+import com.jack.qqrebot.service.mealreminder.MealReminderVo;
 import com.jack.qqrebot.service.meitu.MeituService;
 import com.jack.qqrebot.service.menu.MenuService;
 import com.jack.qqrebot.service.music.MusicService;
@@ -85,6 +87,7 @@ public class SendServiceImpl implements SendServiceI {
     private final VisitService visitService;
     private final BlackListService blackListService;
     private final ProgramerService programerService;
+    private final MealReminderService mealReminderService;
 
     private Map<String, Integer> map = new HashMap<>();
 
@@ -95,7 +98,8 @@ public class SendServiceImpl implements SendServiceI {
                            HistoryOnTodayService historyOnTodayService, LeetCodeService leetCodeService, DuyanService duyanService, SatinService satinService,
                            TulingService tulingService, NoticeService noticeService, GankeService gankeService, V2exService v2exService, WeatherService weatherService,
                            DashangService dashangService, WeiboService weiboService, BaiduDiskSearchService baiduDiskSearchService, EmoticonPackageService emoticonPackageService,
-                           VideoService videoService, BookService bookService, VisitService visitService, BlackListService blackListService, ProgramerService programerService) {
+                           VideoService videoService, BookService bookService, VisitService visitService, BlackListService blackListService, ProgramerService programerService,
+                           MealReminderService mealReminderService) {
         this.codeCalendarService = codeCalendarService;
         this.constellationService = constellationService;
         this.sayLoveService = sayLoveService;
@@ -126,6 +130,7 @@ public class SendServiceImpl implements SendServiceI {
         this.visitService = visitService;
         this.blackListService = blackListService;
         this.programerService = programerService;
+        this.mealReminderService = mealReminderService;
     }
 
     @Override
@@ -134,13 +139,13 @@ public class SendServiceImpl implements SendServiceI {
         String result = "";
         message = jsonObject.getString("message");
 
-        if (message.contains("[CQ:at,qq=1244623542]")) {
+        if (message.contains("[CQ:at,qq=2484313715]")) {
             String group_id = jsonObject.getString("group_id");
             String user_id = jsonObject.getString("user_id");
             if (addMap(user_id + "")) {
                 return;
             }
-            ConnType count = visitService.addVisitRecord(String.valueOf(user_id), new Date().getTime());
+            ConnType count = visitService.addVisitRecord(String.valueOf(user_id), System.currentTimeMillis());
             if (count == ConnType.IS_WARN) {
                 result = "[CQ:at,qq=" + user_id + "] 警告，您在一分钟之内超过5次使用机器人，请注意";
                 SendMsgUtils.sendGroupMsg(group_id, result);
@@ -254,6 +259,17 @@ public class SendServiceImpl implements SendServiceI {
                 } else {
                     result = "无权操作";
                 }
+            } else if (!StringUtils.isEmpty(message) && message.contains("午餐提醒")) {
+                MealReminderVo mealReminderVo = new MealReminderVo();
+                Integer userId = Integer.parseInt(user_id);
+                Integer groupId = Integer.parseInt(group_id);
+                mealReminderVo.setUserId(userId);
+                mealReminderVo.setGroupId(groupId);
+                System.out.println(user_id);
+                System.out.println(group_id);
+                mealReminderService.add(mealReminderVo);
+                result = "[CQ:at,qq=" + user_id + "]已设置好提醒!";
+                SendMsgUtils.sendGroupMsg(user_id, result);
             } else {
                 result = tulingService.getMsgByMsg(message);
             }

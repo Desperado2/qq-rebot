@@ -9,6 +9,8 @@ import com.jack.qqrebot.service.duyan.DuyanService;
 import com.jack.qqrebot.service.gankService.GankeService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.leetcode.LeetCodeService;
+import com.jack.qqrebot.service.mealreminder.MealReminderService;
+import com.jack.qqrebot.service.mealreminder.MealReminderVo;
 import com.jack.qqrebot.service.news.NewsService;
 import com.jack.qqrebot.service.proxy.ProxyService;
 import com.jack.qqrebot.service.snh.SNHMembersService;
@@ -44,12 +46,13 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private final VisitService visitService;
     private final ProxyService proxyService;
     private final SendServiceI sendService;
+    private final MealReminderService mealReminderService;
 
     @Autowired
     public SchedualServiceImpl(ArticlesService articlesService, WeatherService weatherService, DailyEnglishService dailyEnglishService, WeiboService weiboService,
                                NewsService newsService, DuyanService duyanService, CodeCalendarService codeCalendarService, HistoryOnTodayService historyOnTodayService,
                                GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService, VisitService visitService,
-                               ProxyService proxyService, SendServiceI sendService) {
+                               ProxyService proxyService, SendServiceI sendService,MealReminderService mealReminderService) {
         this.articlesService = articlesService;
         this.weatherService = weatherService;
         this.dailyEnglishService = dailyEnglishService;
@@ -64,6 +67,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
         this.visitService = visitService;
         this.proxyService = proxyService;
         this.sendService = sendService;
+        this.mealReminderService = mealReminderService;
     }
 
 
@@ -284,5 +288,10 @@ public class SchedualServiceImpl implements SchedualServiceI {
     @Override
     public void clearCount() {
         sendService.clearCount();
+    }
+
+    @Override
+    public void reminderMeal() {
+        mealReminderService.reminder();
     }
 }

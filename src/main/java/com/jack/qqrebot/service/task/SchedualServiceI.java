@@ -17,4 +17,5 @@ public interface SchedualServiceI {
     void getProxyIp();
 
     void clearCount();
+    void reminderMeal();
 }

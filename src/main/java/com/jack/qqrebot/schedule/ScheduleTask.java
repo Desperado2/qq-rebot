@@ -77,4 +77,9 @@ public class ScheduleTask {
     public void getProxyIp(){
         schedualService.checkVisit();
     }
+
+    @Scheduled(cron = "0 * * * * ?")
+    public void reminderMeal(){
+        schedualService.reminderMeal();
+    }
 }
