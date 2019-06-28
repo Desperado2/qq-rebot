@@ -18,14 +18,14 @@ import com.jack.qqrebot.service.weibo.WeiboService;
 import com.jack.qqrebot.utils.CQUtils;
 import com.jack.qqrebot.utils.SendMsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 @Service("schedualService")
 public class SchedualServiceImpl implements SchedualServiceI {
@@ -71,80 +71,186 @@ public class SchedualServiceImpl implements SchedualServiceI {
     @Override
     public void goodMorning() {
         //获取天气
-        String weatherInfo = weatherService.getTodayWeather();
-        String msg  = dailyEnglishService.getDailyEnglish();
-        String messages = "天气:\n\n"+weatherInfo+"\n\n"+msg;
+        boolean flag = false;
+        try {
+            String weatherInfo = weatherService.getTodayWeather();
+            String msg  = dailyEnglishService.getDailyEnglish();
+            String messages = "天气:\n\n"+weatherInfo+"\n\n"+msg;
 
-        List<String> groupList = CQUtils.getGroupList();
-
-        groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
+            List<String> groupList = CQUtils.getGroupList();
+            groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
+        }catch (Exception e){
+            flag = true;
+        }finally {
+           if(flag){
+               ScheduledExecutorService scheduledExecutorService =
+                       Executors.newScheduledThreadPool(1);
+                scheduledExecutorService.schedule(this::goodMorning,60,TimeUnit.SECONDS);
+           }
+        }
     }
 
     @Override
     public void weibo() {
-        List<String> groupList = CQUtils.getGroupList();
-        String messages = weiboService.getWeiboHot();
+        boolean flag = false;
+        try {
+            List<String> groupList = CQUtils.getGroupList();
+            String messages = weiboService.getWeiboHot();
 
-        groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
+            groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
+        }catch (Exception e){
+            flag = true;
+        }finally {
+            if(flag){
+                ScheduledExecutorService scheduledExecutorService =
+                        Executors.newScheduledThreadPool(1);
+                scheduledExecutorService.schedule(this::weibo,60,TimeUnit.SECONDS);
+            }
+        }
+
     }
 
     @Override
     public void everyDayNews() {
-        List<String> groupList = CQUtils.getGroupList();
-        String messages = newsService.getNewsByRandom();
-        String message1 = gankeService.report("wanqu");
-        groupList.forEach(groupId->{
-            if(groupId.equals("89303705") || groupId.equals("604195931")) {
-                SendMsgUtils.sendGroupMsg(groupId, message1);
-            }else{
-                SendMsgUtils.sendGroupMsg(groupId,messages);
+        boolean flag = false;
+        try {
+            List<String> groupList = CQUtils.getGroupList();
+            String messages = newsService.getNewsByRandom();
+            String message1 = gankeService.report("wanqu");
+            groupList.forEach(groupId->{
+                if(groupId.equals("89303705") || groupId.equals("604195931")) {
+                    SendMsgUtils.sendGroupMsg(groupId, message1);
+                }else{
+                    SendMsgUtils.sendGroupMsg(groupId,messages);
+                }
+            });
+        }catch (Exception e){
+            flag = true;
+        }finally {
+            if(flag){
+                ScheduledExecutorService scheduledExecutorService =
+                        Executors.newScheduledThreadPool(1);
+                scheduledExecutorService.schedule(this::everyDayNews,60,TimeUnit.SECONDS);
             }
-        });
+        }
+
     }
 
     @Override
     public void goodLight() {
-        List<String> groupList = CQUtils.getGroupList();
-        String messages =  duyanService.getJitangRandom() +"\n\n各位晚安";
-        groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
+        boolean flag = false;
+        try {
+            List<String> groupList = CQUtils.getGroupList();
+            String messages =  duyanService.getJitangRandom() +"\n\n各位晚安";
+            groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
+        }catch (Exception e){
+            flag = true;
+        }finally {
+            if(flag){
+                ScheduledExecutorService scheduledExecutorService =
+                        Executors.newScheduledThreadPool(1);
+                scheduledExecutorService.schedule(this::goodLight,60,TimeUnit.SECONDS);
+            }
+        }
+
     }
 
     @Override
     public void coderCalendar() {
-        String coderCalendar = codeCalendarService.getTodayCoderCalendar();
-        Arrays.stream(new String[]{"89303705","604195931"}).forEach(groupId -> {
-            SendMsgUtils.sendGroupMsg(groupId,coderCalendar);
-        });
+        boolean flag = false;
+        try {
+            String coderCalendar = codeCalendarService.getTodayCoderCalendar();
+            Arrays.stream(new String[]{"89303705","604195931"}).forEach(groupId -> {
+                SendMsgUtils.sendGroupMsg(groupId,coderCalendar);
+            });
+        }catch (Exception e){
+            flag = true;
+        }finally {
+            if(flag){
+                ScheduledExecutorService scheduledExecutorService =
+                        Executors.newScheduledThreadPool(1);
+                scheduledExecutorService.schedule(this::coderCalendar,60,TimeUnit.SECONDS);
+            }
+        }
+
     }
 
     @Override
     public void articles() {
-        String msg = "如果没事，就来看看文章学习吧！";
-        String articleByRandom = articlesService.getArticleByRandom();
-        SendMsgUtils.sendGroupMsg("89303705",msg+"\n\n"+articleByRandom);
+        boolean flag = false;
+        try {
+            String msg = "如果没事，就来看看文章学习吧！";
+            String articleByRandom = articlesService.getArticleByRandom();
+            SendMsgUtils.sendGroupMsg("89303705",msg+"\n\n"+articleByRandom);
+        }catch (Exception e){
+            flag = true;
+        }finally {
+            if(flag){
+                ScheduledExecutorService scheduledExecutorService =
+                        Executors.newScheduledThreadPool(1);
+                scheduledExecutorService.schedule(this::articles,60,TimeUnit.SECONDS);
+            }
+        }
+
     }
 
     @Override
     public void historyOnToday() {
-        String history = historyOnTodayService.getHistory();
-        SendMsgUtils.sendGroupMsg("89303705",history);
+        boolean flag = false;
+        try {
+            String history = historyOnTodayService.getHistory();
+            SendMsgUtils.sendGroupMsg("89303705",history);
+        }catch (Exception e){
+            flag = true;
+        }finally {
+            if(flag){
+                ScheduledExecutorService scheduledExecutorService =
+                        Executors.newScheduledThreadPool(1);
+                scheduledExecutorService.schedule(this::historyOnToday,60,TimeUnit.SECONDS);
+            }
+        }
+
     }
 
     @Override
     public void leetCode() {
-        String msg = "如果没事，就赶快来显示一下自己的实力吧！";
-        String articleByRandom = leetCodeService.randomProblem();
-        Arrays.stream(new String[]{"89303705","604195931"}).forEach(groupId -> {
-            SendMsgUtils.sendGroupMsg(groupId,msg+"\n\n"+articleByRandom);
-        });
+        boolean flag = false;
+        try {
+            String msg = "如果没事，就赶快来显示一下自己的实力吧！";
+            String articleByRandom = leetCodeService.randomProblem();
+            Arrays.stream(new String[]{"89303705","604195931"}).forEach(groupId -> {
+                SendMsgUtils.sendGroupMsg(groupId,msg+"\n\n"+articleByRandom);
+            });
+        }catch (Exception e){
+            flag = true;
+        }finally {
+            if(flag){
+                ScheduledExecutorService scheduledExecutorService =
+                        Executors.newScheduledThreadPool(1);
+                scheduledExecutorService.schedule(this::leetCode,60,TimeUnit.SECONDS);
+            }
+        }
+
 
     }
 
     @Override
     public void sNHMember() {
-        List<String> groupList = CQUtils.getGroupList();
-        String messages = snhMembersService.getRandomMember();
-        groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
+        boolean flag = false;
+        try {
+            List<String> groupList = CQUtils.getGroupList();
+            String messages = snhMembersService.getRandomMember();
+            groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
+        }catch (Exception e){
+            flag = true;
+        }finally {
+            if(flag){
+                ScheduledExecutorService scheduledExecutorService =
+                        Executors.newScheduledThreadPool(1);
+                scheduledExecutorService.schedule(this::sNHMember,60,TimeUnit.SECONDS);
+            }
+        }
+
     }
 
     @Override
@@ -156,6 +262,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
                 visitService.check();
             }
         });
+
     }
 
     @Override
