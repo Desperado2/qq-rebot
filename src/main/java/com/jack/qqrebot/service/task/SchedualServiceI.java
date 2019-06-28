@@ -8,4 +8,14 @@ public interface SchedualServiceI {
     void goodLight();
     void coderCalendar();
     void articles();
+    void historyOnToday();
+    void leetCode();
+    void sNHMember();
+    void checkVisit();
+    void checkHMD();
+
+    void getProxyIp();
+
+    void clearCount();
+    void reminderMeal();
 }

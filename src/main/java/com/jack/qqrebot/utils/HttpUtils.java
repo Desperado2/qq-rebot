@@ -3,8 +3,7 @@ package com.jack.qqrebot.utils;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,7 +31,14 @@ public class HttpUtils {
 
             URL realUrl = new URL(urlNameString);
             // 打开和URL之间的连接
-            URLConnection connection = realUrl.openConnection();
+            Proxy proxy = getProxy();
+            HttpURLConnection connection = null;
+            if(StringUtils.isEmpty(proxy)){
+                connection=  (HttpURLConnection) realUrl.openConnection();
+            }else{
+                 connection= (HttpURLConnection) realUrl.openConnection(proxy);
+            }
+
             // 设置通用的请求属性
             connection.setRequestProperty("accept", "*/*");
             connection.setRequestProperty("connection", "Keep-Alive");
@@ -40,14 +46,17 @@ public class HttpUtils {
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             connection.setRequestProperty("Content-Type"," application/json;charset=utf-8");
             // 建立实际的连接
-            connection.connect();
+
+
+                connection.connect();
+
             // 获取所有响应头字段
-            Map<String, List<String>> map = connection.getHeaderFields();
-            // 遍历所有的响应头字段
-            for (String key : map.keySet()) {
-                //System.out.println(key + "--->" + map.get(key));
-            }
+            //Map<String, List<String>> map = connection.getHeaderFields();
+//            map.entrySet().forEach(stringListEntry -> {
+//                System.out.println(stringListEntry.getKey() +"-->"+stringListEntry.getValue());
+//            });
             // 定义 BufferedReader输入流来读取URL的响应
+
             in = new BufferedReader(new InputStreamReader(
                     connection.getInputStream(),"utf-8"));
             String line;
@@ -71,6 +80,70 @@ public class HttpUtils {
         return result;
     }
 
+
+    public static String sendGetUseGBK(String url, String param) {
+        String result = "";
+        BufferedReader in = null;
+        try {
+            String urlNameString = null;
+            if(StringUtils.isEmpty(param)){
+                urlNameString = url ;
+            }else{
+                urlNameString = url + "?" + param;
+            }
+
+            URL realUrl = new URL(urlNameString);
+            // 打开和URL之间的连接
+            Proxy proxy = getProxy();
+            HttpURLConnection connection = null;
+            if(StringUtils.isEmpty(proxy)){
+                connection=  (HttpURLConnection) realUrl.openConnection();
+            }else{
+                connection= (HttpURLConnection) realUrl.openConnection(proxy);
+            }
+
+            // 设置通用的请求属性
+            connection.setRequestProperty("accept", "*/*");
+            connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            connection.setRequestProperty("Content-Type"," application/json;charset=utf-8");
+            // 建立实际的连接
+
+
+            connection.connect();
+
+            // 获取所有响应头字段
+            //Map<String, List<String>> map = connection.getHeaderFields();
+//            map.entrySet().forEach(stringListEntry -> {
+//                System.out.println(stringListEntry.getKey() +"-->"+stringListEntry.getValue());
+//            });
+            // 定义 BufferedReader输入流来读取URL的响应
+
+            in = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream(),"gbk"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            System.out.println("发送GET请求出现异常！" + e);
+            e.printStackTrace();
+        }
+        // 使用finally块来关闭输入流
+        finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+
     /**
      * 向指定 URL 发送POST方法的请求
      *
@@ -87,7 +160,14 @@ public class HttpUtils {
         try {
             URL realUrl = new URL(url);
             // 打开和URL之间的连接
-            URLConnection conn = realUrl.openConnection();
+            Proxy proxy = getProxy();
+            HttpURLConnection conn = null;
+            if(StringUtils.isEmpty(proxy)){
+                conn=  (HttpURLConnection) realUrl.openConnection();
+            }else{
+                conn= (HttpURLConnection) realUrl.openConnection(proxy);
+            }
+
             // 设置通用的请求属性
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
@@ -127,7 +207,6 @@ public class HttpUtils {
                 ex.printStackTrace();
             }
         }
-        System.out.println(result);
         return result;
     }
 
@@ -140,7 +219,13 @@ public class HttpUtils {
         try {
             URL realUrl = new URL(url);
             // 打开和URL之间的连接
-            URLConnection conn = realUrl.openConnection();
+            Proxy proxy = getProxy();
+            HttpURLConnection conn = null;
+            if(StringUtils.isEmpty(proxy)){
+                conn=  (HttpURLConnection) realUrl.openConnection();
+            }else{
+                conn = (HttpURLConnection) realUrl.openConnection(proxy);
+            }
             // 设置通用的请求属性
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
@@ -199,5 +284,96 @@ public class HttpUtils {
             }
         }
         return fileName;
+    }
+
+
+    public static String getPic(String url, String param) {
+        InputStream iStream = null;
+        FileOutputStream outputStream = null;
+        String fileName = UUID.randomUUID().toString().replace("-","")+".jpg";
+        try {
+            String urlNameString = null;
+            if(StringUtils.isEmpty(param)){
+                urlNameString = url ;
+            }else{
+                urlNameString = url + "?" + param;
+            }
+
+            URL realUrl = new URL(urlNameString);
+            // 打开和URL之间的连接
+            Proxy proxy = getProxy();
+            HttpURLConnection connection = null;
+            if(StringUtils.isEmpty(proxy)){
+                connection=  (HttpURLConnection) realUrl.openConnection();
+            }else{
+                connection= (HttpURLConnection) realUrl.openConnection(proxy);
+            }
+            // 设置通用的请求属性
+            connection.setRequestProperty("accept", "*/*");
+            connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            connection.setRequestProperty("Content-Type"," application/json;charset=utf-8");
+            // 建立实际的连接
+            connection.connect();
+            // 获取所有响应头字段
+            Map<String, List<String>> map = connection.getHeaderFields();
+//            map.entrySet().forEach(stringListEntry -> {
+//                //System.out.println(stringListEntry.getKey() +"-->"+stringListEntry.getValue());
+//            });
+            // 定义 BufferedReader输入流来读取URL的响应
+
+
+            File file = new File("C:\\CQPro\\data\\image\\"+fileName);//本地生成的文件
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                byte[] Buffer = new byte[4096 * 5];
+                outputStream = new FileOutputStream(file);
+                iStream = connection.getInputStream();//去字段用getBinaryStream()
+                int size = 0;
+                while ((size = iStream.read(Buffer)) != -1) {
+                    outputStream.write(Buffer, 0, size);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } catch (Exception e) {
+            System.out.println("发送GET请求出现异常！" + e);
+            e.printStackTrace();
+        }
+        // 使用finally块来关闭输入流
+        finally {
+            try {
+                if (iStream != null) {
+                    iStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return fileName;
+    }
+
+    private static Proxy getProxy(){
+        // 创建代理服务器
+        String oneProxyIp = ProxyUtils.getOneProxyIp();
+        if(StringUtils.isEmpty(oneProxyIp)){
+            return null;
+        }
+        String[] split = oneProxyIp.split(":");
+        String ip = split[0];
+        int prot = Integer.parseInt(split[1]);
+        InetSocketAddress addr = new InetSocketAddress(ip,prot);
+        return new Proxy(Proxy.Type.HTTP, addr);
     }
 }

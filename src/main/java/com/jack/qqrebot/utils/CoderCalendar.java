@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -56,11 +58,13 @@ public class CoderCalendar {
 
     private static JSONArray drinks = JSONArray.parseArray("[\"水\",\"茶\",\"红茶\",\"绿茶\",\"咖啡\",\"奶茶\",\"可乐\",\"牛奶\",\"豆奶\",\"果汁\",\"果味汽水\",\"苏打水\",\"运动饮料\",\"酸奶\",\"酒\"]");
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
 
 
     private static JSONArray getBads(){
-        String iday = sdf.format(new Date());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyyMMdd");
+        String iday = now.format(dtf);
         int numGood = random(iday, 98) % 3 + 2;
         int numBad = random(iday, 87) % 3 + 2;
         JSONArray eventArr = pickRandomActivity(numGood + numBad);
@@ -75,7 +79,10 @@ public class CoderCalendar {
 
 
     private static JSONArray getGoods(){
-        String iday = sdf.format(new Date());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyyMMdd");
+        String iday = now.format(dtf);
+
         int numGood = random(iday, 98) % 3 + 2;
         int numBad = random(iday, 87) % 3 + 2;
         JSONArray eventArr = pickRandomActivity(numGood + numBad);
@@ -102,11 +109,14 @@ public class CoderCalendar {
     // 添加预定义事件
     private static Integer[] pickSpecials() {
         Integer specialSize[] = new Integer[]{0,0};
-        String iday = sdf.format(new Date());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyyMMdd");
+        String iday = now.format(dtf);
+
         for (int i = 0; i < specials.size(); i++) {
             JSONObject special = specials.getJSONObject(i);
 
-            if (iday.equals(special.getInteger("date"))) {
+            if (iday.equals(special.getString("date"))) {
                 if ("good".equals(special.getString("type"))) {
                     specialSize[0]++;
                 } else {
@@ -137,7 +147,9 @@ public class CoderCalendar {
         }
 
         for (int j = 0; j < array.size() - size; j++) {
-            String iday = sdf.format(new Date());
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyyMMdd");
+            String iday = now.format(dtf);
             int index = random(iday, j) % result.size();
             result.remove(index);
         }
@@ -152,7 +164,9 @@ public class CoderCalendar {
         }
 
         for (int j = 0; j < array.size() - size; j++) {
-            String iday = sdf.format(new Date());//0-13
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyyMMdd");
+            String iday = now.format(dtf);//0-13
             int index = random(iday, j) % result.size(); // 15
             result.remove(index);
         }
@@ -161,21 +175,25 @@ public class CoderCalendar {
 
     // 解析占位符并替换成随机内容
     private static JSONObject parse(JSONObject object) {
-        String iday = sdf.format(new Date());
-        if (object.getString("name").indexOf("%v") != -1) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyyMMdd");
+        String iday = now.format(dtf);
+        if (object.getString("name").contains("%v")) {
             object.put("name",object.getString("name").replace("%v", varNames.getString(random(iday, 12) % varNames.size())));
         }
-        if (object.getString("name").indexOf("%t") != -1) {
+        if (object.getString("name").contains("%t")) {
             object.put("name",object.getString("name").replace("%t", tools.getString(random(iday, 12) % tools.size())));
         }
-        if (object.getString("name").indexOf("%l") != -1) {
+        if (object.getString("name").contains("%l")) {
             object.put("name",object.getString("name").replace("%l", String.valueOf((random(iday, 12) % 247 + 30))));
         }
         return object;
     }
 
     private static String getDirection(){
-        String iday = sdf.format(new Date());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyyMMdd");
+        String iday = now.format(dtf);
         String direction = directions.getString(random(iday, 2) % directions.size());
         return "座位朝向：面向direction写程序，BUG 最少。".replace("direction",direction);
     }
@@ -190,7 +208,9 @@ public class CoderCalendar {
     }
 
     private static String getGoddes(){
-        String iday = sdf.format(new Date());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyyMMdd");
+        String iday = now.format(dtf);
         double goddes = random(iday, 6) % 50 / 10.0;
         return "女神亲近指数："+goddes;
     }
@@ -202,7 +222,7 @@ public class CoderCalendar {
         return "今天是" + split[0] + "年" + split[1] + "月" + split[2] + "日 星期" + weeks.getString(new Date().getDay());
     }
 
-    public static void createImage() {
+    public static void createImage(String cqLocation) {
         JSONArray goods = getGoods();
         JSONArray bads = getBads();
         String direction = getDirection();
@@ -242,7 +262,8 @@ public class CoderCalendar {
             }
             bad_H += 20;
         }
-        ChartGraphics.graphicsGeneration( today,goods,bads,direction,drink,goddes,good_H-10,bad_H-10,maxWidth);
+        ChartGraphics graphics = new ChartGraphics();
+        graphics.graphicsGeneration(cqLocation, today,goods,bads,direction,drink,goddes,good_H-10,bad_H-10,maxWidth);
     }
 
 }

@@ -20,14 +20,14 @@ import java.util.Random;
 public class SatinServiceImpl implements SatinService {
 
     @Override
-    public String getSatinByRandom() throws UnsupportedEncodingException {
+    public String getSatinByRandom()  {
         String message = "";
         String s = HttpUtils.sendGet("https://www.apiopen.top/satinApi?type=2", "");
         JSONObject jsonObject = JSON.parseObject(s);
         JSONArray satin = jsonObject.getJSONArray("data");
+
         if(!StringUtils.isEmpty(satin) &&satin.size() > 0){
-            Random rand = new Random();
-            int i = rand.nextInt(satin.size());
+            int i = new Random().nextInt(satin.size());
             message = satin.getJSONObject(i).getString("text");
         }
         return message;

@@ -7,8 +7,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduleTask {
+    private final SchedualServiceI schedualService;
+
     @Autowired
-    private SchedualServiceI schedualService;
+    public ScheduleTask(SchedualServiceI schedualService) {
+        this.schedualService = schedualService;
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void clearVistiCount() {
+        schedualService.clearCount();
+    }
 
     @Scheduled(cron = "30 0 0 * * ?")
     public void coderCalendar() {
@@ -19,6 +28,16 @@ public class ScheduleTask {
     @Scheduled(cron = "0 0 8 * * ?")
     public void goodMorning() {
         schedualService.goodMorning();
+    }
+
+    @Scheduled(cron = "0 0 9 * * ?")
+    public void historyOnToday() {
+        schedualService.leetCode();
+    }
+
+    @Scheduled(cron = "0 0 10 * * ?")
+    public void snhMember() {
+        schedualService.sNHMember();
     }
 
     //微博热搜
@@ -39,10 +58,28 @@ public class ScheduleTask {
         schedualService.everyDayNews();
     }
 
+    @Scheduled(cron = "0 * * * * ?")
+    public void checkVisit(){
+        schedualService.checkVisit();
+    }
+
+    @Scheduled(cron = "0 0 1/3 * * ?")
+    public void checkHMD(){
+        schedualService.checkHMD();
+    }
+
     @Scheduled(cron = "0 30 22 * * ?")
     public void light(){
         schedualService.goodLight();
     }
 
+    @Scheduled(cron = "0 10 2 * * ?")
+    public void getProxyIp(){
+        schedualService.checkVisit();
+    }
 
+    @Scheduled(cron = "0 * * * * ?")
+    public void reminderMeal(){
+        schedualService.reminderMeal();
+    }
 }

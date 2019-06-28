@@ -21,18 +21,19 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public String getMusicByName(String musicName) {
+        if(StringUtils.isEmpty(musicName)){
+            return "命令错误，正确格式给 [音乐 歌曲名称]";
+        }
         String message ="";
         String s = null;
         try {
-            s = HttpUtils.sendGet("https://api.apiopen.top/searchMusic", "name="+URLEncoder.encode(musicName,"utf-8"));
+            s = HttpUtils.sendGet("http://s.music.163.com/search/get/","type=1&s="+URLEncoder.encode(musicName,"utf-8")+"&limit=1&offset=0");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        JSONObject jsonObject = JSON.parseObject(s);
-        JSONArray musics = jsonObject.getJSONArray("result");
-        if(!StringUtils.isEmpty(musics) &&musics.size() > 0){
-            JSONObject music = musics.getJSONObject(0);
-            String link = music.getString("link").split("\\?")[1].split("=")[1];
+        if(!StringUtils.isEmpty(s)){
+            JSONObject jsonObject = JSON.parseObject(s);
+            String link = jsonObject.getJSONObject("result").getJSONArray("songs").getJSONObject(0).getString("id");
             message ="[CQ:music,type=163,id="+link+"]";
         }else {
             message="抱歉，没有找到";

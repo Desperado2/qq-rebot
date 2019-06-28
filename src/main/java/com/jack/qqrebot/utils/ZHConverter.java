@@ -48,7 +48,7 @@ public class ZHConverter {
             throw new IllegalAccessException("content is null");
         }
 
-        StringBuffer str = new StringBuffer();
+        StringBuilder str = new StringBuilder();
         if (content.length() > 1 && CorrespondingTable.containsKey(content)) {
             return CorrespondingTable.getString(content);
         }

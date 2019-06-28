@@ -39,14 +39,12 @@ public class PoetryServiceImpl implements PoetryService {
                 jsonObject1 = jsonObject.getJSONObject("result");
             }
         }
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("\n");
-        stringBuffer.append(jsonObject1.getString("title"));
-        stringBuffer.append("\n");
-        stringBuffer.append(jsonObject1.getString("authors"));
-        stringBuffer.append("\n");
-        stringBuffer.append(jsonObject1.getString("content").replace("|","\n"));
-        stringBuffer.append("\n");
-        return stringBuffer.toString();
+        return "\n" +
+                jsonObject1.getString("title") +
+                "\n" +
+                jsonObject1.getString("authors") +
+                "\n" +
+                jsonObject1.getString("content").replace("|", "\n") +
+                "\n";
     }
 }

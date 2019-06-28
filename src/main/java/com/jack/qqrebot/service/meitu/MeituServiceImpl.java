@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Random;
 
 /**
  * @Auther: mujj
@@ -24,10 +25,13 @@ public class MeituServiceImpl implements MeituService {
         JSONObject jsonObject = JSON.parseObject(s);
         JSONArray musics = jsonObject.getJSONArray("data");
         String message ="";
+
         if(!StringUtils.isEmpty(musics) &&musics.size() > 0){
-            JSONObject music = musics.getJSONObject(0);
-            message = music.getString("url");
-            System.out.println(message);
+            while (!message.contains("sinaimg.cn")){
+                int random = new Random().nextInt(musics.size());
+                JSONObject music = musics.getJSONObject(random);
+                message = music.getString("url");
+            }
         }
         message = "找到的美图如下\n[CQ:image,file="+message+"]";
         return message;

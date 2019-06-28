@@ -1,13 +1,15 @@
 package com.jack.qqrebot.service.weibo;
 
 import com.jack.qqrebot.utils.HttpUtils;
+import com.jack.qqrebot.utils.LongUrlToShortUrlUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.io.UnsupportedEncodingException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Auther: mujj
@@ -19,7 +21,7 @@ import java.io.UnsupportedEncodingException;
 public class WeiboServiceImpl implements WeiboService{
 
     @Override
-    public String getWeiboHot() throws UnsupportedEncodingException {
+    public String getWeiboHot() {
         StringBuilder message = new StringBuilder();
         message.append("微博实时热搜榜如下:\n\n");
         String url1 ="https://s.weibo.com/top/summary?Refer=top_hot&topnav=1&wvr=6";
@@ -27,11 +29,29 @@ public class WeiboServiceImpl implements WeiboService{
         Document document = Jsoup.parse(get);
         Element element = document.select("div[id=pl_top_realtimehot]").get(0);
         Elements elements = element.select("table").get(0).select("tbody").select("tr");
-        for (int i =0;i<Math.min(elements.size(),10);i++){
-            Element element1 = elements.get(i);
-            Element element2 = element1.select("td").get(1);
-            message.append(i+1).append(".").append(element2.text()).append("\n\n");
-        }
+        AtomicInteger index = new AtomicInteger(1);
+        elements.forEach(element1 -> {
+            if(index.get() <= 10){
+                Element element2 = element1.select("td").get(1);
+                String linkUrl =element2.select("a").attr("href");
+                String title = element2.select("a").text();
+                String hot = element2.select("span").text();
+                if(hot.length() < 1){
+                    title = title+"[置顶热搜↑↑↑]";
+                }else{
+                    title = title+"[实时热度:"+hot+"]";
+                }
+                String url = "https://s.weibo.com"+linkUrl;
+                url = LongUrlToShortUrlUtils.longToShort(url);
+
+                message.append(index.getAndIncrement()).append(".").append(title);
+                if(!StringUtils.isEmpty(url)){
+                    message.append("\n").append(url);
+                }
+                message.append("\n\n");
+            }
+        });
+
         return message.toString();
     }
 }

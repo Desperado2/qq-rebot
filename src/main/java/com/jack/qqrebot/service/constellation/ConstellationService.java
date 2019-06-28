@@ -10,5 +10,5 @@ import java.io.UnsupportedEncodingException;
  */
 public interface ConstellationService {
 
-    String getMsgByConstellationName(String constellationName) throws UnsupportedEncodingException;
+    String getMsgByConstellationName(String constellationName);
 }
