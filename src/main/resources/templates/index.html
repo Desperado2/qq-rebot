@@ -143,11 +143,20 @@
 
                     <div th:unless="${data.todayUsers == null}">
                         <h2  style="color: black" th:text="'感想一下'+${data.todayUserCount}+'位聚聚支持，今天发车成功啦，呜啦啦啦'"></h2>
+                        <p></p>
                         <table  class="pure-table pure-table-bordered"  style="width: 40%;margin:auto">
+                            <thead>
+                            <tr>
+                                <th>支持顺序</th>
+                                <th>摩点用户名</th>
+                                <th>支持金额</th>
+                            </tr>
+                            </thead>
                             <tbody>
                             <tr th:each="user,iterStat : ${data.todayUsers}">
                                 <td th:text="${iterStat.index + 1}"></td>
-                                <td th:text="${user}"></td>
+                                <td th:text="${user.username}"></td>
+                                <td th:text="${user.money}"></td>
                             </tr>
                             </tbody>
                         </table>

@@ -128,9 +128,13 @@ public class ProjectServiceImpl implements ProjectService {
     private void getTodayUsers(ProjectDateVo projectDateVo){
         List todayUser = projectDao.getTodayUser();
         if(todayUser.size() > 24){
-            List<String> todays = new ArrayList<>();
+            List<UserVo> todays = new ArrayList<>();
             for (Object object : todayUser){
-               todays.add(object.toString());
+                Object[] cells = (Object[]) object;
+                UserVo userVo = new UserVo();
+                userVo.setUsername((String) cells[0]);
+                userVo.setMoney((Double) cells[1]);
+                todays.add(userVo);
             }
             projectDateVo.setTodayUsers(todays);
         }
