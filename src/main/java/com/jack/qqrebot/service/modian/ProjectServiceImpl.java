@@ -3,7 +3,10 @@ package com.jack.qqrebot.service.modian;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.utils.HttpUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -19,6 +22,7 @@ import java.util.*;
 @Service("projectService")
 public class ProjectServiceImpl implements ProjectService {
 
+    Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
     @Autowired
     private ProjectDao projectDao;
 
@@ -26,8 +30,7 @@ public class ProjectServiceImpl implements ProjectService {
     private static final SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd");
     @Override
     public void updateData() throws ParseException {
-        System.out.println(sdf.format(new Date())+"  更新完毕");
-
+        logger.info(sdf.format(new Date())+"  摩点数据更新开始");
         long millis = System.currentTimeMillis()/1000;
         String url="http://mapi.modian.com/v45/product/comment_list?_t=1561727048&client=2&json_type=1" +
                 "&mapi_query_time="+millis+"&moxi_post_id=92546";
@@ -60,7 +63,6 @@ public class ProjectServiceImpl implements ProjectService {
                 projectVo.setUsername(userName);
                 projectVo.setMoney(money);
                 projectVo.setCreateDate(date);
-                System.out.println(projectVo);
                 projectDao.save(projectVo);
             }
         }
@@ -78,6 +80,7 @@ public class ProjectServiceImpl implements ProjectService {
         getTodayData(projectDateVo);
         getAllData(projectDateVo);
         getChartData(projectDateVo);
+        getTodayUsers(projectDateVo);
         return projectDateVo;
     }
 
@@ -120,5 +123,16 @@ public class ProjectServiceImpl implements ProjectService {
         projectDateVo.setUsersCount(count);
         projectDateVo.setUsersTotal(total);
         projectDateVo.setMoneys(money);
+    }
+
+    private void getTodayUsers(ProjectDateVo projectDateVo){
+        List todayUser = projectDao.getTodayUser();
+        if(todayUser.size() > 24){
+            List<String> todays = new ArrayList<>();
+            for (Object object : todayUser){
+               todays.add(object.toString());
+            }
+            projectDateVo.setTodayUsers(todays);
+        }
     }
 }

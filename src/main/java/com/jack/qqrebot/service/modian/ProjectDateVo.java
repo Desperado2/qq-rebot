@@ -31,6 +31,8 @@ public class ProjectDateVo {
 
     private List<Double> moneys;
 
+    private List<String> todayUsers;
+
     public Long getTodayUserCount() {
         return todayUserCount;
     }
@@ -109,5 +111,13 @@ public class ProjectDateVo {
 
     public void setMoneys(List<Double> moneys) {
         this.moneys = moneys;
+    }
+
+    public List<String> getTodayUsers() {
+        return todayUsers;
+    }
+
+    public void setTodayUsers(List<String> todayUsers) {
+        this.todayUsers = todayUsers;
     }
 }

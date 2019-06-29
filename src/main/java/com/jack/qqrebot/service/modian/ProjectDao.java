@@ -22,6 +22,11 @@ public interface ProjectDao extends JpaRepository<ProjectVo,Integer> {
         @Query("SELECT COUNT(DISTINCT userId) as count,COUNT(userId) as total, COALESCE(sum(money),0) as money FROM ProjectVo")
         public List allCount();
 
+        @Query("SELECT username FROM ProjectVo WHERE DATE(createDate)=CURDATE() order by createDate asc")
+        public List getTodayUser();
+
         public ProjectVo findByPid(Integer pid);
+
+
 
 }
