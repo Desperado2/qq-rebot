@@ -23,19 +23,22 @@ import java.util.*;
 public class ProjectServiceImpl implements ProjectService {
 
     Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
+
     @Autowired
     private ProjectDao projectDao;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private static final SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd");
     @Override
-    public void updateData() throws ParseException {
+    public void updateData(String tid,String postid,String t,String code) throws ParseException {
         logger.info(sdf.format(new Date())+"  摩点数据更新开始");
         long millis = System.currentTimeMillis()/1000;
-        String url="http://mapi.modian.com/v45/product/comment_list?_t=1561727048&client=2&json_type=1" +
-                "&mapi_query_time="+millis+"&moxi_post_id=92546";
-        for (int i= 0; i< 200; i=i+10){
-            url = url + "&page_index="+i+"&page_rows=10&pro_class=202&pro_id=69011&code=6496ffb6d99007b4";
+        //String url="http://mapi.modian.com/v45/product/comment_list?_t=1561976288&client=2&json_type=1" +
+               // "&mapi_query_time="+millis+"&moxi_post_id=78484";
+        String url="http://mapi.modian.com/v45/product/comment_list?_t="+t+"&client=2&json_type=1" +
+                "&mapi_query_time="+millis+"&moxi_post_id="+postid;
+        for (int i= 0; i< 1000; i=i+10){
+            url = url + "&page_index="+i+"&page_rows=10&pro_class=202&pro_id="+tid+"&code="+code;
 
             String get = HttpUtils.sendGet(url, null);
             JSONObject object = JSONObject.parseObject(get);
@@ -43,12 +46,13 @@ public class ProjectServiceImpl implements ProjectService {
 
             for (int j=0; j<data.size(); j++){
                 JSONObject jsonObject = data.getJSONObject(j);
+                System.out.println(jsonObject);
                 Integer pay_amount = jsonObject.getInteger("pay_amount");
                 if(pay_amount == 0){
                     continue;
                 }
                 Integer pid = jsonObject.getInteger("id");
-                if(isExists(pid)){
+                if(isExists(pid,Integer.parseInt(tid))){
                     return;
                 }
                 Integer userId = jsonObject.getInteger("user_id");
@@ -59,6 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
 
                 ProjectVo projectVo = new ProjectVo();
                 projectVo.setPid(pid);
+                projectVo.setTid(Integer.parseInt(tid));
                 projectVo.setUserId(userId);
                 projectVo.setUsername(userName);
                 projectVo.setMoney(money);
@@ -69,8 +74,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     }
 
-    private boolean isExists(Integer pid){
-        ProjectVo projectVo = projectDao.findByPid(pid);
+    private boolean isExists(Integer pid,Integer tid){
+        ProjectVo projectVo = projectDao.findByPidAndTid(pid,tid);
         return projectVo != null;
     }
 
@@ -82,6 +87,20 @@ public class ProjectServiceImpl implements ProjectService {
         getChartData(projectDateVo);
         getTodayUsers(projectDateVo);
         return projectDateVo;
+    }
+
+    @Override
+    public List<UserRankingVo> getUserRanking() {
+        List userRanking = projectDao.getUserRanking();
+        List<UserRankingVo> list = new ArrayList<>();
+        for (Object object : userRanking){
+            UserRankingVo userRankingVo = new UserRankingVo();
+            Object[] cells = (Object[]) object;
+            userRankingVo.setUsername((String) cells[0]);
+            userRankingVo.setMoney(String.valueOf((double)cells[1]));
+            list.add(userRankingVo);
+        }
+        return list;
     }
 
     private void getTodayData(ProjectDateVo projectDateVo){

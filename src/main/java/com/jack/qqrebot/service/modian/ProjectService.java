@@ -12,8 +12,10 @@ import java.util.Map;
  */
 public interface ProjectService {
 
-    void updateData() throws ParseException;
+    void updateData(String tid,String pid,String t,String code) throws ParseException;
 
     ProjectDateVo getCountGroupByDate();
+
+    List<UserRankingVo> getUserRanking();
 
 }

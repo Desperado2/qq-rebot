@@ -13,20 +13,22 @@ import java.util.List;
  */
 public interface ProjectDao extends JpaRepository<ProjectVo,Integer> {
 
-        @Query("SELECT createDate,COUNT(DISTINCT userId) as count,COUNT(userId) as totle,sum(money)as money FROM ProjectVo GROUP BY DATE(createDate)")
+        @Query("SELECT createDate,COUNT(DISTINCT userId) as count,COUNT(userId) as totle,sum(money)as money FROM ProjectVo where tid= 69011 GROUP BY DATE(createDate)")
         public List getCountGroupByDate();
 
-        @Query("SELECT COUNT(DISTINCT userId) as count,COUNT(userId) as total,COALESCE(sum(money),0) as money FROM ProjectVo WHERE DATE(createDate)=CURDATE()")
+        @Query("SELECT COUNT(DISTINCT userId) as count,COUNT(userId) as total,COALESCE(sum(money),0) as money FROM ProjectVo where tid= 69011 and DATE(createDate)=CURDATE() ")
         public List getTodayCount();
 
-        @Query("SELECT COUNT(DISTINCT userId) as count,COUNT(userId) as total, COALESCE(sum(money),0) as money FROM ProjectVo")
+        @Query("SELECT COUNT(DISTINCT userId) as count,COUNT(userId) as total, COALESCE(sum(money),0) as money FROM ProjectVo where tid= 69011")
         public List allCount();
 
-        @Query("SELECT username,sum(money) FROM ProjectVo WHERE DATE(createDate)=CURDATE() group by username order by createDate asc")
+        @Query("SELECT username,sum(money) FROM ProjectVo where tid= 69011 and DATE(createDate)=CURDATE() group by username order by createDate asc")
         public List getTodayUser();
 
-        public ProjectVo findByPid(Integer pid);
+        public ProjectVo findByPidAndTid(Integer pid,Integer tid);
 
 
+        @Query("SELECT username,sum(money) FROM ProjectVo where tid <> 69011 group by username order by sum(money) desc  ")
+        public List getUserRanking();
 
 }

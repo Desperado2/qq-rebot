@@ -22,6 +22,9 @@ public class ProjectVo {
     @Column(name = "pid")
     private Integer pid;
 
+    @Column(name = "tid")
+    private Integer tid;
+
     @Column(name = "user_id")
     private Integer userId;
 
@@ -48,6 +51,14 @@ public class ProjectVo {
 
     public void setPid(Integer pid) {
         this.pid = pid;
+    }
+
+    public Integer getTid() {
+        return tid;
+    }
+
+    public void setTid(Integer tid) {
+        this.tid = tid;
     }
 
     public Integer getUserId() {

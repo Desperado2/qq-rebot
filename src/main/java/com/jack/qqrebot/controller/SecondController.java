@@ -3,6 +3,7 @@ package com.jack.qqrebot.controller;
 import com.jack.qqrebot.service.SendServiceI;
 import com.jack.qqrebot.service.modian.ProjectDateVo;
 import com.jack.qqrebot.service.modian.ProjectService;
+import com.jack.qqrebot.service.modian.UserRankingVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,28 @@ public class SecondController {
             map.put("data",new ProjectDateVo());
         }
         return "index";
+    }
+
+    @RequestMapping(value="/jst",method = RequestMethod.GET)
+    public String index(Map<String,Object> map){
+        List<UserRankingVo> userRanking = projectService.getUserRanking();
+        if(userRanking != null){
+            map.put("userRanking",userRanking);
+        }else {
+            map.put("userRanking",new UserRankingVo());
+        }
+        return "jst";
+    }
+
+    @RequestMapping(value="/rank",method = RequestMethod.GET)
+    public String rank(Map<String,Object> map){
+        List<UserRankingVo> userRanking = projectService.getUserRanking();
+        if(userRanking != null){
+            map.put("userRanking",userRanking);
+        }else {
+            map.put("userRanking",new UserRankingVo());
+        }
+        return "ranking";
     }
 
 }

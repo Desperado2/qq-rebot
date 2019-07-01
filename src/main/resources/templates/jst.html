@@ -1,0 +1,796 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="蒋舒婷的安利站">
+    <title>蒋舒婷的安利站</title>
+
+    <link rel="stylesheet" href="./plug-in/pruecss/pure-min.css">
+
+
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="./plug-in/swiper/swiper.min.css">
+    <link rel="stylesheet" href="./plug-in/custom-css/jst.css">
+    <link rel="stylesheet" href="./plug-in/custom-css/timeline.css">
+    <link rel="stylesheet" href="./plug-in/custom-css/gallery.css">
+    <link rel="stylesheet" href="./plug-in/custom-css/contant-card.css">
+    <link rel="stylesheet" href="./plug-in/custom-css/jz-card.css">
+
+</head>
+<body>
+<!-- Swiper -->
+<nav class="nav" id="nav">
+    <div class="pure-g nav-div">
+        <div class="pure-u-6-24 nav-div-title" onclick="swiperTo(0)"><p style="padding-left: 10px">蒋舒婷的安利站</p></div>
+        <div class="pure-u-3-24 nav-div-item">
+            <div onclick="swiperTo(1)">
+                <b>Resume</b>
+                <p class="nav-div-p">个 / 人 / 履 / 历</p></div>
+            </div>
+
+        <div class="pure-u-3-24 nav-div-item">
+            <div onclick="swiperTo(3)">
+            <b>Dunce</b>
+            <p class="nav-div-p">舞 / 蹈 / 合 / 集</p>
+            </div></div>
+        <div class="pure-u-3-24 nav-div-item">
+            <div onclick="swiperTo(4)">
+            <b>Music</b>
+            <p class="nav-div-p">唱 / 歌 / 合 / 集</p>
+            </div>
+            </div>
+        <div class="pure-u-3-24 nav-div-item">
+            <div onclick="swiperTo(5)">
+            <b>MC</b>
+            <p class="nav-div-p">MC / 合 / 集</p>
+            </div>
+            </div>
+        <div class="pure-u-3-24 nav-div-item">
+            <div onclick="swiperTo(6)">
+            <b>Gallery</b>
+            <p class="nav-div-p">美 / 丽 / 瞬 / 间</p>
+            </div>
+            </div>
+        <div class="pure-u-3-24 nav-div-item">
+            <div onclick="swiperTo(9)">
+            <b>Contact</b>
+            <p class="nav-div-p">交 / 流 / 方 / 式</p>
+            </div>
+            </div>
+    </div>
+</nav>
+<div class="swiper-container">
+    <div class="swiper-wrapper move-to-top" >
+        <div class="swiper-slide">
+            <div class="swiper1-video">
+                <h2>
+                    <b class="swiper1-name-b">最近演出</b>
+                </h2>
+                <ul class="swiper1-ul">
+                    <li>
+                        2019-06-30 SNH48 H队 《橘色奇迹》公演
+                    </li>
+                    <li>
+                        2019-07-06 SNH48 H队 《橘色奇迹》公演
+                    </li>
+                    <li>
+                        暂无公演排期
+                    </li>
+                </ul>
+            </div>
+            <div class="swiper1-name">
+                <p>
+                    <b class="swiper1-name-b">蒋舒婷</b>
+                    <br>
+                    SNH48 GROUP大型女子偶像团体成员
+                </p>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="swiper2-div">
+                <img src="./plug-in/image/resume-1.png">
+                <div class="swiper2-resume">
+                    <h2>
+                        <b>Resume</b><br>
+                        <p class="nav-div-p">个 人 履 历</p>
+                    </h2>
+                    <ul>
+                        <li>
+                            <b style="letter-spacing: 1.25rem;margin-right: 2.25rem">中文名</b>
+                            <p>蒋舒婷</p>
+                        </li>
+                        <li>
+                            <b style="letter-spacing: 3.5rem;margin-right:0">昵称</b>
+                            <p>猪蹄</p>
+                        </li>
+                        <li>
+                            <b style="letter-spacing: 3.5rem;margin-right: 0">星座</b>
+                            <p>双子座</p>
+                        </li>
+                        <li>
+                            <b>出生日期</b>
+                            <p>6月18号</p>
+                        </li>
+                        <li>
+                            <b>个人特长</b>
+                            <p>唱歌、跳舞、笑</p>
+                        </li>
+                        <li>
+                            <b>兴趣爱好</b>
+                            <p>唱歌、跳舞、看书、动漫</p>
+                        </li>
+                        <li>
+                            <b>出道时间</b>
+                            <p>2015-07-25</p>
+                        </li>
+                        <li>
+                            <b>加入所属</b>
+                            <p>SNH48 五期生</p>
+                        </li>
+                        <li>
+                            <b>所在队伍</b>
+                            <p>SNH48 H队（TEAM HII）</p>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="swiper3-div">
+                <div class="swiper3-glory">
+                    <h2>
+                        <b>GLORY</b><br>
+                        <p class="nav-div-p swiper3-glory-p">经 历 与 荣 耀</p>
+                    </h2>
+                    <div class="about-history" id="fzlc">
+                        <div class="about-history-list wow zoomIn" data-wow-delay=".4s"
+                             style="visibility: visible; animation-delay: 0.4s; animation-name: zoomIn;">
+                            <div class="flex-viewport" style="overflow: hidden; position: relative;">
+                                <ul class="slides clearfix list"
+                                    style="width: 2600%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
+                                    <li style="width: 253px; float: left; display: block;">
+                                        <div class="item">
+                                            <h3>2019-06-16</h3>
+                                            <div class="desc">
+                                                <p>
+                                                    在SNH48 GROUP第六届总决选速报中获得第38名
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="width: 253px; float: left; display: block;">
+                                        <div class="item">
+                                            <h3>2019-01-19</h3>
+                                            <div class="desc">
+                                                <p>
+                                                    在SNH48 GROUP第五届年度金曲大赏BEST 50中获得"皓月组"第15名，在广州体育馆演唱会上表演了《Fire Touch》。
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="width: 253px; float: left; display: block;">
+                                        <div class="item">
+                                            <h3>2018-02-03</h3>
+                                            <div class="desc">
+                                                <p>在SNH48 GROUP首次大重组中，由原来的SNH48 Team XII加入到SNH48 TEAM HII。</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="width: 253px; float: left; display: block;">
+                                        <div class="item">
+                                            <h3>2017-01-07</h3>
+                                            <div class="desc">
+                                                <p>在SNH48 GROUP第三届年度金曲大赏BEST 50中获得第32名，在上海梅赛德斯-奔驰文化中心演唱会C位表演了《苦与甜》。</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="width: 253px; float: left; display: block;">
+                                        <div class="item">
+                                            <h3>2015-12-04</h3>
+                                            <div class="desc">
+                                                <p>正式加入SNH48TeamXII队（TeamXII）</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li style="width: 253px; float: left; display: block;">
+                                        <div class="item">
+                                            <h3>2015-07-25</h3>
+                                            <div class="desc">
+                                                <p>加入SNH48五期生</p>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li style="width: 253px; float: left; display: block;"></li>
+                                </ul>
+                            </div>
+                            <ul class="flex-direction-nav">
+                                <li class="flex-nav-prev"><a class="flex-prev" href="#">&lt;</a></li>
+                                <li class="flex-nav-next"><a class="flex-next" href="#">&gt;</a></li>
+                            </ul>
+                        </div>
+                        <div class="swiper-container about-history-swiper hidden">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <h3>2016</h3>
+                                        <div class="desc">
+                                            <p>公司立足于当下商业地产市场形势，优化自身资源配置，成立中正小雅，完美实现了婚庆产业链的高效整合。中正人携手并进，筑梦远航，共创辉煌！</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <h3>2015</h3>
+                                        <div class="desc">
+                                            <p>公司进行大项目组改制，深化管理层次，确定项目组责任制与分红制，集团凝聚力更上新的台阶。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <h3>2014</h3>
+                                        <div class="desc">
+                                            <p>公司省内外业务进入全面发展阶段，中杭、中翔、中润等项目相继组建，集团公司实现新的跨越。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <h3>2013</h3>
+                                        <div class="desc">
+                                            <p>5月，公司相继成立策划公司、苏州分公司、无锡分公司、公司战略调整，向集团化发展，合并旗下公司成立（杭州中正商业地产管理有限公司）</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <h3>2012</h3>
+                                        <div class="desc">
+                                            <p>全球金融危机下，公司稳步发展，全年仍创营业额达5亿</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <h3>2011</h3>
+                                        <div class="desc">
+                                            <p>公司版图不断扩张，走出浙江省，走出长三角，相继在安徽、江苏设立分公司</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <h3>2010</h3>
+                                        <div class="desc">
+                                            <p>织里中国童装城项目单项销售额达1.68亿。以杭州为大本营，面向浙江省，成立诸暨分公司</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination about-history-pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="swiper4-div">
+                <div class="swiper4-dunce">
+                    <h2>
+                        <b>DUNCE</b><br>
+                        <p class="nav-div-p swiper4-dunce-p">舞 蹈 合 集</p>
+                    </h2>
+                    <div>
+                        <div class="pure-g dunce-div">
+                            <div class="pure-u-1-4">
+                                <a href="https://www.bilibili.com/video/av56988910/" target="_blank">
+                                    <div class="dunce-div-list-card">
+                                        <img src="./plug-in/image/dunce/yhdsn.png"><br>
+                                        <div class="dunce-name">少女的遗憾</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="pure-u-1-4">
+                                <div class="dunce-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av56988910/?p=2" target="_blank">
+                                        <img src="./plug-in/image/dunce/nwdx.png"><br>
+                                        <div class="dunce-name">女王殿下</div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="pure-u-1-4">
+
+                                <div class="dunce-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av56988910/?p=3" target="_blank">
+                                        <img src="./plug-in/image/dunce/qsdxj.png"><br>
+                                        <div class="dunce-name">青涩的香蕉</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="pure-u-1-4">
+
+                                <div class="dunce-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av56988910/?p=5" target="_blank">
+                                        <img src="./plug-in/image/dunce/hjwz.png"><br>
+                                        <div class="dunce-name">皇家纹章</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pure-g dunce-div">
+                            <div class="pure-u-1-4">
+
+                                <div class="dunce-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av56988910/?p=4" target="_blank">
+                                        <img src="./plug-in/image/dunce/tht.png"><br>
+                                        <div class="dunce-name">他和她</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="pure-u-1-4">
+
+                                <div class="dunce-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av56988910/?p=6" target="_blank">
+                                        <img src="./plug-in/image/dunce/wsdtg.png"><br>
+                                        <div class="dunce-name">无声的探戈</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="pure-u-1-4">
+
+                                <div class="dunce-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av56988910/?p=11" target="_blank">
+                                        <img src="./plug-in/image/dunce/yzgqs.png"><br>
+                                        <div class="dunce-name">雨中钢琴师</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="pure-u-1-4">
+
+                                <div class="dunce-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av56988910/" target="_blank">
+                                        <img src="./plug-in/image/dunce/tz.png"><br>
+                                        <div class="dunce-name">更多...</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="swiper4-div">
+                <div class="swiper4-dunce">
+                    <h2>
+                        <b>MUSIC</b><br>
+                        <p class="nav-div-p swiper4-dunce-p">唱 歌 合 集</p>
+                    </h2>
+                    <div>
+                        <div class="pure-g dunce-div">
+                            <div class="pure-u-1-4">
+
+                                <div class="music-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av57030009/?p=5" target="_blank">
+                                        <img src="./plug-in/image/music/wxhsnsdnxhd.png"><br>
+                                        <div class="dunce-name">我喜欢上你时的内心活动</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="pure-u-1-4">
+
+                                <div class="music-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av57030009/" target="_blank">
+                                        <img src="./plug-in/image/music/pwzd.png"><br>
+                                        <div class="dunce-name">陪我长大</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="pure-u-1-4">
+
+                                <div class="music-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av57030009/?p=3" target="_blank">
+                                        <img src="./plug-in/image/music/almost-lover.png"><br>
+                                        <div class="dunce-name">Almost Lover</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="pure-u-1-4">
+
+                                <div class="music-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av57030009/" target="_blank">
+                                        <img src="./plug-in/image/music/nms.png"><br>
+                                        <div class="dunce-name">更多...</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="swiper4-div">
+                <div class="swiper4-dunce">
+                    <h2>
+                        <b>MC</b><br>
+                        <p class="nav-div-p swiper4-dunce-p">MC 合 集</p>
+                    </h2>
+                    <div>
+                        <div class="pure-g dunce-div">
+                            <div class="pure-u-1-3">
+
+                                <div class="mc-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av21574123" target="_blank">
+                                        <img src="./plug-in/image/mc/2.png"><br>
+                                        <div class="dunce-name">高能MC合集</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="pure-u-1-3">
+
+                                <div class="mc-div-list-card">
+                                    <a href="https://www.bilibili.com/video/av55884159/" target="_blank">
+                                        <img src="./plug-in/image/mc/1.png"><br>
+                                        <div class="dunce-name">生日祝福合集</div>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                            <div class="pure-u-1-3">
+
+                                <div class="mc-div-list-card">
+                                    <a href="https://search.bilibili.com/all?keyword=%E8%92%8B%E8%88%92%E5%A9%B7MC"
+                                       target="_blank">
+                                        <img src="./plug-in/image/mc/3.png"><br>
+                                        <div class="dunce-name">更多</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="swiper5-gallery">
+                <h2>
+                    <b>GALLERY</b><br>
+                    <p class="nav-div-p swiper4-dunce-p">美 丽 瞬 间</p>
+                </h2>
+                <div class="container">
+                    <img src="./plug-in/image/gallery/1.jpg" class="pic1"/>
+                    <img src="./plug-in/image/gallery/2.jpg" class="pic2"/>
+                    <img src="./plug-in/image/gallery/3.jpg" class="pic3"/>
+                    <img src="./plug-in/image/gallery/4.jpg" class="pic4"/>
+                    <img src="./plug-in/image/gallery/5.jpg" class="pic5"/>
+                    <img src="./plug-in/image/gallery/6.jpg" class="pic6"/>
+                    <img src="./plug-in/image/gallery/7.jpg" class="pic7"/>
+                    <img src="./plug-in/image/gallery/8.jpg" class="pic8"/>
+                    <img src="./plug-in/image/gallery/9.jpg" class="pic9"/>
+                    <img src="./plug-in/image/gallery/10.jpg" class="pic10"/>
+                    <img src="./plug-in/image/gallery/11.jpg" class="pic11"/>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="swiper-slide">
+            <div class="swiper7-jz">
+                <h2>
+                    <b>MODIAN</b><br>
+                    <p class="nav-div-p swiper3-glory-p">最新集资</p>
+                    <div>
+                        <div class="pure-g">
+                            <div class="pure-u-1-2 swiper6-contact-pure-u-1-3">
+                                <a href="https://zhongchou.modian.com/item/67443.html" target="_blank">
+                                    <div class="single-member effect-9">
+                                        <div class="member-info">
+                                            <h3>蒋舒婷17岁生诞集资</h3>
+                                            <h5>进行中</h5>
+                                        </div>
+                                        <div class="member-image">
+                                            <img src="./plug-in/image/jz/srjz.jpg" alt="Member">
+                                        </div>
+                                        <div class="more-info">
+                                            <div>当前集资情况如下：</div>
+                                            <ul>
+                                                <li>集资进度：2420.98/16180</li>
+                                                <li>支持人数：41人</li>
+                                                <li>剩余天数：30天</li>
+                                            </ul>
+                                            <hr>
+                                            <div style="text-align: center;padding-left: 0">
+                                                点击支持小小婷吧
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="pure-u-1-2 swiper6-contact-pure-u-1-3">
+                                <a href="https://zhongchou.modian.com/item/69011.html" target="_blank">
+                                    <div class="single-member effect-9">
+                                        <div class="member-info">
+                                            <h3>蒋舒婷的七选存钱罐</h3>
+                                            <h5>进行中</h5>
+                                        </div>
+                                        <div class="member-image">
+                                            <img src="./plug-in/image/jz/cqg.jpg" alt="Member">
+                                        </div>
+                                        <div class="more-info">
+                                            <div>当前集资情况如下：</div>
+                                            <ul>
+                                                <li>集资进度：283.76/10000</li>
+                                                <li>支持人数：72人</li>
+                                                <li>剩余天数：54天</li>
+                                            </ul>
+                                            <hr>
+                                            <div style="text-align: center;padding-left: 0">
+                                                点击支持小小婷吧
+                                            </div>
+                                            <div style="text-align: center;padding-left: 0">
+                                                <a href="./md">点击查看今日集资情况</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </h2>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="swiper8-fans">
+                <h2>
+                    <b>FANS</b><br>
+                    <p class="nav-div-p swiper4-dunce-p">粉 丝 六 选 集 资 排 名</p>
+                    <span><a href="./rank" target="_blank" style="color: white">点击查看完整排名</a> </span>
+                </h2>
+                <div style="display: flex;flex-direction: row;">
+                    <table class="pure-table pure-table-bordered" style="width: 30%;margin-right: 1rem"
+                           th:each=" i :${#numbers.sequence(0,3)}">
+                        <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>摩点ID</th>
+                            <th>支持金额(元)</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each=" k : ${#numbers.sequence(1,15)}" th:if="${#lists.size(userRanking) gt i*15+k}">
+                            <td th:text="${i*15+k}"></td>
+                            <td th:text="${userRanking[i*15 + k - 1].username}"></td>
+                            <td th:text="${userRanking[i*15 + k - 1].money}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="swiper-slide">
+            <div class="swiper6-contact">
+                <h2>
+                    <b>CONTACT</b><br>
+                    <p class="nav-div-p swiper3-glory-p">交 流 方 式</p>
+                </h2>
+                <div>
+                    <div class="pure-g">
+                        <div class="pure-u-1-3 swiper6-contact-pure-u-1-3">
+                            <a href="https://space.bilibili.com/13904199/" target="_blank">
+                                <div class="card">
+                                    <div class="additional">
+                                        <div class="user-card">
+                                            <img src="./plug-in/image/header/jst-bl.jpg">
+                                        </div>
+                                        <div class="more-info">
+                                            <h1>蹄蹄酱是名高中生</h1>
+                                            <div class="coords">
+                                                <span>点击一下，立马快乐</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="general">
+                                        <h1 class="gemeral-h1">蹄蹄酱是名高中生</h1>
+                                        <p class="gemeral-p">这是蒋舒婷的B站账号，欢迎大家点击关注</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="pure-u-1-3 swiper6-contact-pure-u-1-3">
+                            <a href="https://weibo.com/u/5681072386" target="_blank">
+                                <div class="card">
+                                    <div class="additional">
+                                        <div class="user-card">
+                                            <img src="./plug-in/image/header/jst-wb.jpg">
+                                        </div>
+                                        <div class="more-info">
+                                            <h1>SNH48-蒋舒婷- </h1>
+                                            <div class="coords">
+                                                <span>点击一下，立马快乐</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="general">
+                                        <h1 class="gemeral-h1">SNH48-蒋舒婷- </h1>
+                                        <p class="gemeral-p">这是蒋舒婷的微博，欢迎大家点击关注</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="pure-u-1-3 swiper6-contact-pure-u-1-3">
+                            <a href="http://h5.48.cn/pocket48/index_pc.html" target="_blank">
+                                <div class="card">
+                                    <div class="additional">
+                                        <div class="user-card">
+                                            <img src="./plug-in/image/header/jst-wb.jpg">
+                                        </div>
+                                        <div class="more-info">
+                                            <h1>口袋48</h1>
+                                            <div class="coords">
+                                                <span>点击一下，立马快乐</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="general">
+                                        <h1 class="gemeral-h1">口袋48</h1>
+                                        <p class="gemeral-p">这是SNH48官方APP，欢迎大家来和小婷聊天，观看小婷直播，收听小婷电台哦</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pure-g">
+                        <div class="pure-u-1-3 swiper6-contact-pure-u-1-3">
+                            <a href="https://jq.qq.com/?_wv=1027&k=5JqvwpC" target="_blank">
+                                <div class="card">
+                                    <div class="additional">
+                                        <div class="user-card">
+                                            <img src="./plug-in/image/header/yyh-qq.jpg">
+                                        </div>
+                                        <div class="more-info">
+                                            <h1>蒋舒婷应援会QQ群</h1>
+                                            <div class="coords">
+                                                <span>点击一下，加入我们</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="general">
+                                        <h1 class="gemeral-h1">蒋舒婷应援会QQ群</h1>
+                                        <p class="gemeral-p">这是蒋舒婷应援会的QQ群，欢迎大家加入，一起守候最好的小婷</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="pure-u-1-3 swiper6-contact-pure-u-1-3">
+                            <a href="https://weibo.com/u/5761916896" target="_blank">
+                                <div class="card">
+                                    <div class="additional">
+                                        <div class="user-card">
+                                            <img src="./plug-in/image/header/yyh-qq.jpg">
+                                        </div>
+                                        <div class="more-info">
+                                            <h1>SNH48-蒋舒婷应援会-</h1>
+                                            <div class="coords">
+                                                <span>点击一下，立马快乐</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="general">
+                                        <h1 class="gemeral-h1">SNH48-蒋舒婷应援会-</h1>
+                                        <p class="gemeral-p">这里是蒋舒婷的应援会微博，欢迎关注我们</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                        <div class="pure-u-1-3 swiper6-contact-pure-u-1-3">
+                            <a href="https://space.bilibili.com/398383055/" target="_blank">
+                                <div class="card">
+                                    <div class="additional">
+                                        <div class="user-card">
+                                            <img src="./plug-in/image/header/yyh-bl.jpg">
+                                        </div>
+                                        <div class="more-info">
+                                            <h1>SNH48-蒋舒婷应援会</h1>
+                                            <div class="coords">
+                                                <span>点击一下，立马快乐</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="general">
+                                        <h1 class="gemeral-h1">SNH48-蒋舒婷应援会</h1>
+                                        <p class="gemeral-p">这里是蒋舒婷应援会的B站账号，欢迎关注我们</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <a href="#0" class="cd-top">Top</a>
+    </div>
+
+</div>
+
+<!-- Swiper JS -->
+<script src="./plug-in/swiper/swiper.min.js"></script>
+<script src="./plug-in/swiper/jquery-1.11.3.min.js"></script>
+<script src="./plug-in/swiper/jquery_flexslider.js"></script>
+<!-- Initialize Swiper -->
+<script>
+     swiper = new Swiper('.swiper-container', {
+        direction: 'vertical',
+        slidesPerView: 1,
+        spaceBetween: 30,
+        mousewheel: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        on:{
+            slideChangeTransitionStart:function () {
+                if(this.activeIndex !== 0){
+                    $("#nav").css({"background-color":"rgba(255,255,255,0.4)"});
+                }else{
+                    $("#nav").css({"background-color":""});
+                }
+            }
+        }
+    });
+
+    function swiperTo(index){
+        if(index !== 0){
+            $("#nav").css({"background-color":"rgba(255,255,255,0.4)"});
+        }else{
+            $("#nav").css({"background-color":""});
+        }
+       swiper[0].slideTo(index,1000,false)
+    }
+
+    $(function () {
+        if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+            //phone
+        } else {
+            //PC
+            $(".about-history-list").flexslider({
+                animation: "slide",
+                slideshow: false,
+                controlNav: false,
+                itemWidth: 253,
+                itemMargin: 31,
+                prevText: "<",
+                nextText: ">",
+                move: 1
+            });
+        }
+    });
+</script>
+</body>
+</html>

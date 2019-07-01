@@ -302,7 +302,7 @@ public class SchedualServiceImpl implements SchedualServiceI {
     @Override
     public void updateModianData() {
         try {
-            projectService.updateData();
+            projectService.updateData("69011","78484","1561727048","1561976288");
         } catch (ParseException e) {
             e.printStackTrace();
         }
