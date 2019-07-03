@@ -83,8 +83,4 @@ public class ScheduleTask {
         schedualService.reminderMeal();
     }
 
-    @Scheduled(cron = "0 */2 * * * ?")
-    public void updateModianData(){
-        schedualService.updateModianData();
-    }
 }
