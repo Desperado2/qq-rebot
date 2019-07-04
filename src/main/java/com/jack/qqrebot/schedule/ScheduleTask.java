@@ -78,7 +78,7 @@ public class ScheduleTask {
         schedualService.checkVisit();
     }
 
-    @Scheduled(cron = "0 0-15/5 11 * * ?")
+    @Scheduled(cron = "0 0-10/5 11 ? * MON-FRI")
     public void reminderMeal(){
         schedualService.reminderMeal();
     }
