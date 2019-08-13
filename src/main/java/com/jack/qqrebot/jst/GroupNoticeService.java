@@ -93,19 +93,21 @@ public class GroupNoticeService {
     }
 
     private boolean isExists(Integer pid,Integer tid){
+
         ProjectVo projectVo = projectDao.findByPidAndTid(pid,tid);
         return projectVo != null;
     }
 
 
     public String getJz(){
+        modianProjectService.updateProjectsData();
         List<ModianProject> modianProjects = modianProjectDao.findByStatusCode(0);
         StringBuilder sb = new StringBuilder();
         sb.append("当前集资链接:\n");
         for (ModianProject modianProject : modianProjects){
             sb.append(modianProject.getName()).append("\n");
             sb.append("当前进度: ").append(modianProject.getBackerMoney()).append("/").append(modianProject.getGoal()).append("\n");
-            sb.append("https://zhongchou.modian.com/item/").append(modianProject.getTid()).append(".html").append("\n\n");
+            sb.append("集资链接：https://zhongchou.modian.com/item/").append(modianProject.getTid()).append(".html").append("\n\n");
         }
         sb.append("谢谢聚聚众筹支持小猪蹄!");
         return sb.toString();
