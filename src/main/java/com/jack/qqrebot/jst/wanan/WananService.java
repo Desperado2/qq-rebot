@@ -9,6 +9,10 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 @Service
 public class WananService {
 
@@ -38,7 +42,17 @@ public class WananService {
         });
         String duyanRandom = duyanService.getDuyanRandom();
         sb.append(duyanRandom).append("\n\n");
+
+
+        List<String> list = Arrays.asList("https://t1.picb.cc/uploads/2019/08/13/g3Q4xe.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3QHks.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3Q5S6.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3Q8oT.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3Q1WN.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3Qrr7.png");
+        String imgurl = list.get(Math.abs(new Random().nextInt() % list.size()));
+        sb.append("[CQ:image,file="+imgurl+"]");
         sb.append("各位，晚安好梦");
-        return null;
+        return sb.toString();
     }
 }

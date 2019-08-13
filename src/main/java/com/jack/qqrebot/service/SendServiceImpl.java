@@ -44,9 +44,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @Service("sendService")
@@ -281,7 +279,8 @@ public class SendServiceImpl implements SendServiceI {
             }
             SendMsgUtils.sendGroupMsg(group_id, result);
         }else{
-            if (!StringUtils.isEmpty(message) && (message.toLowerCase().contains("jz"))) {
+            List<String> list = Arrays.asList("jz", "Jz", "JZ", "jZ", "jizi", "JIZI", "集资");
+            if (!StringUtils.isEmpty(message) && (list.indexOf(message) != -1)) {
                 if("261434765".equals(group_id)){
                     result = groupNoticeService.getJz();
                     SendMsgUtils.sendGroupMsg(group_id, result);

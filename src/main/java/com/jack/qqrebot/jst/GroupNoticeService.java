@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class GroupNoticeService {
@@ -25,9 +27,24 @@ public class GroupNoticeService {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public String groupIncreaseNotice(String userId){
+        List<String> imgList = Arrays.asList("https://t1.picb.cc/uploads/2019/08/13/g3QCzc.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3QZWw.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3QtIW.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3QwRR.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3QgsL.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3QIrg.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3Qi0X.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3Q6k8.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3Qlcy.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3QmIK.png",
+                "https://t1.picb.cc/uploads/2019/08/13/g3QnoG.png"
+        );
+
+        Long index = System.currentTimeMillis() + Math.abs(new Random().nextInt()) % imgList.size();
+        String imgurl = imgList.get(index.intValue());
         return ("[CQ:at,qq=" + userId + "] 欢迎聚聚～这里是蒋舒婷安利站大礼包，带你一键了解优雅的17岁高中生小偶像\n" +
                 "https://v.xiumi.us/board/v5/3ZjK5/155825273\n") + "\n" +
-               "[CQ:image,file=https://t1.picb.cc/uploads/2019/08/13/g35YWD.md.jpg]";
+               "[CQ:image,file="+imgurl+"]";
     }
 
 
