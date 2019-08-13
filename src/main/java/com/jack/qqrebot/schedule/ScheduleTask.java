@@ -1,5 +1,6 @@
 package com.jack.qqrebot.schedule;
 
+import com.jack.qqrebot.jst.GroupNoticeService;
 import com.jack.qqrebot.service.task.SchedualServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,10 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduleTask {
     private final SchedualServiceI schedualService;
+    private final GroupNoticeService groupNoticeService;
 
     @Autowired
-    public ScheduleTask(SchedualServiceI schedualService) {
+    public ScheduleTask(SchedualServiceI schedualService,GroupNoticeService groupNoticeService) {
         this.schedualService = schedualService;
+        this.groupNoticeService = groupNoticeService;
     }
 
     @Scheduled(cron = "0 0 0 * * ?")
@@ -83,4 +86,8 @@ public class ScheduleTask {
         schedualService.reminderMeal();
     }
 
+    @Scheduled(cron = "*/30 * * * * ?")
+    public void updateModianData(){
+        groupNoticeService.updateData();
+    }
 }

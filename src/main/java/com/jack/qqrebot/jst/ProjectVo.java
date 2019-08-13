@@ -1,4 +1,4 @@
-package com.jack.qqrebot.service.modian;
+package com.jack.qqrebot.jst;
 
 import javax.persistence.*;
 import java.util.Date;

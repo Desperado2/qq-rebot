@@ -3,17 +3,13 @@ package com.jack.qqrebot.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.service.SendServiceI;
-import com.jack.qqrebot.service.modian.ProjectService;
-import com.jack.qqrebot.utils.CQUtils;
+
 import com.jack.qqrebot.utils.SendMsgUtils;
 import com.jack.qqrebot.utils.UpdateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -21,12 +17,10 @@ public class FirstController {
 
     private final SendServiceI sendService;
 
-    private final ProjectService projectService;
 
     @Autowired
-    public FirstController(SendServiceI sendService,ProjectService projectService) {
+    public FirstController(SendServiceI sendService) {
         this.sendService = sendService;
-        this.projectService = projectService;
     }
 
 

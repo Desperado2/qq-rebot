@@ -18,6 +18,4 @@ public interface SchedualServiceI {
 
     void clearCount();
     void reminderMeal();
-
-    void updateModianData();
 }

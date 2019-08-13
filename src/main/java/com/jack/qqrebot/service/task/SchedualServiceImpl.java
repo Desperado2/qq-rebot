@@ -10,8 +10,6 @@ import com.jack.qqrebot.service.gankService.GankeService;
 import com.jack.qqrebot.service.historyontoday.HistoryOnTodayService;
 import com.jack.qqrebot.service.leetcode.LeetCodeService;
 import com.jack.qqrebot.service.mealreminder.MealReminderService;
-import com.jack.qqrebot.service.mealreminder.MealReminderVo;
-import com.jack.qqrebot.service.modian.ProjectService;
 import com.jack.qqrebot.service.news.NewsService;
 import com.jack.qqrebot.service.proxy.ProxyService;
 import com.jack.qqrebot.service.snh.SNHMembersService;
@@ -21,12 +19,8 @@ import com.jack.qqrebot.service.weibo.WeiboService;
 import com.jack.qqrebot.utils.CQUtils;
 import com.jack.qqrebot.utils.SendMsgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
@@ -49,13 +43,12 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private final ProxyService proxyService;
     private final SendServiceI sendService;
     private final MealReminderService mealReminderService;
-    private final ProjectService projectService;
 
     @Autowired
     public SchedualServiceImpl(ArticlesService articlesService, WeatherService weatherService, DailyEnglishService dailyEnglishService, WeiboService weiboService,
                                NewsService newsService, DuyanService duyanService, CodeCalendarService codeCalendarService, HistoryOnTodayService historyOnTodayService,
                                GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService, VisitService visitService,
-                               ProxyService proxyService, SendServiceI sendService,MealReminderService mealReminderService, ProjectService projectService) {
+                               ProxyService proxyService, SendServiceI sendService,MealReminderService mealReminderService) {
         this.articlesService = articlesService;
         this.weatherService = weatherService;
         this.dailyEnglishService = dailyEnglishService;
@@ -71,7 +64,6 @@ public class SchedualServiceImpl implements SchedualServiceI {
         this.proxyService = proxyService;
         this.sendService = sendService;
         this.mealReminderService = mealReminderService;
-        this.projectService = projectService;
     }
 
 
@@ -299,12 +291,5 @@ public class SchedualServiceImpl implements SchedualServiceI {
         mealReminderService.reminder();
     }
 
-    @Override
-    public void updateModianData() {
-        try {
-            projectService.updateData("69011","92546","1561727048","6496ffb6d99007b4");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

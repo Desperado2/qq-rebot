@@ -174,6 +174,8 @@ public class SendServiceImpl implements SendServiceI {
             message = message.replace("[CQ:at,qq=1244623542]", "").trim();
             if (!StringUtils.isEmpty(message) && message.contains("诗")) {
                 result = poetryService.getPoetryByKeyWord(message.replace("诗", "").replace(" ", ""));
+            }  if (!StringUtils.isEmpty(message) && (message.toLowerCase().contains("jz"))) {
+                result = groupNoticeService.getJz();
             } else if (!StringUtils.isEmpty(message) && message.contains("新闻")) {
                 result = newsService.getNewsByRandom();
             } else if (!StringUtils.isEmpty(message) && (message.contains("段子") || message.contains("笑话"))) {
