@@ -3,6 +3,7 @@ package com.jack.qqrebot.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jack.qqrebot.enumm.ConnType;
+import com.jack.qqrebot.jst.GroupNoticeService;
 import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.baiduyundisk.BaiduDiskSearchService;
 import com.jack.qqrebot.service.blacklist.BlackListService;
@@ -91,6 +92,7 @@ public class SendServiceImpl implements SendServiceI {
     private final BlackListService blackListService;
     private final ProgramerService programerService;
     private final MealReminderService mealReminderService;
+    private final GroupNoticeService groupNoticeService;
 
     private Map<String, Integer> map = new HashMap<>();
 
@@ -102,7 +104,7 @@ public class SendServiceImpl implements SendServiceI {
                            TulingService tulingService, NoticeService noticeService, GankeService gankeService, V2exService v2exService, WeatherService weatherService,
                            DashangService dashangService, WeiboService weiboService, BaiduDiskSearchService baiduDiskSearchService, EmoticonPackageService emoticonPackageService,
                            VideoService videoService, BookService bookService, VisitService visitService, BlackListService blackListService, ProgramerService programerService,
-                           MealReminderService mealReminderService) {
+                           MealReminderService mealReminderService,GroupNoticeService groupNoticeService) {
         this.codeCalendarService = codeCalendarService;
         this.constellationService = constellationService;
         this.sayLoveService = sayLoveService;
@@ -134,6 +136,7 @@ public class SendServiceImpl implements SendServiceI {
         this.blackListService = blackListService;
         this.programerService = programerService;
         this.mealReminderService = mealReminderService;
+        this.groupNoticeService = groupNoticeService;
     }
 
     @Override
@@ -288,7 +291,11 @@ public class SendServiceImpl implements SendServiceI {
         String group_id = jsonObject.getString("group_id");
         if (noticeType.equals("group_increase")) {
             String user_id = jsonObject.getString("user_id");
-            result = noticeService.groupIncrease(user_id);
+            if(("261434765").equals(group_id)){
+                result= groupNoticeService.groupIncreaseNotice(user_id);
+            }else{
+                result = noticeService.groupIncrease(user_id);
+            }
         } else if (noticeType.equals("group_decrease")) {
             String user_id = jsonObject.getString("user_id");
             result = noticeService.groupDecrease(user_id);
