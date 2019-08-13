@@ -144,10 +144,10 @@ public class SendServiceImpl implements SendServiceI {
         JSONObject jsonObject = JSON.parseObject(message);
         String result = "";
         message = jsonObject.getString("message");
-
+        String group_id = jsonObject.getString("group_id");
+        String user_id = jsonObject.getString("user_id");
         if (message.contains("[CQ:at,qq="+rebotQQ+"]")) {
-            String group_id = jsonObject.getString("group_id");
-            String user_id = jsonObject.getString("user_id");
+
             if (addMap(user_id + "")) {
                 return;
             }
@@ -174,9 +174,7 @@ public class SendServiceImpl implements SendServiceI {
             message = message.replace("[CQ:at,qq=1244623542]", "").trim();
             if (!StringUtils.isEmpty(message) && message.contains("诗")) {
                 result = poetryService.getPoetryByKeyWord(message.replace("诗", "").replace(" ", ""));
-            }  if (!StringUtils.isEmpty(message) && (message.toLowerCase().contains("jz"))) {
-                result = groupNoticeService.getJz();
-            } else if (!StringUtils.isEmpty(message) && message.contains("新闻")) {
+            }  else if (!StringUtils.isEmpty(message) && message.contains("新闻")) {
                 result = newsService.getNewsByRandom();
             } else if (!StringUtils.isEmpty(message) && (message.contains("段子") || message.contains("笑话"))) {
                 result = satinService.getSatinByRandom();
@@ -282,6 +280,11 @@ public class SendServiceImpl implements SendServiceI {
                 result = tulingService.getMsgByMsg(message);
             }
             SendMsgUtils.sendGroupMsg(group_id, result);
+        }else{
+            if (!StringUtils.isEmpty(message) && (message.toLowerCase().contains("jz"))) {
+                result = groupNoticeService.getJz();
+                SendMsgUtils.sendGroupMsg(group_id, result);
+            }
         }
     }
 
