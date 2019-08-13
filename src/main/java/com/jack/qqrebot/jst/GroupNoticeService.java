@@ -103,8 +103,8 @@ public class GroupNoticeService {
         StringBuilder sb = new StringBuilder();
         sb.append("当前集资链接:\n");
         for (ModianProject modianProject : modianProjects){
-            sb.append("[").append(modianProject.getName()).append("]\n");
-            sb.append("当前进度:").append(modianProject.getBackerMoney()).append("/").append(modianProject.getGoal()).append("\n");
+            sb.append(modianProject.getName()).append("\n");
+            sb.append("当前进度: ").append(modianProject.getBackerMoney()).append("/").append(modianProject.getGoal()).append("\n");
             sb.append("https://zhongchou.modian.com/item/").append(modianProject.getTid()).append(".html").append("\n\n");
         }
         sb.append("谢谢聚聚众筹支持小猪蹄!");
