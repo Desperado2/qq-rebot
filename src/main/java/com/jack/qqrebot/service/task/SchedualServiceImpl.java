@@ -1,6 +1,8 @@
 package com.jack.qqrebot.service.task;
+import	java.security.KeyStore.Builder;
 
 
+import com.jack.qqrebot.jst.wanan.WananService;
 import com.jack.qqrebot.service.SendServiceI;
 import com.jack.qqrebot.service.articles.ArticlesService;
 import com.jack.qqrebot.service.codercalendar.CodeCalendarService;
@@ -43,12 +45,13 @@ public class SchedualServiceImpl implements SchedualServiceI {
     private final ProxyService proxyService;
     private final SendServiceI sendService;
     private final MealReminderService mealReminderService;
+    private final WananService wananService;
 
     @Autowired
     public SchedualServiceImpl(ArticlesService articlesService, WeatherService weatherService, DailyEnglishService dailyEnglishService, WeiboService weiboService,
                                NewsService newsService, DuyanService duyanService, CodeCalendarService codeCalendarService, HistoryOnTodayService historyOnTodayService,
                                GankeService gankeService, LeetCodeService leetCodeService, SNHMembersService snhMembersService, VisitService visitService,
-                               ProxyService proxyService, SendServiceI sendService,MealReminderService mealReminderService) {
+                               ProxyService proxyService, SendServiceI sendService,MealReminderService mealReminderService,WananService wananService) {
         this.articlesService = articlesService;
         this.weatherService = weatherService;
         this.dailyEnglishService = dailyEnglishService;
@@ -64,9 +67,10 @@ public class SchedualServiceImpl implements SchedualServiceI {
         this.proxyService = proxyService;
         this.sendService = sendService;
         this.mealReminderService = mealReminderService;
+        this.wananService = wananService;
     }
 
-
+    public static final String EXITQQ="261434765";
 
     @Override
     public void goodMorning() {
@@ -78,7 +82,11 @@ public class SchedualServiceImpl implements SchedualServiceI {
             String messages = "天气:\n\n"+weatherInfo+"\n\n"+msg;
 
             List<String> groupList = CQUtils.getGroupList();
-            groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
+            groupList.forEach(groupId->{
+                if(!EXITQQ.equals(groupId)){
+                    SendMsgUtils.sendGroupMsg(groupId,messages);
+                }
+            });
         }catch (Exception e){
             flag = true;
         }finally {
@@ -97,7 +105,11 @@ public class SchedualServiceImpl implements SchedualServiceI {
             List<String> groupList = CQUtils.getGroupList();
             String messages = weiboService.getWeiboHot();
 
-            groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId,messages));
+            groupList.forEach(groupId->{
+                if(!EXITQQ.equals(groupId)){
+                    SendMsgUtils.sendGroupMsg(groupId,messages);
+                }
+            });
         }catch (Exception e){
             flag = true;
         }finally {
@@ -118,10 +130,12 @@ public class SchedualServiceImpl implements SchedualServiceI {
             String messages = newsService.getNewsByRandom();
             String message1 = gankeService.report("wanqu");
             groupList.forEach(groupId->{
-                if(groupId.equals("89303705") || groupId.equals("604195931")) {
-                    SendMsgUtils.sendGroupMsg(groupId, message1);
-                }else{
-                    SendMsgUtils.sendGroupMsg(groupId,messages);
+                if(!EXITQQ.equals(groupId)){
+                    if(groupId.equals("89303705") || groupId.equals("604195931")) {
+                        SendMsgUtils.sendGroupMsg(groupId, message1);
+                    }else{
+                        SendMsgUtils.sendGroupMsg(groupId,messages);
+                    }
                 }
             });
         }catch (Exception e){
@@ -142,7 +156,12 @@ public class SchedualServiceImpl implements SchedualServiceI {
         try {
             List<String> groupList = CQUtils.getGroupList();
             String messages =  duyanService.getJitangRandom() +"\n\n各位晚安";
-            groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
+
+            groupList.forEach(groupId->{
+                if(!EXITQQ.equals(groupId)){
+                    SendMsgUtils.sendGroupMsg(groupId,messages);
+                }
+            });
         }catch (Exception e){
             flag = true;
         }finally {
@@ -159,9 +178,13 @@ public class SchedualServiceImpl implements SchedualServiceI {
     public void coderCalendar() {
         boolean flag = false;
         try {
+
+            SendMsgUtils.sendGroupMsg(EXITQQ,wananService.toString());
             String coderCalendar = codeCalendarService.getTodayCoderCalendar();
             Arrays.stream(new String[]{"89303705","604195931"}).forEach(groupId -> {
-                SendMsgUtils.sendGroupMsg(groupId,coderCalendar);
+                if(!EXITQQ.equals(groupId)){
+                    SendMsgUtils.sendGroupMsg(groupId,coderCalendar);
+                }
             });
         }catch (Exception e){
             flag = true;
@@ -219,7 +242,10 @@ public class SchedualServiceImpl implements SchedualServiceI {
             String msg = "如果没事，就赶快来显示一下自己的实力吧！";
             String articleByRandom = leetCodeService.randomProblem();
             Arrays.stream(new String[]{"89303705","604195931"}).forEach(groupId -> {
-                SendMsgUtils.sendGroupMsg(groupId,msg+"\n\n"+articleByRandom);
+                if(!EXITQQ.equals(groupId)){
+                    SendMsgUtils.sendGroupMsg(groupId,msg+"\n\n"+articleByRandom);
+                }
+
             });
         }catch (Exception e){
             flag = true;
@@ -240,7 +266,11 @@ public class SchedualServiceImpl implements SchedualServiceI {
         try {
             List<String> groupList = CQUtils.getGroupList();
             String messages = snhMembersService.getRandomMember();
-            groupList.forEach(groupId->SendMsgUtils.sendGroupMsg(groupId, messages));
+            groupList.forEach(groupId->{
+                if(!EXITQQ.equals(groupId)){
+                    SendMsgUtils.sendGroupMsg(groupId,messages);
+                }
+            });
         }catch (Exception e){
             flag = true;
         }finally {
@@ -290,6 +320,4 @@ public class SchedualServiceImpl implements SchedualServiceI {
     public void reminderMeal() {
         mealReminderService.reminder();
     }
-
-
 }

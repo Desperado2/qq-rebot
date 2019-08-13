@@ -282,8 +282,10 @@ public class SendServiceImpl implements SendServiceI {
             SendMsgUtils.sendGroupMsg(group_id, result);
         }else{
             if (!StringUtils.isEmpty(message) && (message.toLowerCase().contains("jz"))) {
-                result = groupNoticeService.getJz();
-                SendMsgUtils.sendGroupMsg(group_id, result);
+                if("261434765".equals(group_id)){
+                    result = groupNoticeService.getJz();
+                    SendMsgUtils.sendGroupMsg(group_id, result);
+                }
             }
         }
     }

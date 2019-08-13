@@ -23,7 +23,6 @@ public class GroupNoticeService {
     private ProjectDao projectDao;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    private static final SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd");
 
     public String groupIncreaseNotice(String userId){
         return ("[CQ:at,qq=" + userId + "] 欢迎聚聚～这里是蒋舒婷安利站大礼包，带你一键了解优雅的17岁高中生小偶像\n" +
