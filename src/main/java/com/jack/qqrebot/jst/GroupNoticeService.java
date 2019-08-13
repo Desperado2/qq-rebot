@@ -78,10 +78,9 @@ public class GroupNoticeService {
                     projectVo.setMoney(money);
                     projectVo.setCreateDate(date);
                     projectDao.save(projectVo);
-                    currMoney += money;
-                    String result ="ID: "+userName+" 的聚聚刚刚在【"+modianProject.getName()+"】中支持了 ¥"+money+"元，" +
+                    String result ="感谢 "+userName+" 刚刚在"+modianProject.getName()+"中支持了 ¥"+money+"元，" +
                             "感谢这位聚聚对蒋舒婷的支持\n\n"
-                            +"【摩点】:" +modianProject.getName()+"\n"+
+                            +modianProject.getName()+"\n"+
                             "目前集资进度：¥" +currMoney+"\n"+
                             "目标：¥" + modianProject.getGoal()+"\n\n"
                             +"https://zhongchou.modian.com/item/"+modianProject.getTid()+".html";
